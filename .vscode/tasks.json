@@ -20,7 +20,7 @@
             "type": "shell",
             "command": "lib/OGM-Common/scripts/build/OpenKNX-Build.ps1",
             "args": [
-                "develop_UP1_USB",
+                "develop_UP1",
                 "upload"
             ],
             "group": "build",
