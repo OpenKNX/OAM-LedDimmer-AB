@@ -21,15 +21,14 @@
     <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.1" />
   </op:define>
 
-<!--
-    <op:define prefix="LED" ModuleType="20"
+
+    <op:define prefix="LED" ModuleType="2"
     share="../lib/OFM-LedModule/src/LedModule.share.xml"
     template="../lib/OFM-LedModule/src/LedModule.templ.xml"
     NumChannels="4" 
     KoSingleOffset="0"
-    KoOffset="0">
+    KoOffset="20">
   </op:define>
--->
 
 
 <op:define prefix="PM" ModuleType="30"

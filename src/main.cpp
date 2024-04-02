@@ -4,6 +4,17 @@
 #include "VirtualButtonModule.h"
 #include "FileTransferModule.h"
 
+//#include "LedModule.h"
+
+//#include <string>
+//#include "Sensor.h"
+
+//#include "Presence.h"
+
+//#include "SensorDevices.h"
+//#include "SensorModule.h"
+
+
 
 
 void setup()
@@ -20,6 +31,7 @@ void setup()
     openknx.addModule(2, openknxBinaryInputModule);
     openknx.addModule(3, openknxVirtualButtonModule);
     openknx.addModule(9, openknxFileTransferModule);
+    //openknx.addModule(4, openknxLedModule);
     openknx.setup();
 }
 
