@@ -21,26 +21,52 @@
     <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.1" />
   </op:define>
 
+<!--
+    <op:define prefix="LED" ModuleType="20"
+    share="../lib/OFM-LedModule/src/LedModule.share.xml"
+    template="../lib/OFM-LedModule/src/LedModule.templ.xml"
+    NumChannels="4" 
+    KoSingleOffset="0"
+    KoOffset="0">
+  </op:define>
+-->
+
+
+<op:define prefix="PM" ModuleType="30"
+  share="../lib/OFM-PresenceModule/src/PMmodul.share.xml"
+  template="../lib/OFM-PresenceModule/src/PMmodul.templ.xml"
+  NumChannels="5" 
+  KoSingleOffset="80"
+  KoOffset="120">
+  <op:verify File="../lib/OFM-PresenceModule/library.json" ModuleVersion="3.0" />
+</op:define>
+
   <op:define prefix="BI" ModuleType="40"
     share="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml"
     template="../lib/OFM-BinaryInput/src/BinaryInputChannel.templ.xml"
-    NumChannels="4" KoOffset="41" >
+    NumChannels="4" KoOffset="250" >
     <op:verify File="../lib/OFM-BinaryInput/library.json" ModuleVersion="0" /> 
   </op:define>
 
-  <op:define prefix="BTN" ModuleType="30"
+  <op:define prefix="BTN" ModuleType="50"
     share="../lib/OFM-VirtualButton/src/VirtualButton.share.xml"
     template="../lib/OFM-VirtualButton/src/VirtualButton.templ.xml"
-    NumChannels="16" KoOffset="380">
+    NumChannels="10" KoOffset="260">
     <op:verify File="../lib/OFM-VirtualButton/library.json" ModuleVersion="0.3" /> 
+  </op:define>
+  
+  <op:define prefix="SENS" ModuleType="60"
+    share="../lib/OFM-SensorModule/src/Sensormodul.share.xml"
+    KoSingleOffset="350">
+    <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="2.0" />
   </op:define>
 
   <op:define prefix="LOG" ModuleType="10"
-    share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
-    template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
-    NumChannels="30" KoOffset="280">
-    <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.2" /> 
-  </op:define>
+  share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
+  template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
+  NumChannels="30" KoOffset="450">
+  <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.2" /> 
+</op:define>
 
   <generate />
 </KNX>

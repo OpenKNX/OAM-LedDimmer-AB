@@ -11,12 +11,14 @@
 #define MAIN_OpenKnxId 0xA1
 #define MAIN_ApplicationNumber 21
 #define MAIN_ApplicationVersion 1
-#define MAIN_ParameterSize 3415
-#define MAIN_MaxKoNumber 571
+#define MAIN_ParameterSize 3901
+#define MAIN_MaxKoNumber 539
 #define MAIN_OrderNumber "LED-UP1-4x24V"
 #define BASE_ModuleVersion 17
+#define PM_ModuleVersion 48
 #define BI_ModuleVersion 0
 #define BTN_ModuleVersion 3
+#define SENS_ModuleVersion 32
 #define LOG_ModuleVersion 50
 // Parameter with single occurrence
 
@@ -144,10 +146,1238 @@
 // Speichern
 #define KoBASE_ManualSave                          (knx.getGroupObject(BASE_KoManualSave))
 
+#define PM_VisibleChannels                     46      // uint8_t
+#define PM_SendRAW                             47      // 1 Bit, Bit 7
+#define     PM_SendRAWMask 0x80
+#define     PM_SendRAWShift 7
+#define PM_LEDPresence                         47      // 2 Bits, Bit 6-5
+#define     PM_LEDPresenceMask 0x60
+#define     PM_LEDPresenceShift 5
+#define PM_LEDMove                             47      // 2 Bits, Bit 4-3
+#define     PM_LEDMoveMask 0x18
+#define     PM_LEDMoveShift 3
+#define PM_HWPresence                          47      // 3 Bits, Bit 2-0
+#define     PM_HWPresenceMask 0x07
+#define     PM_HWPresenceShift 0
+#define PM_HWLux                               48      // 2 Bits, Bit 7-6
+#define     PM_HWLuxMask 0xC0
+#define     PM_HWLuxShift 6
+#define PM_ReadLed                             48      // 1 Bit, Bit 5
+#define     PM_ReadLedMask 0x20
+#define     PM_ReadLedShift 5
+#define PM_PirSensitivity                      48      // 4 Bits, Bit 4-1
+#define     PM_PirSensitivityMask 0x1E
+#define     PM_PirSensitivityShift 1
+#define PM_LuxOffsetPM                         49      // int8_t
+#define PM_LuxSendDeltaAbsRel                  50      // 1 Bit, Bit 7
+#define     PM_LuxSendDeltaAbsRelMask 0x80
+#define     PM_LuxSendDeltaAbsRelShift 7
+#define PM_LuxSendDelta                        50      // 15 Bits, Bit 14-0
+#define     PM_LuxSendDeltaMask 0x7FFF
+#define     PM_LuxSendDeltaShift 0
+#define PM_LuxSendCycleDelayBase               52      // 2 Bits, Bit 7-6
+#define     PM_LuxSendCycleDelayBaseMask 0xC0
+#define     PM_LuxSendCycleDelayBaseShift 6
+#define PM_LuxSendCycleDelayTime               52      // 14 Bits, Bit 13-0
+#define     PM_LuxSendCycleDelayTimeMask 0x3FFF
+#define     PM_LuxSendCycleDelayTimeShift 0
+#define PM_HfScenario                          54      // 3 Bits, Bit 7-5
+#define     PM_HfScenarioMask 0xE0
+#define     PM_HfScenarioShift 5
+#define PM_HfSensitivity                       54      // 4 Bits, Bit 4-1
+#define     PM_HfSensitivityMask 0x1E
+#define     PM_HfSensitivityShift 1
+#define PM_HfDelayTime                         55      // uint16_t
+#define PM_HfRangeGateMin                      57      // 4 Bits, Bit 7-4
+#define     PM_HfRangeGateMinMask 0xF0
+#define     PM_HfRangeGateMinShift 4
+#define PM_HfRangeGateMax                      57      // 4 Bits, Bit 3-0
+#define     PM_HfRangeGateMaxMask 0x0F
+#define     PM_HfRangeGateMaxShift 0
+
+// Verfügbare Kanäle
+#define ParamPM_VisibleChannels                     (knx.paramByte(PM_VisibleChannels))
+// Präsenz-Rohdaten auf den Bus senden?
+#define ParamPM_SendRAW                             ((bool)(knx.paramByte(PM_SendRAW) & PM_SendRAWMask))
+// LED Präsenz
+#define ParamPM_LEDPresence                         ((knx.paramByte(PM_LEDPresence) & PM_LEDPresenceMask) >> PM_LEDPresenceShift)
+// LED Bewegung
+#define ParamPM_LEDMove                             ((knx.paramByte(PM_LEDMove) & PM_LEDMoveMask) >> PM_LEDMoveShift)
+// Präsenz-Sensor
+#define ParamPM_HWPresence                          (knx.paramByte(PM_HWPresence) & PM_HWPresenceMask)
+// Helligkeits-Sensor
+#define ParamPM_HWLux                               ((knx.paramByte(PM_HWLux) & PM_HWLuxMask) >> PM_HWLuxShift)
+// Wert nach einem Neustart lesen?
+#define ParamPM_ReadLed                             ((bool)(knx.paramByte(PM_ReadLed) & PM_ReadLedMask))
+// PIR-Empfindlichkeit
+#define ParamPM_PirSensitivity                      ((knx.paramByte(PM_PirSensitivity) & PM_PirSensitivityMask) >> PM_PirSensitivityShift)
+// Korrektur Luxwert
+#define ParamPM_LuxOffsetPM                         ((int8_t)knx.paramByte(PM_LuxOffsetPM))
+// Helligkeitsänderung wird angegeben in
+#define ParamPM_LuxSendDeltaAbsRel                  ((bool)(knx.paramByte(PM_LuxSendDeltaAbsRel) & PM_LuxSendDeltaAbsRelMask))
+// Senden der Helligkeit bei Änderung um
+#define ParamPM_LuxSendDelta                        (knx.paramWord(PM_LuxSendDelta) & PM_LuxSendDeltaMask)
+// Zeitbasis
+#define ParamPM_LuxSendCycleDelayBase               ((knx.paramByte(PM_LuxSendCycleDelayBase) & PM_LuxSendCycleDelayBaseMask) >> PM_LuxSendCycleDelayBaseShift)
+// Zeit
+#define ParamPM_LuxSendCycleDelayTime               (knx.paramWord(PM_LuxSendCycleDelayTime) & PM_LuxSendCycleDelayTimeMask)
+// Zeit (in Millisekunden)
+#define ParamPM_LuxSendCycleDelayTimeMS             (paramDelay(knx.paramWord(PM_LuxSendCycleDelayTime)))
+// Detektions-Szenario
+#define ParamPM_HfScenario                          ((knx.paramByte(PM_HfScenario) & PM_HfScenarioMask) >> PM_HfScenarioShift)
+// Sensor-Empfindlichkeit
+#define ParamPM_HfSensitivity                       ((knx.paramByte(PM_HfSensitivity) & PM_HfSensitivityMask) >> PM_HfSensitivityShift)
+// Verzögerung
+#define ParamPM_HfDelayTime                         (knx.paramWord(PM_HfDelayTime))
+// Mindestentfernung
+#define ParamPM_HfRangeGateMin                      ((knx.paramByte(PM_HfRangeGateMin) & PM_HfRangeGateMinMask) >> PM_HfRangeGateMinShift)
+// Maximalentfernung
+#define ParamPM_HfRangeGateMax                      (knx.paramByte(PM_HfRangeGateMax) & PM_HfRangeGateMaxMask)
+
+#define PM_KoLuxOut 100
+#define PM_KoPresenceOut 101
+#define PM_KoMoveOut 102
+#define PM_KoMoveSpeedOut 103
+#define PM_KoLEDPresence 104
+#define PM_KoLEDMove 105
+#define PM_KoScenario 106
+#define PM_KoHfSensitivity 107
+#define PM_KoHfReset 108
+#define PM_KoPirSensitivity 109
+
+// Ausgang Helligkeitssensor
+#define KoPM_LuxOut                              (knx.getGroupObject(PM_KoLuxOut))
+// Ausgang Präsenz
+#define KoPM_PresenceOut                         (knx.getGroupObject(PM_KoPresenceOut))
+// Ausgang Bewegung (0=keine, 1=radial, 2=nähern, 3=entf.)
+#define KoPM_MoveOut                             (knx.getGroupObject(PM_KoMoveOut))
+// Ausgang Bewegungsmoment
+#define KoPM_MoveSpeedOut                        (knx.getGroupObject(PM_KoMoveSpeedOut))
+// Eingang LED Präsenz
+#define KoPM_LEDPresence                         (knx.getGroupObject(PM_KoLEDPresence))
+// Eingang LED Bewegung
+#define KoPM_LEDMove                             (knx.getGroupObject(PM_KoLEDMove))
+// Eingang Szenario
+#define KoPM_Scenario                            (knx.getGroupObject(PM_KoScenario))
+// Eingang Hf-Empfindlichkeit
+#define KoPM_HfSensitivity                       (knx.getGroupObject(PM_KoHfSensitivity))
+// Reset HF-Sensor
+#define KoPM_HfReset                             (knx.getGroupObject(PM_KoHfReset))
+// Eingang Pir-Empfindlichkeit
+#define KoPM_PirSensitivity                      (knx.getGroupObject(PM_KoPirSensitivity))
+
+#define PM_ChannelCount 5
+
+// Parameter per channel
+#define PM_ParamBlockOffset 58
+#define PM_ParamBlockSize 138
+#define PM_ParamCalcIndex(index) (index + PM_ParamBlockOffset + _channelIndex * PM_ParamBlockSize)
+
+#define PM_pPresenceInputs                      0      // 3 Bits, Bit 7-5
+#define     PM_pPresenceInputsMask 0xE0
+#define     PM_pPresenceInputsShift 5
+#define PM_pPresenceType                        0      // 1 Bit, Bit 4
+#define     PM_pPresenceTypeMask 0x10
+#define     PM_pPresenceTypeShift 4
+#define PM_pMoveType                            0      // 1 Bit, Bit 3
+#define     PM_pMoveTypeMask 0x08
+#define     PM_pMoveTypeShift 3
+#define PM_pPhaseBool                           0      // 1 Bit, Bit 2
+#define     PM_pPhaseBoolMask 0x04
+#define     PM_pPhaseBoolShift 2
+#define PM_pPhaseCount                          0      // 2 Bits, Bit 1-0
+#define     PM_pPhaseCountMask 0x03
+#define     PM_pPhaseCountShift 0
+#define PM_pOutput1Type                         1      // 3 Bits, Bit 7-5
+#define     PM_pOutput1TypeMask 0xE0
+#define     PM_pOutput1TypeShift 5
+#define PM_pOutput2Type                         1      // 3 Bits, Bit 4-2
+#define     PM_pOutput2TypeMask 0x1C
+#define     PM_pOutput2TypeShift 2
+#define PM_pChannelActive                       1      // 2 Bits, Bit 1-0
+#define     PM_pChannelActiveMask 0x03
+#define     PM_pChannelActiveShift 0
+#define PM_pBrightnessIndependent               2      // 1 Bit, Bit 7
+#define     PM_pBrightnessIndependentMask 0x80
+#define     PM_pBrightnessIndependentShift 7
+#define PM_pBrightnessIntern                    2      // 1 Bit, Bit 6
+#define     PM_pBrightnessInternMask 0x40
+#define     PM_pBrightnessInternShift 6
+#define PM_pLockType                            2      // 2 Bits, Bit 4-3
+#define     PM_pLockTypeMask 0x18
+#define     PM_pLockTypeShift 3
+#define PM_pLockActive                          2      // 1 Bit, Bit 2
+#define     PM_pLockActiveMask 0x04
+#define     PM_pLockActiveShift 2
+#define PM_pLockOn                              2      // 2 Bits, Bit 1-0
+#define     PM_pLockOnMask 0x03
+#define     PM_pLockOnShift 0
+#define PM_pLockOff                             3      // 2 Bits, Bit 7-6
+#define     PM_pLockOffMask 0xC0
+#define     PM_pLockOffShift 6
+#define PM_pLockFallback                        3      // 1 Bit, Bit 5
+#define     PM_pLockFallbackMask 0x20
+#define     PM_pLockFallbackShift 5
+#define PM_pPhaseChange                         3      // 1 Bit, Bit 4
+#define     PM_pPhaseChangeMask 0x10
+#define     PM_pPhaseChangeShift 4
+#define PM_pPresenceUsage                       3      // 2 Bits, Bit 3-2
+#define     PM_pPresenceUsageMask 0x0C
+#define     PM_pPresenceUsageShift 2
+#define PM_pPresenceUsagePIR                    3      // 2 Bits, Bit 3-2
+#define     PM_pPresenceUsagePIRMask 0x0C
+#define     PM_pPresenceUsagePIRShift 2
+#define PM_pAutoOffIsLeave                      3      // 1 Bit, Bit 1
+#define     PM_pAutoOffIsLeaveMask 0x02
+#define     PM_pAutoOffIsLeaveShift 1
+#define PM_pManualModeKeyCount                  3      // 1 Bit, Bit 0
+#define     PM_pManualModeKeyCountMask 0x01
+#define     PM_pManualModeKeyCountShift 0
+#define PM_pBrightnessRead                      4      // 1 Bit, Bit 7
+#define     PM_pBrightnessReadMask 0x80
+#define     PM_pBrightnessReadShift 7
+#define PM_pStartReadLux                        4      // 1 Bit, Bit 6
+#define     PM_pStartReadLuxMask 0x40
+#define     PM_pStartReadLuxShift 6
+#define PM_pStartReadPresence1                  4      // 1 Bit, Bit 5
+#define     PM_pStartReadPresence1Mask 0x20
+#define     PM_pStartReadPresence1Shift 5
+#define PM_pStartReadPresence2                  4      // 1 Bit, Bit 4
+#define     PM_pStartReadPresence2Mask 0x10
+#define     PM_pStartReadPresence2Shift 4
+#define PM_pStartReadAktorState                 4      // 1 Bit, Bit 3
+#define     PM_pStartReadAktorStateMask 0x08
+#define     PM_pStartReadAktorStateShift 3
+#define PM_pStartReadLock                       4      // 1 Bit, Bit 2
+#define     PM_pStartReadLockMask 0x04
+#define     PM_pStartReadLockShift 2
+#define PM_pStartReadDayPhase                   4      // 1 Bit, Bit 1
+#define     PM_pStartReadDayPhaseMask 0x02
+#define     PM_pStartReadDayPhaseShift 1
+#define PM_pStartReadScene                      4      // 1 Bit, Bit 0
+#define     PM_pStartReadSceneMask 0x01
+#define     PM_pStartReadSceneShift 0
+#define PM_pLeaveRoomModeAll                    5      // 3 Bits, Bit 7-5
+#define     PM_pLeaveRoomModeAllMask 0xE0
+#define     PM_pLeaveRoomModeAllShift 5
+#define PM_pLeaveRoomModeMove                   5      // 3 Bits, Bit 7-5
+#define     PM_pLeaveRoomModeMoveMask 0xE0
+#define     PM_pLeaveRoomModeMoveShift 5
+#define PM_pLeaveRoomModeReset                  5      // 3 Bits, Bit 7-5
+#define     PM_pLeaveRoomModeResetMask 0xE0
+#define     PM_pLeaveRoomModeResetShift 5
+#define PM_pExternalSupportsReset               5      // 2 Bits, Bit 4-3
+#define     PM_pExternalSupportsResetMask 0x18
+#define     PM_pExternalSupportsResetShift 3
+#define PM_pPresenceKeepAlive                   5      // 1 Bit, Bit 2
+#define     PM_pPresenceKeepAliveMask 0x04
+#define     PM_pPresenceKeepAliveShift 2
+#define PM_pMoveKeepAlive                       5      // 1 Bit, Bit 1
+#define     PM_pMoveKeepAliveMask 0x02
+#define     PM_pMoveKeepAliveShift 1
+#define PM_pChannelDelayBase                    6      // 2 Bits, Bit 7-6
+#define     PM_pChannelDelayBaseMask 0xC0
+#define     PM_pChannelDelayBaseShift 6
+#define PM_pChannelDelayTime                    6      // 14 Bits, Bit 13-0
+#define     PM_pChannelDelayTimeMask 0x3FFF
+#define     PM_pChannelDelayTimeShift 0
+#define PM_pLockFallbackBase                    8      // 2 Bits, Bit 7-6
+#define     PM_pLockFallbackBaseMask 0xC0
+#define     PM_pLockFallbackBaseShift 6
+#define PM_pLockFallbackTime                    8      // 14 Bits, Bit 13-0
+#define     PM_pLockFallbackTimeMask 0x3FFF
+#define     PM_pLockFallbackTimeShift 0
+#define PM_pDowntimeOffBase                    10      // 2 Bits, Bit 7-6
+#define     PM_pDowntimeOffBaseMask 0xC0
+#define     PM_pDowntimeOffBaseShift 6
+#define PM_pDowntimeOffTime                    10      // 14 Bits, Bit 13-0
+#define     PM_pDowntimeOffTimeMask 0x3FFF
+#define     PM_pDowntimeOffTimeShift 0
+#define PM_pAdaptiveDelayBase                  12      // 2 Bits, Bit 7-6
+#define     PM_pAdaptiveDelayBaseMask 0xC0
+#define     PM_pAdaptiveDelayBaseShift 6
+#define PM_pAdaptiveDelayTime                  12      // 14 Bits, Bit 13-0
+#define     PM_pAdaptiveDelayTimeMask 0x3FFF
+#define     PM_pAdaptiveDelayTimeShift 0
+#define PM_pPhase1Scene                        14      // 8 Bits, Bit 7-0
+#define PM_pPhase2Scene                        15      // 8 Bits, Bit 7-0
+#define PM_pPhase3Scene                        16      // 8 Bits, Bit 7-0
+#define PM_pPhase4Scene                        17      // 8 Bits, Bit 7-0
+#define PM_pScene0                             18      // 8 Bits, Bit 7-0
+#define PM_pScene1                             19      // 8 Bits, Bit 7-0
+#define PM_pScene2                             20      // 8 Bits, Bit 7-0
+#define PM_pScene3                             21      // 8 Bits, Bit 7-0
+#define PM_pScene4                             22      // 8 Bits, Bit 7-0
+#define PM_pScene5                             23      // 8 Bits, Bit 7-0
+#define PM_pScene6                             24      // 8 Bits, Bit 7-0
+#define PM_pScene7                             25      // 8 Bits, Bit 7-0
+#define PM_pScene8                             26      // 8 Bits, Bit 7-0
+#define PM_pScene9                             27      // 8 Bits, Bit 7-0
+#define PM_pSceneAction0                       28      // 8 Bits, Bit 7-0
+#define PM_pSceneAction1                       29      // 8 Bits, Bit 7-0
+#define PM_pSceneAction2                       30      // 8 Bits, Bit 7-0
+#define PM_pSceneAction3                       31      // 8 Bits, Bit 7-0
+#define PM_pSceneAction4                       32      // 8 Bits, Bit 7-0
+#define PM_pSceneAction5                       33      // 8 Bits, Bit 7-0
+#define PM_pSceneAction6                       34      // 8 Bits, Bit 7-0
+#define PM_pSceneAction7                       35      // 8 Bits, Bit 7-0
+#define PM_pSceneAction8                       36      // 8 Bits, Bit 7-0
+#define PM_pSceneAction9                       37      // 8 Bits, Bit 7-0
+#define PM_pIntLux                             38      // 1 Bit, Bit 7
+#define     PM_pIntLuxMask 0x80
+#define     PM_pIntLuxShift 7
+#define PM_pNumLux                             38      // 15 Bits, Bit 14-0
+#define     PM_pNumLuxMask 0x7FFF
+#define     PM_pNumLuxShift 0
+#define PM_pIntPresence1                       40      // 1 Bit, Bit 7
+#define     PM_pIntPresence1Mask 0x80
+#define     PM_pIntPresence1Shift 7
+#define PM_pNumPresence1                       40      // 15 Bits, Bit 14-0
+#define     PM_pNumPresence1Mask 0x7FFF
+#define     PM_pNumPresence1Shift 0
+#define PM_pIntPresence2                       42      // 1 Bit, Bit 7
+#define     PM_pIntPresence2Mask 0x80
+#define     PM_pIntPresence2Shift 7
+#define PM_pNumPresence2                       42      // 15 Bits, Bit 14-0
+#define     PM_pNumPresence2Mask 0x7FFF
+#define     PM_pNumPresence2Shift 0
+#define PM_pIntSetAuto                         44      // 1 Bit, Bit 7
+#define     PM_pIntSetAutoMask 0x80
+#define     PM_pIntSetAutoShift 7
+#define PM_pNumSetAuto                         44      // 15 Bits, Bit 14-0
+#define     PM_pNumSetAutoMask 0x7FFF
+#define     PM_pNumSetAutoShift 0
+#define PM_pIntSetManual                       46      // 1 Bit, Bit 7
+#define     PM_pIntSetManualMask 0x80
+#define     PM_pIntSetManualShift 7
+#define PM_pNumSetManual                       46      // 15 Bits, Bit 14-0
+#define     PM_pNumSetManualMask 0x7FFF
+#define     PM_pNumSetManualShift 0
+#define PM_pIntActorState                      48      // 1 Bit, Bit 7
+#define     PM_pIntActorStateMask 0x80
+#define     PM_pIntActorStateShift 7
+#define PM_pNumActorState                      48      // 15 Bits, Bit 14-0
+#define     PM_pNumActorStateMask 0x7FFF
+#define     PM_pNumActorStateShift 0
+#define PM_pIntLock                            50      // 1 Bit, Bit 7
+#define     PM_pIntLockMask 0x80
+#define     PM_pIntLockShift 7
+#define PM_pNumLock                            50      // 15 Bits, Bit 14-0
+#define     PM_pNumLockMask 0x7FFF
+#define     PM_pNumLockShift 0
+#define PM_pIntReset                           52      // 1 Bit, Bit 7
+#define     PM_pIntResetMask 0x80
+#define     PM_pIntResetShift 7
+#define PM_pNumReset                           52      // 15 Bits, Bit 14-0
+#define     PM_pNumResetMask 0x7FFF
+#define     PM_pNumResetShift 0
+#define PM_pIntDayPhase                        54      // 1 Bit, Bit 7
+#define     PM_pIntDayPhaseMask 0x80
+#define     PM_pIntDayPhaseShift 7
+#define PM_pNumDayPhase                        54      // 15 Bits, Bit 14-0
+#define     PM_pNumDayPhaseMask 0x7FFF
+#define     PM_pNumDayPhaseShift 0
+#define PM_pIntScene                           56      // 1 Bit, Bit 7
+#define     PM_pIntSceneMask 0x80
+#define     PM_pIntSceneShift 7
+#define PM_pNumScene                           56      // 15 Bits, Bit 14-0
+#define     PM_pNumSceneMask 0x7FFF
+#define     PM_pNumSceneShift 0
+#define PM_pABrightnessAuto                    58      // 2 Bits, Bit 7-6
+#define     PM_pABrightnessAutoMask 0xC0
+#define     PM_pABrightnessAutoShift 6
+#define PM_pAPresenceShort                     58      // 1 Bit, Bit 5
+#define     PM_pAPresenceShortMask 0x20
+#define     PM_pAPresenceShortShift 5
+#define PM_pALockHardwareLEDs                  58      // 1 Bit, Bit 4
+#define     PM_pALockHardwareLEDsMask 0x10
+#define     PM_pALockHardwareLEDsShift 4
+#define PM_pAOutput1Filter                     58      // 2 Bits, Bit 3-2
+#define     PM_pAOutput1FilterMask 0x0C
+#define     PM_pAOutput1FilterShift 2
+#define PM_pAOutput2Filter                     58      // 2 Bits, Bit 1-0
+#define     PM_pAOutput2FilterMask 0x03
+#define     PM_pAOutput2FilterShift 0
+#define PM_pAManualWithPresence                59      // 1 Bit, Bit 7
+#define     PM_pAManualWithPresenceMask 0x80
+#define     PM_pAManualWithPresenceShift 7
+#define PM_pAPresenceShortNoSwitch             59      // 1 Bit, Bit 6
+#define     PM_pAPresenceShortNoSwitchMask 0x40
+#define     PM_pAPresenceShortNoSwitchShift 6
+#define PM_pAPresenceShortCalculation          59      // 1 Bit, Bit 5
+#define     PM_pAPresenceShortCalculationMask 0x20
+#define     PM_pAPresenceShortCalculationShift 5
+#define PM_pADayPhaseFunction                  59      // 2 Bits, Bit 4-3
+#define     PM_pADayPhaseFunctionMask 0x18
+#define     PM_pADayPhaseFunctionShift 3
+#define PM_pAPresenceDelayBase                 60      // 2 Bits, Bit 7-6
+#define     PM_pAPresenceDelayBaseMask 0xC0
+#define     PM_pAPresenceDelayBaseShift 6
+#define PM_pAPresenceDelayTime                 60      // 14 Bits, Bit 13-0
+#define     PM_pAPresenceDelayTimeMask 0x3FFF
+#define     PM_pAPresenceDelayTimeShift 0
+#define PM_pAPresenceShortDurationBase         62      // 2 Bits, Bit 7-6
+#define     PM_pAPresenceShortDurationBaseMask 0xC0
+#define     PM_pAPresenceShortDurationBaseShift 6
+#define PM_pAPresenceShortDurationTime         62      // 14 Bits, Bit 13-0
+#define     PM_pAPresenceShortDurationTimeMask 0x3FFF
+#define     PM_pAPresenceShortDurationTimeShift 0
+#define PM_pAPresenceShortDelayBase            64      // 2 Bits, Bit 7-6
+#define     PM_pAPresenceShortDelayBaseMask 0xC0
+#define     PM_pAPresenceShortDelayBaseShift 6
+#define PM_pAPresenceShortDelayTime            64      // 14 Bits, Bit 13-0
+#define     PM_pAPresenceShortDelayTimeMask 0x3FFF
+#define     PM_pAPresenceShortDelayTimeShift 0
+#define PM_pABrightnessOffDelayBase            66      // 2 Bits, Bit 7-6
+#define     PM_pABrightnessOffDelayBaseMask 0xC0
+#define     PM_pABrightnessOffDelayBaseShift 6
+#define PM_pABrightnessOffDelayTime            66      // 14 Bits, Bit 13-0
+#define     PM_pABrightnessOffDelayTimeMask 0x3FFF
+#define     PM_pABrightnessOffDelayTimeShift 0
+#define PM_pAManualFallbackDelayBase           68      // 2 Bits, Bit 7-6
+#define     PM_pAManualFallbackDelayBaseMask 0xC0
+#define     PM_pAManualFallbackDelayBaseShift 6
+#define PM_pAManualFallbackDelayTime           68      // 14 Bits, Bit 13-0
+#define     PM_pAManualFallbackDelayTimeMask 0x3FFF
+#define     PM_pAManualFallbackDelayTimeShift 0
+#define PM_pABrightnessOn                      70      // uint16_t
+#define PM_pABrightnessDelta                   72      // uint16_t
+#define PM_pAOutput1On                         74      // 8 Bits, Bit 7-0
+#define PM_pAOutput1OnValue                    74      // uint8_t
+#define PM_pAOutput1OnScene                    74      // 8 Bits, Bit 7-0
+#define PM_pAOutput1OnDim                      74      // uint8_t
+#define PM_pAOutput1Off                        75      // 8 Bits, Bit 7-0
+#define PM_pAOutput1OffValue                   75      // uint8_t
+#define PM_pAOutput1OffScene                   75      // 8 Bits, Bit 7-0
+#define PM_pAOutput1OffDim                     75      // uint8_t
+#define PM_pAOutput2On                         76      // 8 Bits, Bit 7-0
+#define PM_pAOutput2OnValue                    76      // uint8_t
+#define PM_pAOutput2OnScene                    76      // 8 Bits, Bit 7-0
+#define PM_pAOutput2OnDim                      76      // uint8_t
+#define PM_pAOutput2Off                        77      // 8 Bits, Bit 7-0
+#define PM_pAOutput2OffValue                   77      // uint8_t
+#define PM_pAOutput2OffScene                   77      // 8 Bits, Bit 7-0
+#define PM_pAOutput2OffDim                     77      // uint8_t
+#define PM_pBBrightnessAuto                    78      // 2 Bits, Bit 7-6
+#define     PM_pBBrightnessAutoMask 0xC0
+#define     PM_pBBrightnessAutoShift 6
+#define PM_pBPresenceShort                     78      // 1 Bit, Bit 5
+#define     PM_pBPresenceShortMask 0x20
+#define     PM_pBPresenceShortShift 5
+#define PM_pBLockHardwareLEDs                  78      // 1 Bit, Bit 4
+#define     PM_pBLockHardwareLEDsMask 0x10
+#define     PM_pBLockHardwareLEDsShift 4
+#define PM_pBOutput1Filter                     78      // 2 Bits, Bit 3-2
+#define     PM_pBOutput1FilterMask 0x0C
+#define     PM_pBOutput1FilterShift 2
+#define PM_pBOutput2Filter                     78      // 2 Bits, Bit 1-0
+#define     PM_pBOutput2FilterMask 0x03
+#define     PM_pBOutput2FilterShift 0
+#define PM_pBManualWithPresence                79      // 1 Bit, Bit 7
+#define     PM_pBManualWithPresenceMask 0x80
+#define     PM_pBManualWithPresenceShift 7
+#define PM_pBPresenceShortNoSwitch             79      // 1 Bit, Bit 6
+#define     PM_pBPresenceShortNoSwitchMask 0x40
+#define     PM_pBPresenceShortNoSwitchShift 6
+#define PM_pBPresenceShortCalculation          79      // 1 Bit, Bit 5
+#define     PM_pBPresenceShortCalculationMask 0x20
+#define     PM_pBPresenceShortCalculationShift 5
+#define PM_pBDayPhaseFunction                  79      // 2 Bits, Bit 4-3
+#define     PM_pBDayPhaseFunctionMask 0x18
+#define     PM_pBDayPhaseFunctionShift 3
+#define PM_pBPresenceDelayBase                 80      // 2 Bits, Bit 7-6
+#define     PM_pBPresenceDelayBaseMask 0xC0
+#define     PM_pBPresenceDelayBaseShift 6
+#define PM_pBPresenceDelayTime                 80      // 14 Bits, Bit 13-0
+#define     PM_pBPresenceDelayTimeMask 0x3FFF
+#define     PM_pBPresenceDelayTimeShift 0
+#define PM_pBPresenceShortDurationBase         82      // 2 Bits, Bit 7-6
+#define     PM_pBPresenceShortDurationBaseMask 0xC0
+#define     PM_pBPresenceShortDurationBaseShift 6
+#define PM_pBPresenceShortDurationTime         82      // 14 Bits, Bit 13-0
+#define     PM_pBPresenceShortDurationTimeMask 0x3FFF
+#define     PM_pBPresenceShortDurationTimeShift 0
+#define PM_pBPresenceShortDelayBase            84      // 2 Bits, Bit 7-6
+#define     PM_pBPresenceShortDelayBaseMask 0xC0
+#define     PM_pBPresenceShortDelayBaseShift 6
+#define PM_pBPresenceShortDelayTime            84      // 14 Bits, Bit 13-0
+#define     PM_pBPresenceShortDelayTimeMask 0x3FFF
+#define     PM_pBPresenceShortDelayTimeShift 0
+#define PM_pBBrightnessOffDelayBase            86      // 2 Bits, Bit 7-6
+#define     PM_pBBrightnessOffDelayBaseMask 0xC0
+#define     PM_pBBrightnessOffDelayBaseShift 6
+#define PM_pBBrightnessOffDelayTime            86      // 14 Bits, Bit 13-0
+#define     PM_pBBrightnessOffDelayTimeMask 0x3FFF
+#define     PM_pBBrightnessOffDelayTimeShift 0
+#define PM_pBManualFallbackDelayBase           88      // 2 Bits, Bit 7-6
+#define     PM_pBManualFallbackDelayBaseMask 0xC0
+#define     PM_pBManualFallbackDelayBaseShift 6
+#define PM_pBManualFallbackDelayTime           88      // 14 Bits, Bit 13-0
+#define     PM_pBManualFallbackDelayTimeMask 0x3FFF
+#define     PM_pBManualFallbackDelayTimeShift 0
+#define PM_pBBrightnessOn                      90      // uint16_t
+#define PM_pBBrightnessDelta                   92      // uint16_t
+#define PM_pBOutput1On                         94      // 8 Bits, Bit 7-0
+#define PM_pBOutput1OnValue                    94      // uint8_t
+#define PM_pBOutput1OnScene                    94      // 8 Bits, Bit 7-0
+#define PM_pBOutput1OnDim                      94      // uint8_t
+#define PM_pBOutput1Off                        95      // 8 Bits, Bit 7-0
+#define PM_pBOutput1OffValue                   95      // uint8_t
+#define PM_pBOutput1OffScene                   95      // 8 Bits, Bit 7-0
+#define PM_pBOutput1OffDim                     95      // uint8_t
+#define PM_pBOutput2On                         96      // 8 Bits, Bit 7-0
+#define PM_pBOutput2OnValue                    96      // uint8_t
+#define PM_pBOutput2OnScene                    96      // 8 Bits, Bit 7-0
+#define PM_pBOutput2OnDim                      96      // uint8_t
+#define PM_pBOutput2Off                        97      // 8 Bits, Bit 7-0
+#define PM_pBOutput2OffValue                   97      // uint8_t
+#define PM_pBOutput2OffScene                   97      // 8 Bits, Bit 7-0
+#define PM_pBOutput2OffDim                     97      // uint8_t
+#define PM_pCBrightnessAuto                    98      // 2 Bits, Bit 7-6
+#define     PM_pCBrightnessAutoMask 0xC0
+#define     PM_pCBrightnessAutoShift 6
+#define PM_pCPresenceShort                     98      // 1 Bit, Bit 5
+#define     PM_pCPresenceShortMask 0x20
+#define     PM_pCPresenceShortShift 5
+#define PM_pCLockHardwareLEDs                  98      // 1 Bit, Bit 4
+#define     PM_pCLockHardwareLEDsMask 0x10
+#define     PM_pCLockHardwareLEDsShift 4
+#define PM_pCOutput1Filter                     98      // 2 Bits, Bit 3-2
+#define     PM_pCOutput1FilterMask 0x0C
+#define     PM_pCOutput1FilterShift 2
+#define PM_pCOutput2Filter                     98      // 2 Bits, Bit 1-0
+#define     PM_pCOutput2FilterMask 0x03
+#define     PM_pCOutput2FilterShift 0
+#define PM_pCManualWithPresence                99      // 1 Bit, Bit 7
+#define     PM_pCManualWithPresenceMask 0x80
+#define     PM_pCManualWithPresenceShift 7
+#define PM_pCPresenceShortNoSwitch             99      // 1 Bit, Bit 6
+#define     PM_pCPresenceShortNoSwitchMask 0x40
+#define     PM_pCPresenceShortNoSwitchShift 6
+#define PM_pCPresenceShortCalculation          99      // 1 Bit, Bit 5
+#define     PM_pCPresenceShortCalculationMask 0x20
+#define     PM_pCPresenceShortCalculationShift 5
+#define PM_pCDayPhaseFunction                  99      // 2 Bits, Bit 4-3
+#define     PM_pCDayPhaseFunctionMask 0x18
+#define     PM_pCDayPhaseFunctionShift 3
+#define PM_pCPresenceDelayBase                 100      // 2 Bits, Bit 7-6
+#define     PM_pCPresenceDelayBaseMask 0xC0
+#define     PM_pCPresenceDelayBaseShift 6
+#define PM_pCPresenceDelayTime                 100      // 14 Bits, Bit 13-0
+#define     PM_pCPresenceDelayTimeMask 0x3FFF
+#define     PM_pCPresenceDelayTimeShift 0
+#define PM_pCPresenceShortDurationBase         102      // 2 Bits, Bit 7-6
+#define     PM_pCPresenceShortDurationBaseMask 0xC0
+#define     PM_pCPresenceShortDurationBaseShift 6
+#define PM_pCPresenceShortDurationTime         102      // 14 Bits, Bit 13-0
+#define     PM_pCPresenceShortDurationTimeMask 0x3FFF
+#define     PM_pCPresenceShortDurationTimeShift 0
+#define PM_pCPresenceShortDelayBase            104      // 2 Bits, Bit 7-6
+#define     PM_pCPresenceShortDelayBaseMask 0xC0
+#define     PM_pCPresenceShortDelayBaseShift 6
+#define PM_pCPresenceShortDelayTime            104      // 14 Bits, Bit 13-0
+#define     PM_pCPresenceShortDelayTimeMask 0x3FFF
+#define     PM_pCPresenceShortDelayTimeShift 0
+#define PM_pCBrightnessOffDelayBase            106      // 2 Bits, Bit 7-6
+#define     PM_pCBrightnessOffDelayBaseMask 0xC0
+#define     PM_pCBrightnessOffDelayBaseShift 6
+#define PM_pCBrightnessOffDelayTime            106      // 14 Bits, Bit 13-0
+#define     PM_pCBrightnessOffDelayTimeMask 0x3FFF
+#define     PM_pCBrightnessOffDelayTimeShift 0
+#define PM_pCManualFallbackDelayBase           108      // 2 Bits, Bit 7-6
+#define     PM_pCManualFallbackDelayBaseMask 0xC0
+#define     PM_pCManualFallbackDelayBaseShift 6
+#define PM_pCManualFallbackDelayTime           108      // 14 Bits, Bit 13-0
+#define     PM_pCManualFallbackDelayTimeMask 0x3FFF
+#define     PM_pCManualFallbackDelayTimeShift 0
+#define PM_pCBrightnessOn                      110      // uint16_t
+#define PM_pCBrightnessDelta                   112      // uint16_t
+#define PM_pCOutput1On                         114      // 8 Bits, Bit 7-0
+#define PM_pCOutput1OnValue                    114      // uint8_t
+#define PM_pCOutput1OnScene                    114      // 8 Bits, Bit 7-0
+#define PM_pCOutput1OnDim                      114      // uint8_t
+#define PM_pCOutput1Off                        115      // 8 Bits, Bit 7-0
+#define PM_pCOutput1OffValue                   115      // uint8_t
+#define PM_pCOutput1OffScene                   115      // 8 Bits, Bit 7-0
+#define PM_pCOutput1OffDim                     115      // uint8_t
+#define PM_pCOutput2On                         116      // 8 Bits, Bit 7-0
+#define PM_pCOutput2OnValue                    116      // uint8_t
+#define PM_pCOutput2OnScene                    116      // 8 Bits, Bit 7-0
+#define PM_pCOutput2OnDim                      116      // uint8_t
+#define PM_pCOutput2Off                        117      // 8 Bits, Bit 7-0
+#define PM_pCOutput2OffValue                   117      // uint8_t
+#define PM_pCOutput2OffScene                   117      // 8 Bits, Bit 7-0
+#define PM_pCOutput2OffDim                     117      // uint8_t
+#define PM_pDBrightnessAuto                    118      // 2 Bits, Bit 7-6
+#define     PM_pDBrightnessAutoMask 0xC0
+#define     PM_pDBrightnessAutoShift 6
+#define PM_pDPresenceShort                     118      // 1 Bit, Bit 5
+#define     PM_pDPresenceShortMask 0x20
+#define     PM_pDPresenceShortShift 5
+#define PM_pDLockHardwareLEDs                  118      // 1 Bit, Bit 4
+#define     PM_pDLockHardwareLEDsMask 0x10
+#define     PM_pDLockHardwareLEDsShift 4
+#define PM_pDOutput1Filter                     118      // 2 Bits, Bit 3-2
+#define     PM_pDOutput1FilterMask 0x0C
+#define     PM_pDOutput1FilterShift 2
+#define PM_pDOutput2Filter                     118      // 2 Bits, Bit 1-0
+#define     PM_pDOutput2FilterMask 0x03
+#define     PM_pDOutput2FilterShift 0
+#define PM_pDManualWithPresence                119      // 1 Bit, Bit 7
+#define     PM_pDManualWithPresenceMask 0x80
+#define     PM_pDManualWithPresenceShift 7
+#define PM_pDPresenceShortNoSwitch             119      // 1 Bit, Bit 6
+#define     PM_pDPresenceShortNoSwitchMask 0x40
+#define     PM_pDPresenceShortNoSwitchShift 6
+#define PM_pDPresenceShortCalculation          119      // 1 Bit, Bit 5
+#define     PM_pDPresenceShortCalculationMask 0x20
+#define     PM_pDPresenceShortCalculationShift 5
+#define PM_pDDayPhaseFunction                  119      // 2 Bits, Bit 4-3
+#define     PM_pDDayPhaseFunctionMask 0x18
+#define     PM_pDDayPhaseFunctionShift 3
+#define PM_pDPresenceDelayBase                 120      // 2 Bits, Bit 7-6
+#define     PM_pDPresenceDelayBaseMask 0xC0
+#define     PM_pDPresenceDelayBaseShift 6
+#define PM_pDPresenceDelayTime                 120      // 14 Bits, Bit 13-0
+#define     PM_pDPresenceDelayTimeMask 0x3FFF
+#define     PM_pDPresenceDelayTimeShift 0
+#define PM_pDPresenceShortDurationBase         122      // 2 Bits, Bit 7-6
+#define     PM_pDPresenceShortDurationBaseMask 0xC0
+#define     PM_pDPresenceShortDurationBaseShift 6
+#define PM_pDPresenceShortDurationTime         122      // 14 Bits, Bit 13-0
+#define     PM_pDPresenceShortDurationTimeMask 0x3FFF
+#define     PM_pDPresenceShortDurationTimeShift 0
+#define PM_pDPresenceShortDelayBase            124      // 2 Bits, Bit 7-6
+#define     PM_pDPresenceShortDelayBaseMask 0xC0
+#define     PM_pDPresenceShortDelayBaseShift 6
+#define PM_pDPresenceShortDelayTime            124      // 14 Bits, Bit 13-0
+#define     PM_pDPresenceShortDelayTimeMask 0x3FFF
+#define     PM_pDPresenceShortDelayTimeShift 0
+#define PM_pDBrightnessOffDelayBase            126      // 2 Bits, Bit 7-6
+#define     PM_pDBrightnessOffDelayBaseMask 0xC0
+#define     PM_pDBrightnessOffDelayBaseShift 6
+#define PM_pDBrightnessOffDelayTime            126      // 14 Bits, Bit 13-0
+#define     PM_pDBrightnessOffDelayTimeMask 0x3FFF
+#define     PM_pDBrightnessOffDelayTimeShift 0
+#define PM_pDManualFallbackDelayBase           128      // 2 Bits, Bit 7-6
+#define     PM_pDManualFallbackDelayBaseMask 0xC0
+#define     PM_pDManualFallbackDelayBaseShift 6
+#define PM_pDManualFallbackDelayTime           128      // 14 Bits, Bit 13-0
+#define     PM_pDManualFallbackDelayTimeMask 0x3FFF
+#define     PM_pDManualFallbackDelayTimeShift 0
+#define PM_pDBrightnessOn                      130      // uint16_t
+#define PM_pDBrightnessDelta                   132      // uint16_t
+#define PM_pDOutput1On                         134      // 8 Bits, Bit 7-0
+#define PM_pDOutput1OnValue                    134      // uint8_t
+#define PM_pDOutput1OnScene                    134      // 8 Bits, Bit 7-0
+#define PM_pDOutput1OnDim                      134      // uint8_t
+#define PM_pDOutput1Off                        135      // 8 Bits, Bit 7-0
+#define PM_pDOutput1OffValue                   135      // uint8_t
+#define PM_pDOutput1OffScene                   135      // 8 Bits, Bit 7-0
+#define PM_pDOutput1OffDim                     135      // uint8_t
+#define PM_pDOutput2On                         136      // 8 Bits, Bit 7-0
+#define PM_pDOutput2OnValue                    136      // uint8_t
+#define PM_pDOutput2OnScene                    136      // 8 Bits, Bit 7-0
+#define PM_pDOutput2OnDim                      136      // uint8_t
+#define PM_pDOutput2Off                        137      // 8 Bits, Bit 7-0
+#define PM_pDOutput2OffValue                   137      // uint8_t
+#define PM_pDOutput2OffScene                   137      // 8 Bits, Bit 7-0
+#define PM_pDOutput2OffDim                     137      // uint8_t
+
+// Eingänge für externen Melder
+#define ParamPM_pPresenceInputs                     ((knx.paramByte(PM_ParamCalcIndex(PM_pPresenceInputs)) & PM_pPresenceInputsMask) >> PM_pPresenceInputsShift)
+// Eingang Präsenz
+#define ParamPM_pPresenceType                       ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pPresenceType)) & PM_pPresenceTypeMask))
+// Eingang Bewegung
+#define ParamPM_pMoveType                           ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pMoveType)) & PM_pMoveTypeMask))
+// Tagesphasen über Tag-/Nacht-Objekt verfügbar machen?
+#define ParamPM_pPhaseBool                          ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pPhaseBool)) & PM_pPhaseBoolMask))
+// Anzahl Tagesphasen
+#define ParamPM_pPhaseCount                         (knx.paramByte(PM_ParamCalcIndex(PM_pPhaseCount)) & PM_pPhaseCountMask)
+// Ausgang 1 ist vom Typ
+#define ParamPM_pOutput1Type                        ((knx.paramByte(PM_ParamCalcIndex(PM_pOutput1Type)) & PM_pOutput1TypeMask) >> PM_pOutput1TypeShift)
+// Ausgang 2 ist vom Typ
+#define ParamPM_pOutput2Type                        ((knx.paramByte(PM_ParamCalcIndex(PM_pOutput2Type)) & PM_pOutput2TypeMask) >> PM_pOutput2TypeShift)
+// Kanalaktivität
+#define ParamPM_pChannelActive                      (knx.paramByte(PM_ParamCalcIndex(PM_pChannelActive)) & PM_pChannelActiveMask)
+// Kanal ist Helligkeitsabhängig
+#define ParamPM_pBrightnessIndependent              ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pBrightnessIndependent)) & PM_pBrightnessIndependentMask))
+// Eingebauten Helligkeitssensor verwenden?
+#define ParamPM_pBrightnessIntern                   ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pBrightnessIntern)) & PM_pBrightnessInternMask))
+// Sperrobjekt
+#define ParamPM_pLockType                           ((knx.paramByte(PM_ParamCalcIndex(PM_pLockType)) & PM_pLockTypeMask) >> PM_pLockTypeShift)
+// Sperraktivität
+#define ParamPM_pLockActive                         ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pLockActive)) & PM_pLockActiveMask))
+// Beim EINschalten wird
+#define ParamPM_pLockOn                             (knx.paramByte(PM_ParamCalcIndex(PM_pLockOn)) & PM_pLockOnMask)
+// Beim AUSschalten wird
+#define ParamPM_pLockOff                            ((knx.paramByte(PM_ParamCalcIndex(PM_pLockOff)) & PM_pLockOffMask) >> PM_pLockOffShift)
+// Mit Rückfallzeit?
+#define ParamPM_pLockFallback                       ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pLockFallback)) & PM_pLockFallbackMask))
+// Neue Tagesphase übernehmen
+#define ParamPM_pPhaseChange                        ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pPhaseChange)) & PM_pPhaseChangeMask))
+// Eingebauten Präsenzsensor verwenden?
+#define ParamPM_pPresenceUsage                      ((knx.paramByte(PM_ParamCalcIndex(PM_pPresenceUsage)) & PM_pPresenceUsageMask) >> PM_pPresenceUsageShift)
+// Eingebauten Präsenzsensor verwenden?
+#define ParamPM_pPresenceUsagePIR                   ((knx.paramByte(PM_ParamCalcIndex(PM_pPresenceUsagePIR)) & PM_pPresenceUsagePIRMask) >> PM_pPresenceUsagePIRShift)
+// 'Automatik übersteuern'=AUS heißt 'Raum verlassen'
+#define ParamPM_pAutoOffIsLeave                     ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pAutoOffIsLeave)) & PM_pAutoOffIsLeaveMask))
+// Tastenmodus für 'Manuell übersteuern'
+#define ParamPM_pManualModeKeyCount                 ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pManualModeKeyCount)) & PM_pManualModeKeyCountMask))
+// Nach Totzeit Lesetelegramm senden?
+#define ParamPM_pBrightnessRead                     ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pBrightnessRead)) & PM_pBrightnessReadMask))
+// Helligkeit nach Neustart vom Bus lesen?
+#define ParamPM_pStartReadLux                       ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pStartReadLux)) & PM_pStartReadLuxMask))
+// Präsenz A nach Neustart vom Bus lesen?
+#define ParamPM_pStartReadPresence1                 ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pStartReadPresence1)) & PM_pStartReadPresence1Mask))
+// Präsenz B nach Neustart vom Bus lesen?
+#define ParamPM_pStartReadPresence2                 ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pStartReadPresence2)) & PM_pStartReadPresence2Mask))
+// Aktorstatus nach Neustart vom Bus lesen?
+#define ParamPM_pStartReadAktorState                ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pStartReadAktorState)) & PM_pStartReadAktorStateMask))
+// Sperre nach Neustart vom Bus lesen?
+#define ParamPM_pStartReadLock                      ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pStartReadLock)) & PM_pStartReadLockMask))
+// Tagesphase nach Neustart vom Bus lesen?
+#define ParamPM_pStartReadDayPhase                  ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pStartReadDayPhase)) & PM_pStartReadDayPhaseMask))
+// Steuerszene nach Neustart vom Bus lesen?
+#define ParamPM_pStartReadScene                     ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pStartReadScene)) & PM_pStartReadSceneMask))
+// Modus für Raum verlassen
+#define ParamPM_pLeaveRoomModeAll                   ((knx.paramByte(PM_ParamCalcIndex(PM_pLeaveRoomModeAll)) & PM_pLeaveRoomModeAllMask) >> PM_pLeaveRoomModeAllShift)
+// Modus für Raum verlassen
+#define ParamPM_pLeaveRoomModeMove                  ((knx.paramByte(PM_ParamCalcIndex(PM_pLeaveRoomModeMove)) & PM_pLeaveRoomModeMoveMask) >> PM_pLeaveRoomModeMoveShift)
+// Modus für Raum verlassen
+#define ParamPM_pLeaveRoomModeReset                 ((knx.paramByte(PM_ParamCalcIndex(PM_pLeaveRoomModeReset)) & PM_pLeaveRoomModeResetMask) >> PM_pLeaveRoomModeResetShift)
+// Externer PM kann über Bus zurückgesetzt werden?
+#define ParamPM_pExternalSupportsReset              ((knx.paramByte(PM_ParamCalcIndex(PM_pExternalSupportsReset)) & PM_pExternalSupportsResetMask) >> PM_pExternalSupportsResetShift)
+//     Eingang kann nicht einschalten,    aber bestehende Präsenz verlängern
+#define ParamPM_pPresenceKeepAlive                  ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pPresenceKeepAlive)) & PM_pPresenceKeepAliveMask))
+//     Eingang kann nicht einschalten,    aber bestehende Präsenz verlängern
+#define ParamPM_pMoveKeepAlive                      ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pMoveKeepAlive)) & PM_pMoveKeepAliveMask))
+// Startverzögerung für diesen Kanal
+#define ParamPM_pChannelDelayBase                   ((knx.paramByte(PM_ParamCalcIndex(PM_pChannelDelayBase)) & PM_pChannelDelayBaseMask) >> PM_pChannelDelayBaseShift)
+// Startverzögerung für diesen Kanal
+#define ParamPM_pChannelDelayTime                   (knx.paramWord(PM_ParamCalcIndex(PM_pChannelDelayTime)) & PM_pChannelDelayTimeMask)
+// Startverzögerung für diesen Kanal (in Millisekunden)
+#define ParamPM_pChannelDelayTimeMS                 (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pChannelDelayTime))))
+// Rückfall nach
+#define ParamPM_pLockFallbackBase                   ((knx.paramByte(PM_ParamCalcIndex(PM_pLockFallbackBase)) & PM_pLockFallbackBaseMask) >> PM_pLockFallbackBaseShift)
+// Rückfall nach
+#define ParamPM_pLockFallbackTime                   (knx.paramWord(PM_ParamCalcIndex(PM_pLockFallbackTime)) & PM_pLockFallbackTimeMask)
+// Rückfall nach (in Millisekunden)
+#define ParamPM_pLockFallbackTimeMS                 (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pLockFallbackTime))))
+// Totzeit nach Raum verlassen
+#define ParamPM_pDowntimeOffBase                    ((knx.paramByte(PM_ParamCalcIndex(PM_pDowntimeOffBase)) & PM_pDowntimeOffBaseMask) >> PM_pDowntimeOffBaseShift)
+// Totzeit nach Raum verlassen
+#define ParamPM_pDowntimeOffTime                    (knx.paramWord(PM_ParamCalcIndex(PM_pDowntimeOffTime)) & PM_pDowntimeOffTimeMask)
+// Totzeit nach Raum verlassen (in Millisekunden)
+#define ParamPM_pDowntimeOffTimeMS                  (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pDowntimeOffTime))))
+// Totzeit bis zur Helligkeitsanpassung
+#define ParamPM_pAdaptiveDelayBase                  ((knx.paramByte(PM_ParamCalcIndex(PM_pAdaptiveDelayBase)) & PM_pAdaptiveDelayBaseMask) >> PM_pAdaptiveDelayBaseShift)
+// Totzeit bis zur Helligkeitsanpassung
+#define ParamPM_pAdaptiveDelayTime                  (knx.paramWord(PM_ParamCalcIndex(PM_pAdaptiveDelayTime)) & PM_pAdaptiveDelayTimeMask)
+// Totzeit bis zur Helligkeitsanpassung (in Millisekunden)
+#define ParamPM_pAdaptiveDelayTimeMS                (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pAdaptiveDelayTime))))
+// Szene Phase 1
+#define ParamPM_pPhase1Scene                        (knx.paramByte(PM_ParamCalcIndex(PM_pPhase1Scene)))
+// Szene Phase 2
+#define ParamPM_pPhase2Scene                        (knx.paramByte(PM_ParamCalcIndex(PM_pPhase2Scene)))
+// Szene Phase 3
+#define ParamPM_pPhase3Scene                        (knx.paramByte(PM_ParamCalcIndex(PM_pPhase3Scene)))
+// Szene Phase 4
+#define ParamPM_pPhase4Scene                        (knx.paramByte(PM_ParamCalcIndex(PM_pPhase4Scene)))
+// Szene0
+#define ParamPM_pScene0                             (knx.paramByte(PM_ParamCalcIndex(PM_pScene0)))
+// Szene1
+#define ParamPM_pScene1                             (knx.paramByte(PM_ParamCalcIndex(PM_pScene1)))
+// Szene2
+#define ParamPM_pScene2                             (knx.paramByte(PM_ParamCalcIndex(PM_pScene2)))
+// Szene3
+#define ParamPM_pScene3                             (knx.paramByte(PM_ParamCalcIndex(PM_pScene3)))
+// Szene4
+#define ParamPM_pScene4                             (knx.paramByte(PM_ParamCalcIndex(PM_pScene4)))
+// Szene5
+#define ParamPM_pScene5                             (knx.paramByte(PM_ParamCalcIndex(PM_pScene5)))
+// Szene6
+#define ParamPM_pScene6                             (knx.paramByte(PM_ParamCalcIndex(PM_pScene6)))
+// Szene7
+#define ParamPM_pScene7                             (knx.paramByte(PM_ParamCalcIndex(PM_pScene7)))
+// Szene8
+#define ParamPM_pScene8                             (knx.paramByte(PM_ParamCalcIndex(PM_pScene8)))
+// Szene9
+#define ParamPM_pScene9                             (knx.paramByte(PM_ParamCalcIndex(PM_pScene9)))
+// SzeneAction0
+#define ParamPM_pSceneAction0                       (knx.paramByte(PM_ParamCalcIndex(PM_pSceneAction0)))
+// SzeneAction1
+#define ParamPM_pSceneAction1                       (knx.paramByte(PM_ParamCalcIndex(PM_pSceneAction1)))
+// SzeneAction2
+#define ParamPM_pSceneAction2                       (knx.paramByte(PM_ParamCalcIndex(PM_pSceneAction2)))
+// SzeneAction3
+#define ParamPM_pSceneAction3                       (knx.paramByte(PM_ParamCalcIndex(PM_pSceneAction3)))
+// SzeneAction4
+#define ParamPM_pSceneAction4                       (knx.paramByte(PM_ParamCalcIndex(PM_pSceneAction4)))
+// SzeneAction5
+#define ParamPM_pSceneAction5                       (knx.paramByte(PM_ParamCalcIndex(PM_pSceneAction5)))
+// SzeneAction6
+#define ParamPM_pSceneAction6                       (knx.paramByte(PM_ParamCalcIndex(PM_pSceneAction6)))
+// SzeneAction7
+#define ParamPM_pSceneAction7                       (knx.paramByte(PM_ParamCalcIndex(PM_pSceneAction7)))
+// SzeneAction8
+#define ParamPM_pSceneAction8                       (knx.paramByte(PM_ParamCalcIndex(PM_pSceneAction8)))
+// SzeneAction9
+#define ParamPM_pSceneAction9                       (knx.paramByte(PM_ParamCalcIndex(PM_pSceneAction9)))
+// Neues oder internes KO
+#define ParamPM_pIntLux                             ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pIntLux)) & PM_pIntLuxMask))
+// Nummer vom internen KO
+#define ParamPM_pNumLux                             (knx.paramWord(PM_ParamCalcIndex(PM_pNumLux)) & PM_pNumLuxMask)
+// Neues oder internes KO
+#define ParamPM_pIntPresence1                       ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pIntPresence1)) & PM_pIntPresence1Mask))
+// Nummer vom internen KO
+#define ParamPM_pNumPresence1                       (knx.paramWord(PM_ParamCalcIndex(PM_pNumPresence1)) & PM_pNumPresence1Mask)
+// Neues oder internes KO
+#define ParamPM_pIntPresence2                       ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pIntPresence2)) & PM_pIntPresence2Mask))
+// Nummer vom internen KO
+#define ParamPM_pNumPresence2                       (knx.paramWord(PM_ParamCalcIndex(PM_pNumPresence2)) & PM_pNumPresence2Mask)
+// Neues oder internes KO
+#define ParamPM_pIntSetAuto                         ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pIntSetAuto)) & PM_pIntSetAutoMask))
+// Nummer vom internen KO
+#define ParamPM_pNumSetAuto                         (knx.paramWord(PM_ParamCalcIndex(PM_pNumSetAuto)) & PM_pNumSetAutoMask)
+// Neues oder internes KO
+#define ParamPM_pIntSetManual                       ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pIntSetManual)) & PM_pIntSetManualMask))
+// Nummer vom internen KO
+#define ParamPM_pNumSetManual                       (knx.paramWord(PM_ParamCalcIndex(PM_pNumSetManual)) & PM_pNumSetManualMask)
+// Neues oder internes KO
+#define ParamPM_pIntActorState                      ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pIntActorState)) & PM_pIntActorStateMask))
+// Nummer vom internen KO
+#define ParamPM_pNumActorState                      (knx.paramWord(PM_ParamCalcIndex(PM_pNumActorState)) & PM_pNumActorStateMask)
+// Neues oder internes KO
+#define ParamPM_pIntLock                            ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pIntLock)) & PM_pIntLockMask))
+// Nummer vom internen KO
+#define ParamPM_pNumLock                            (knx.paramWord(PM_ParamCalcIndex(PM_pNumLock)) & PM_pNumLockMask)
+// Neues oder internes KO
+#define ParamPM_pIntReset                           ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pIntReset)) & PM_pIntResetMask))
+// Nummer vom internen KO
+#define ParamPM_pNumReset                           (knx.paramWord(PM_ParamCalcIndex(PM_pNumReset)) & PM_pNumResetMask)
+// Neues oder internes KO
+#define ParamPM_pIntDayPhase                        ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pIntDayPhase)) & PM_pIntDayPhaseMask))
+// Nummer vom internen KO
+#define ParamPM_pNumDayPhase                        (knx.paramWord(PM_ParamCalcIndex(PM_pNumDayPhase)) & PM_pNumDayPhaseMask)
+// Neues oder internes KO
+#define ParamPM_pIntScene                           ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pIntScene)) & PM_pIntSceneMask))
+// Nummer vom internen KO
+#define ParamPM_pNumScene                           (knx.paramWord(PM_ParamCalcIndex(PM_pNumScene)) & PM_pNumSceneMask)
+// Ausschalten über Helligkeit
+#define ParamPM_pABrightnessAuto                    ((knx.paramByte(PM_ParamCalcIndex(PM_pABrightnessAuto)) & PM_pABrightnessAutoMask) >> PM_pABrightnessAutoShift)
+// Kurze Anwesenheit erkennen?
+#define ParamPM_pAPresenceShort                     ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pAPresenceShort)) & PM_pAPresenceShortMask))
+// Diese Tagesphase sperrt Hardware-LEDs
+#define ParamPM_pALockHardwareLEDs                  ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pALockHardwareLEDs)) & PM_pALockHardwareLEDsMask))
+// Ausgang 1 sendet
+#define ParamPM_pAOutput1Filter                     ((knx.paramByte(PM_ParamCalcIndex(PM_pAOutput1Filter)) & PM_pAOutput1FilterMask) >> PM_pAOutput1FilterShift)
+// Ausgang 2 sendet
+#define ParamPM_pAOutput2Filter                     (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput2Filter)) & PM_pAOutput2FilterMask)
+// Manueller Modus ist präsenzabhängig?
+#define ParamPM_pAManualWithPresence                ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pAManualWithPresence)) & PM_pAManualWithPresenceMask))
+// Erst nach der Kurzzeitpräsenz schalten(z.B. Durchgangsraum)
+#define ParamPM_pAPresenceShortNoSwitch             ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pAPresenceShortNoSwitch)) & PM_pAPresenceShortNoSwitchMask))
+// Kurzzeitpräsenz wird ermittelt anhand vom
+#define ParamPM_pAPresenceShortCalculation          ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pAPresenceShortCalculation)) & PM_pAPresenceShortCalculationMask))
+// Funktion der Tagesphase
+#define ParamPM_pADayPhaseFunction                  ((knx.paramByte(PM_ParamCalcIndex(PM_pADayPhaseFunction)) & PM_pADayPhaseFunctionMask) >> PM_pADayPhaseFunctionShift)
+// Nachlaufzeit
+#define ParamPM_pAPresenceDelayBase                 ((knx.paramByte(PM_ParamCalcIndex(PM_pAPresenceDelayBase)) & PM_pAPresenceDelayBaseMask) >> PM_pAPresenceDelayBaseShift)
+// Nachlaufzeit
+#define ParamPM_pAPresenceDelayTime                 (knx.paramWord(PM_ParamCalcIndex(PM_pAPresenceDelayTime)) & PM_pAPresenceDelayTimeMask)
+// Nachlaufzeit (in Millisekunden)
+#define ParamPM_pAPresenceDelayTimeMS               (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pAPresenceDelayTime))))
+// Dauer-der-kurzen-Anwesenheit
+#define ParamPM_pAPresenceShortDurationBase         ((knx.paramByte(PM_ParamCalcIndex(PM_pAPresenceShortDurationBase)) & PM_pAPresenceShortDurationBaseMask) >> PM_pAPresenceShortDurationBaseShift)
+// Dauer-der-kurzen-Anwesenheit
+#define ParamPM_pAPresenceShortDurationTime         (knx.paramWord(PM_ParamCalcIndex(PM_pAPresenceShortDurationTime)) & PM_pAPresenceShortDurationTimeMask)
+// Dauer-der-kurzen-Anwesenheit (in Millisekunden)
+#define ParamPM_pAPresenceShortDurationTimeMS       (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pAPresenceShortDurationTime))))
+// Nachlaufzeit-bei-kurzer-Anwesenheit
+#define ParamPM_pAPresenceShortDelayBase            ((knx.paramByte(PM_ParamCalcIndex(PM_pAPresenceShortDelayBase)) & PM_pAPresenceShortDelayBaseMask) >> PM_pAPresenceShortDelayBaseShift)
+// Nachlaufzeit-bei-kurzer-Anwesenheit
+#define ParamPM_pAPresenceShortDelayTime            (knx.paramWord(PM_ParamCalcIndex(PM_pAPresenceShortDelayTime)) & PM_pAPresenceShortDelayTimeMask)
+// Nachlaufzeit-bei-kurzer-Anwesenheit (in Millisekunden)
+#define ParamPM_pAPresenceShortDelayTimeMS          (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pAPresenceShortDelayTime))))
+// Ausschalten-verzoegern-um
+#define ParamPM_pABrightnessOffDelayBase            ((knx.paramByte(PM_ParamCalcIndex(PM_pABrightnessOffDelayBase)) & PM_pABrightnessOffDelayBaseMask) >> PM_pABrightnessOffDelayBaseShift)
+// Ausschalten-verzoegern-um
+#define ParamPM_pABrightnessOffDelayTime            (knx.paramWord(PM_ParamCalcIndex(PM_pABrightnessOffDelayTime)) & PM_pABrightnessOffDelayTimeMask)
+// Ausschalten-verzoegern-um (in Millisekunden)
+#define ParamPM_pABrightnessOffDelayTimeMS          (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pABrightnessOffDelayTime))))
+// Manuellen-Modus-beenden-nach
+#define ParamPM_pAManualFallbackDelayBase           ((knx.paramByte(PM_ParamCalcIndex(PM_pAManualFallbackDelayBase)) & PM_pAManualFallbackDelayBaseMask) >> PM_pAManualFallbackDelayBaseShift)
+// Manuellen-Modus-beenden-nach
+#define ParamPM_pAManualFallbackDelayTime           (knx.paramWord(PM_ParamCalcIndex(PM_pAManualFallbackDelayTime)) & PM_pAManualFallbackDelayTimeMask)
+// Manuellen-Modus-beenden-nach (in Millisekunden)
+#define ParamPM_pAManualFallbackDelayTimeMS         (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pAManualFallbackDelayTime))))
+// Einschalten: Unterhalb welcher Helligkeit
+#define ParamPM_pABrightnessOn                      (knx.paramWord(PM_ParamCalcIndex(PM_pABrightnessOn)))
+// Ausschalten: Wie viel heller darf es werden
+#define ParamPM_pABrightnessDelta                   (knx.paramWord(PM_ParamCalcIndex(PM_pABrightnessDelta)))
+// Wert für EIN
+#define ParamPM_pAOutput1On                         (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput1On)))
+// Wert für EIN
+#define ParamPM_pAOutput1OnValue                    (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput1OnValue)))
+// Wert für EIN
+#define ParamPM_pAOutput1OnScene                    (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput1OnScene)))
+// Wert für EIN
+#define ParamPM_pAOutput1OnDim                      (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput1OnDim)))
+// Wert für AUS
+#define ParamPM_pAOutput1Off                        (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput1Off)))
+// Wert für AUS
+#define ParamPM_pAOutput1OffValue                   (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput1OffValue)))
+// Wert für AUS
+#define ParamPM_pAOutput1OffScene                   (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput1OffScene)))
+// Wert für AUS
+#define ParamPM_pAOutput1OffDim                     (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput1OffDim)))
+// Wert für EIN
+#define ParamPM_pAOutput2On                         (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput2On)))
+// Wert für EIN
+#define ParamPM_pAOutput2OnValue                    (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput2OnValue)))
+// Wert für EIN
+#define ParamPM_pAOutput2OnScene                    (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput2OnScene)))
+// Wert für EIN
+#define ParamPM_pAOutput2OnDim                      (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput2OnDim)))
+// Wert für AUS
+#define ParamPM_pAOutput2Off                        (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput2Off)))
+// Wert für AUS
+#define ParamPM_pAOutput2OffValue                   (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput2OffValue)))
+// Wert für AUS
+#define ParamPM_pAOutput2OffScene                   (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput2OffScene)))
+// Wert für AUS
+#define ParamPM_pAOutput2OffDim                     (knx.paramByte(PM_ParamCalcIndex(PM_pAOutput2OffDim)))
+// Ausschalten über Helligkeit
+#define ParamPM_pBBrightnessAuto                    ((knx.paramByte(PM_ParamCalcIndex(PM_pBBrightnessAuto)) & PM_pBBrightnessAutoMask) >> PM_pBBrightnessAutoShift)
+// Kurze Anwesenheit erkennen?
+#define ParamPM_pBPresenceShort                     ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pBPresenceShort)) & PM_pBPresenceShortMask))
+// Diese Tagesphase sperrt Hardware-LEDs
+#define ParamPM_pBLockHardwareLEDs                  ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pBLockHardwareLEDs)) & PM_pBLockHardwareLEDsMask))
+// Ausgang 1 sendet
+#define ParamPM_pBOutput1Filter                     ((knx.paramByte(PM_ParamCalcIndex(PM_pBOutput1Filter)) & PM_pBOutput1FilterMask) >> PM_pBOutput1FilterShift)
+// Ausgang 2 sendet
+#define ParamPM_pBOutput2Filter                     (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput2Filter)) & PM_pBOutput2FilterMask)
+// Manueller Modus ist präsenzabhängig?
+#define ParamPM_pBManualWithPresence                ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pBManualWithPresence)) & PM_pBManualWithPresenceMask))
+// Erst nach der Kurzzeitpräsenz schalten(z.B. Durchgangsraum)
+#define ParamPM_pBPresenceShortNoSwitch             ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pBPresenceShortNoSwitch)) & PM_pBPresenceShortNoSwitchMask))
+// Kurzzeitpräsenz wird ermittelt anhand vom
+#define ParamPM_pBPresenceShortCalculation          ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pBPresenceShortCalculation)) & PM_pBPresenceShortCalculationMask))
+// Funktion der Tagesphase
+#define ParamPM_pBDayPhaseFunction                  ((knx.paramByte(PM_ParamCalcIndex(PM_pBDayPhaseFunction)) & PM_pBDayPhaseFunctionMask) >> PM_pBDayPhaseFunctionShift)
+// Nachlaufzeit
+#define ParamPM_pBPresenceDelayBase                 ((knx.paramByte(PM_ParamCalcIndex(PM_pBPresenceDelayBase)) & PM_pBPresenceDelayBaseMask) >> PM_pBPresenceDelayBaseShift)
+// Nachlaufzeit
+#define ParamPM_pBPresenceDelayTime                 (knx.paramWord(PM_ParamCalcIndex(PM_pBPresenceDelayTime)) & PM_pBPresenceDelayTimeMask)
+// Nachlaufzeit (in Millisekunden)
+#define ParamPM_pBPresenceDelayTimeMS               (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pBPresenceDelayTime))))
+// Dauer-der-kurzen-Anwesenheit
+#define ParamPM_pBPresenceShortDurationBase         ((knx.paramByte(PM_ParamCalcIndex(PM_pBPresenceShortDurationBase)) & PM_pBPresenceShortDurationBaseMask) >> PM_pBPresenceShortDurationBaseShift)
+// Dauer-der-kurzen-Anwesenheit
+#define ParamPM_pBPresenceShortDurationTime         (knx.paramWord(PM_ParamCalcIndex(PM_pBPresenceShortDurationTime)) & PM_pBPresenceShortDurationTimeMask)
+// Dauer-der-kurzen-Anwesenheit (in Millisekunden)
+#define ParamPM_pBPresenceShortDurationTimeMS       (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pBPresenceShortDurationTime))))
+// Nachlaufzeit-bei-kurzer-Anwesenheit
+#define ParamPM_pBPresenceShortDelayBase            ((knx.paramByte(PM_ParamCalcIndex(PM_pBPresenceShortDelayBase)) & PM_pBPresenceShortDelayBaseMask) >> PM_pBPresenceShortDelayBaseShift)
+// Nachlaufzeit-bei-kurzer-Anwesenheit
+#define ParamPM_pBPresenceShortDelayTime            (knx.paramWord(PM_ParamCalcIndex(PM_pBPresenceShortDelayTime)) & PM_pBPresenceShortDelayTimeMask)
+// Nachlaufzeit-bei-kurzer-Anwesenheit (in Millisekunden)
+#define ParamPM_pBPresenceShortDelayTimeMS          (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pBPresenceShortDelayTime))))
+// Ausschalten-verzoegern-um
+#define ParamPM_pBBrightnessOffDelayBase            ((knx.paramByte(PM_ParamCalcIndex(PM_pBBrightnessOffDelayBase)) & PM_pBBrightnessOffDelayBaseMask) >> PM_pBBrightnessOffDelayBaseShift)
+// Ausschalten-verzoegern-um
+#define ParamPM_pBBrightnessOffDelayTime            (knx.paramWord(PM_ParamCalcIndex(PM_pBBrightnessOffDelayTime)) & PM_pBBrightnessOffDelayTimeMask)
+// Ausschalten-verzoegern-um (in Millisekunden)
+#define ParamPM_pBBrightnessOffDelayTimeMS          (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pBBrightnessOffDelayTime))))
+// Manuellen-Modus-beenden-nach
+#define ParamPM_pBManualFallbackDelayBase           ((knx.paramByte(PM_ParamCalcIndex(PM_pBManualFallbackDelayBase)) & PM_pBManualFallbackDelayBaseMask) >> PM_pBManualFallbackDelayBaseShift)
+// Manuellen-Modus-beenden-nach
+#define ParamPM_pBManualFallbackDelayTime           (knx.paramWord(PM_ParamCalcIndex(PM_pBManualFallbackDelayTime)) & PM_pBManualFallbackDelayTimeMask)
+// Manuellen-Modus-beenden-nach (in Millisekunden)
+#define ParamPM_pBManualFallbackDelayTimeMS         (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pBManualFallbackDelayTime))))
+// Einschalten: Unterhalb welcher Helligkeit
+#define ParamPM_pBBrightnessOn                      (knx.paramWord(PM_ParamCalcIndex(PM_pBBrightnessOn)))
+// Ausschalten: Wie viel heller darf es werden
+#define ParamPM_pBBrightnessDelta                   (knx.paramWord(PM_ParamCalcIndex(PM_pBBrightnessDelta)))
+// Wert für EIN
+#define ParamPM_pBOutput1On                         (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput1On)))
+// Wert für EIN
+#define ParamPM_pBOutput1OnValue                    (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput1OnValue)))
+// Wert für EIN
+#define ParamPM_pBOutput1OnScene                    (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput1OnScene)))
+// Wert für EIN
+#define ParamPM_pBOutput1OnDim                      (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput1OnDim)))
+// Wert für AUS
+#define ParamPM_pBOutput1Off                        (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput1Off)))
+// Wert für AUS
+#define ParamPM_pBOutput1OffValue                   (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput1OffValue)))
+// Wert für AUS
+#define ParamPM_pBOutput1OffScene                   (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput1OffScene)))
+// Wert für AUS
+#define ParamPM_pBOutput1OffDim                     (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput1OffDim)))
+// Wert für EIN
+#define ParamPM_pBOutput2On                         (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput2On)))
+// Wert für EIN
+#define ParamPM_pBOutput2OnValue                    (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput2OnValue)))
+// Wert für EIN
+#define ParamPM_pBOutput2OnScene                    (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput2OnScene)))
+// Wert für EIN
+#define ParamPM_pBOutput2OnDim                      (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput2OnDim)))
+// Wert für AUS
+#define ParamPM_pBOutput2Off                        (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput2Off)))
+// Wert für AUS
+#define ParamPM_pBOutput2OffValue                   (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput2OffValue)))
+// Wert für AUS
+#define ParamPM_pBOutput2OffScene                   (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput2OffScene)))
+// Wert für AUS
+#define ParamPM_pBOutput2OffDim                     (knx.paramByte(PM_ParamCalcIndex(PM_pBOutput2OffDim)))
+// Ausschalten über Helligkeit
+#define ParamPM_pCBrightnessAuto                    ((knx.paramByte(PM_ParamCalcIndex(PM_pCBrightnessAuto)) & PM_pCBrightnessAutoMask) >> PM_pCBrightnessAutoShift)
+// Kurze Anwesenheit erkennen?
+#define ParamPM_pCPresenceShort                     ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pCPresenceShort)) & PM_pCPresenceShortMask))
+// Diese Tagesphase sperrt Hardware-LEDs
+#define ParamPM_pCLockHardwareLEDs                  ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pCLockHardwareLEDs)) & PM_pCLockHardwareLEDsMask))
+// Ausgang 1 sendet
+#define ParamPM_pCOutput1Filter                     ((knx.paramByte(PM_ParamCalcIndex(PM_pCOutput1Filter)) & PM_pCOutput1FilterMask) >> PM_pCOutput1FilterShift)
+// Ausgang 2 sendet
+#define ParamPM_pCOutput2Filter                     (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput2Filter)) & PM_pCOutput2FilterMask)
+// Manueller Modus ist präsenzabhängig?
+#define ParamPM_pCManualWithPresence                ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pCManualWithPresence)) & PM_pCManualWithPresenceMask))
+// Erst nach der Kurzzeitpräsenz schalten(z.B. Durchgangsraum)
+#define ParamPM_pCPresenceShortNoSwitch             ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pCPresenceShortNoSwitch)) & PM_pCPresenceShortNoSwitchMask))
+// Kurzzeitpräsenz wird ermittelt anhand vom
+#define ParamPM_pCPresenceShortCalculation          ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pCPresenceShortCalculation)) & PM_pCPresenceShortCalculationMask))
+// Funktion der Tagesphase
+#define ParamPM_pCDayPhaseFunction                  ((knx.paramByte(PM_ParamCalcIndex(PM_pCDayPhaseFunction)) & PM_pCDayPhaseFunctionMask) >> PM_pCDayPhaseFunctionShift)
+// Nachlaufzeit
+#define ParamPM_pCPresenceDelayBase                 ((knx.paramByte(PM_ParamCalcIndex(PM_pCPresenceDelayBase)) & PM_pCPresenceDelayBaseMask) >> PM_pCPresenceDelayBaseShift)
+// Nachlaufzeit
+#define ParamPM_pCPresenceDelayTime                 (knx.paramWord(PM_ParamCalcIndex(PM_pCPresenceDelayTime)) & PM_pCPresenceDelayTimeMask)
+// Nachlaufzeit (in Millisekunden)
+#define ParamPM_pCPresenceDelayTimeMS               (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pCPresenceDelayTime))))
+// Dauer-der-kurzen-Anwesenheit
+#define ParamPM_pCPresenceShortDurationBase         ((knx.paramByte(PM_ParamCalcIndex(PM_pCPresenceShortDurationBase)) & PM_pCPresenceShortDurationBaseMask) >> PM_pCPresenceShortDurationBaseShift)
+// Dauer-der-kurzen-Anwesenheit
+#define ParamPM_pCPresenceShortDurationTime         (knx.paramWord(PM_ParamCalcIndex(PM_pCPresenceShortDurationTime)) & PM_pCPresenceShortDurationTimeMask)
+// Dauer-der-kurzen-Anwesenheit (in Millisekunden)
+#define ParamPM_pCPresenceShortDurationTimeMS       (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pCPresenceShortDurationTime))))
+// Nachlaufzeit-bei-kurzer-Anwesenheit
+#define ParamPM_pCPresenceShortDelayBase            ((knx.paramByte(PM_ParamCalcIndex(PM_pCPresenceShortDelayBase)) & PM_pCPresenceShortDelayBaseMask) >> PM_pCPresenceShortDelayBaseShift)
+// Nachlaufzeit-bei-kurzer-Anwesenheit
+#define ParamPM_pCPresenceShortDelayTime            (knx.paramWord(PM_ParamCalcIndex(PM_pCPresenceShortDelayTime)) & PM_pCPresenceShortDelayTimeMask)
+// Nachlaufzeit-bei-kurzer-Anwesenheit (in Millisekunden)
+#define ParamPM_pCPresenceShortDelayTimeMS          (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pCPresenceShortDelayTime))))
+// Ausschalten-verzoegern-um
+#define ParamPM_pCBrightnessOffDelayBase            ((knx.paramByte(PM_ParamCalcIndex(PM_pCBrightnessOffDelayBase)) & PM_pCBrightnessOffDelayBaseMask) >> PM_pCBrightnessOffDelayBaseShift)
+// Ausschalten-verzoegern-um
+#define ParamPM_pCBrightnessOffDelayTime            (knx.paramWord(PM_ParamCalcIndex(PM_pCBrightnessOffDelayTime)) & PM_pCBrightnessOffDelayTimeMask)
+// Ausschalten-verzoegern-um (in Millisekunden)
+#define ParamPM_pCBrightnessOffDelayTimeMS          (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pCBrightnessOffDelayTime))))
+// Manuellen-Modus-beenden-nach
+#define ParamPM_pCManualFallbackDelayBase           ((knx.paramByte(PM_ParamCalcIndex(PM_pCManualFallbackDelayBase)) & PM_pCManualFallbackDelayBaseMask) >> PM_pCManualFallbackDelayBaseShift)
+// Manuellen-Modus-beenden-nach
+#define ParamPM_pCManualFallbackDelayTime           (knx.paramWord(PM_ParamCalcIndex(PM_pCManualFallbackDelayTime)) & PM_pCManualFallbackDelayTimeMask)
+// Manuellen-Modus-beenden-nach (in Millisekunden)
+#define ParamPM_pCManualFallbackDelayTimeMS         (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pCManualFallbackDelayTime))))
+// Einschalten: Unterhalb welcher Helligkeit
+#define ParamPM_pCBrightnessOn                      (knx.paramWord(PM_ParamCalcIndex(PM_pCBrightnessOn)))
+// Ausschalten: Wie viel heller darf es werden
+#define ParamPM_pCBrightnessDelta                   (knx.paramWord(PM_ParamCalcIndex(PM_pCBrightnessDelta)))
+// Wert für EIN
+#define ParamPM_pCOutput1On                         (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput1On)))
+// Wert für EIN
+#define ParamPM_pCOutput1OnValue                    (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput1OnValue)))
+// Wert für EIN
+#define ParamPM_pCOutput1OnScene                    (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput1OnScene)))
+// Wert für EIN
+#define ParamPM_pCOutput1OnDim                      (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput1OnDim)))
+// Wert für AUS
+#define ParamPM_pCOutput1Off                        (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput1Off)))
+// Wert für AUS
+#define ParamPM_pCOutput1OffValue                   (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput1OffValue)))
+// Wert für AUS
+#define ParamPM_pCOutput1OffScene                   (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput1OffScene)))
+// Wert für AUS
+#define ParamPM_pCOutput1OffDim                     (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput1OffDim)))
+// Wert für EIN
+#define ParamPM_pCOutput2On                         (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput2On)))
+// Wert für EIN
+#define ParamPM_pCOutput2OnValue                    (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput2OnValue)))
+// Wert für EIN
+#define ParamPM_pCOutput2OnScene                    (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput2OnScene)))
+// Wert für EIN
+#define ParamPM_pCOutput2OnDim                      (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput2OnDim)))
+// Wert für AUS
+#define ParamPM_pCOutput2Off                        (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput2Off)))
+// Wert für AUS
+#define ParamPM_pCOutput2OffValue                   (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput2OffValue)))
+// Wert für AUS
+#define ParamPM_pCOutput2OffScene                   (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput2OffScene)))
+// Wert für AUS
+#define ParamPM_pCOutput2OffDim                     (knx.paramByte(PM_ParamCalcIndex(PM_pCOutput2OffDim)))
+// Ausschalten über Helligkeit
+#define ParamPM_pDBrightnessAuto                    ((knx.paramByte(PM_ParamCalcIndex(PM_pDBrightnessAuto)) & PM_pDBrightnessAutoMask) >> PM_pDBrightnessAutoShift)
+// Kurze Anwesenheit erkennen?
+#define ParamPM_pDPresenceShort                     ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pDPresenceShort)) & PM_pDPresenceShortMask))
+// Diese Tagesphase sperrt Hardware-LEDs
+#define ParamPM_pDLockHardwareLEDs                  ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pDLockHardwareLEDs)) & PM_pDLockHardwareLEDsMask))
+// Ausgang 1 sendet
+#define ParamPM_pDOutput1Filter                     ((knx.paramByte(PM_ParamCalcIndex(PM_pDOutput1Filter)) & PM_pDOutput1FilterMask) >> PM_pDOutput1FilterShift)
+// Ausgang 2 sendet
+#define ParamPM_pDOutput2Filter                     (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput2Filter)) & PM_pDOutput2FilterMask)
+// Manueller Modus ist präsenzabhängig?
+#define ParamPM_pDManualWithPresence                ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pDManualWithPresence)) & PM_pDManualWithPresenceMask))
+// Erst nach der Kurzzeitpräsenz schalten(z.B. Durchgangsraum)
+#define ParamPM_pDPresenceShortNoSwitch             ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pDPresenceShortNoSwitch)) & PM_pDPresenceShortNoSwitchMask))
+// Kurzzeitpräsenz wird ermittelt anhand vom
+#define ParamPM_pDPresenceShortCalculation          ((bool)(knx.paramByte(PM_ParamCalcIndex(PM_pDPresenceShortCalculation)) & PM_pDPresenceShortCalculationMask))
+// Funktion der Tagesphase
+#define ParamPM_pDDayPhaseFunction                  ((knx.paramByte(PM_ParamCalcIndex(PM_pDDayPhaseFunction)) & PM_pDDayPhaseFunctionMask) >> PM_pDDayPhaseFunctionShift)
+// Nachlaufzeit
+#define ParamPM_pDPresenceDelayBase                 ((knx.paramByte(PM_ParamCalcIndex(PM_pDPresenceDelayBase)) & PM_pDPresenceDelayBaseMask) >> PM_pDPresenceDelayBaseShift)
+// Nachlaufzeit
+#define ParamPM_pDPresenceDelayTime                 (knx.paramWord(PM_ParamCalcIndex(PM_pDPresenceDelayTime)) & PM_pDPresenceDelayTimeMask)
+// Nachlaufzeit (in Millisekunden)
+#define ParamPM_pDPresenceDelayTimeMS               (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pDPresenceDelayTime))))
+// Dauer-der-kurzen-Anwesenheit
+#define ParamPM_pDPresenceShortDurationBase         ((knx.paramByte(PM_ParamCalcIndex(PM_pDPresenceShortDurationBase)) & PM_pDPresenceShortDurationBaseMask) >> PM_pDPresenceShortDurationBaseShift)
+// Dauer-der-kurzen-Anwesenheit
+#define ParamPM_pDPresenceShortDurationTime         (knx.paramWord(PM_ParamCalcIndex(PM_pDPresenceShortDurationTime)) & PM_pDPresenceShortDurationTimeMask)
+// Dauer-der-kurzen-Anwesenheit (in Millisekunden)
+#define ParamPM_pDPresenceShortDurationTimeMS       (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pDPresenceShortDurationTime))))
+// Nachlaufzeit-bei-kurzer-Anwesenheit
+#define ParamPM_pDPresenceShortDelayBase            ((knx.paramByte(PM_ParamCalcIndex(PM_pDPresenceShortDelayBase)) & PM_pDPresenceShortDelayBaseMask) >> PM_pDPresenceShortDelayBaseShift)
+// Nachlaufzeit-bei-kurzer-Anwesenheit
+#define ParamPM_pDPresenceShortDelayTime            (knx.paramWord(PM_ParamCalcIndex(PM_pDPresenceShortDelayTime)) & PM_pDPresenceShortDelayTimeMask)
+// Nachlaufzeit-bei-kurzer-Anwesenheit (in Millisekunden)
+#define ParamPM_pDPresenceShortDelayTimeMS          (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pDPresenceShortDelayTime))))
+// Ausschalten-verzoegern-um
+#define ParamPM_pDBrightnessOffDelayBase            ((knx.paramByte(PM_ParamCalcIndex(PM_pDBrightnessOffDelayBase)) & PM_pDBrightnessOffDelayBaseMask) >> PM_pDBrightnessOffDelayBaseShift)
+// Ausschalten-verzoegern-um
+#define ParamPM_pDBrightnessOffDelayTime            (knx.paramWord(PM_ParamCalcIndex(PM_pDBrightnessOffDelayTime)) & PM_pDBrightnessOffDelayTimeMask)
+// Ausschalten-verzoegern-um (in Millisekunden)
+#define ParamPM_pDBrightnessOffDelayTimeMS          (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pDBrightnessOffDelayTime))))
+// Manuellen-Modus-beenden-nach
+#define ParamPM_pDManualFallbackDelayBase           ((knx.paramByte(PM_ParamCalcIndex(PM_pDManualFallbackDelayBase)) & PM_pDManualFallbackDelayBaseMask) >> PM_pDManualFallbackDelayBaseShift)
+// Manuellen-Modus-beenden-nach
+#define ParamPM_pDManualFallbackDelayTime           (knx.paramWord(PM_ParamCalcIndex(PM_pDManualFallbackDelayTime)) & PM_pDManualFallbackDelayTimeMask)
+// Manuellen-Modus-beenden-nach (in Millisekunden)
+#define ParamPM_pDManualFallbackDelayTimeMS         (paramDelay(knx.paramWord(PM_ParamCalcIndex(PM_pDManualFallbackDelayTime))))
+// Einschalten: Unterhalb welcher Helligkeit
+#define ParamPM_pDBrightnessOn                      (knx.paramWord(PM_ParamCalcIndex(PM_pDBrightnessOn)))
+// Ausschalten: Wie viel heller darf es werden
+#define ParamPM_pDBrightnessDelta                   (knx.paramWord(PM_ParamCalcIndex(PM_pDBrightnessDelta)))
+// Wert für EIN
+#define ParamPM_pDOutput1On                         (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput1On)))
+// Wert für EIN
+#define ParamPM_pDOutput1OnValue                    (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput1OnValue)))
+// Wert für EIN
+#define ParamPM_pDOutput1OnScene                    (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput1OnScene)))
+// Wert für EIN
+#define ParamPM_pDOutput1OnDim                      (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput1OnDim)))
+// Wert für AUS
+#define ParamPM_pDOutput1Off                        (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput1Off)))
+// Wert für AUS
+#define ParamPM_pDOutput1OffValue                   (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput1OffValue)))
+// Wert für AUS
+#define ParamPM_pDOutput1OffScene                   (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput1OffScene)))
+// Wert für AUS
+#define ParamPM_pDOutput1OffDim                     (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput1OffDim)))
+// Wert für EIN
+#define ParamPM_pDOutput2On                         (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput2On)))
+// Wert für EIN
+#define ParamPM_pDOutput2OnValue                    (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput2OnValue)))
+// Wert für EIN
+#define ParamPM_pDOutput2OnScene                    (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput2OnScene)))
+// Wert für EIN
+#define ParamPM_pDOutput2OnDim                      (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput2OnDim)))
+// Wert für AUS
+#define ParamPM_pDOutput2Off                        (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput2Off)))
+// Wert für AUS
+#define ParamPM_pDOutput2OffValue                   (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput2OffValue)))
+// Wert für AUS
+#define ParamPM_pDOutput2OffScene                   (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput2OffScene)))
+// Wert für AUS
+#define ParamPM_pDOutput2OffDim                     (knx.paramByte(PM_ParamCalcIndex(PM_pDOutput2OffDim)))
+
+// deprecated
+#define PM_KoOffset 120
+
+// Communication objects per channel (multiple occurrence)
+#define PM_KoBlockOffset 120
+#define PM_KoBlockSize 20
+
+#define PM_KoCalcNumber(index) (index + PM_KoBlockOffset + _channelIndex * PM_KoBlockSize)
+#define PM_KoCalcIndex(number) ((number >= PM_KoCalcNumber(0) && number < PM_KoCalcNumber(PM_KoBlockSize)) ? (number - PM_KoBlockOffset) % PM_KoBlockSize : -1)
+#define PM_KoCalcChannel(number) ((number >= PM_KoBlockOffset && number < PM_KoBlockOffset + PM_ChannelCount * PM_KoBlockSize) ? (number - PM_KoBlockOffset) / PM_KoBlockSize : -1)
+
+#define PM_KoKOpLux 0
+#define PM_KoKOpPresence1 1
+#define PM_KoKOpPresence2 2
+#define PM_KoKOpSetAuto 3
+#define PM_KoKOpSetManual 4
+#define PM_KoKOpAktorState 5
+#define PM_KoKOpLock 6
+#define PM_KoKOpReset 7
+#define PM_KoKOpDayPhase 8
+#define PM_KoKOpLuxOn 9
+#define PM_KoKOpLuxOff 10
+#define PM_KoKOpPresenceDelay 11
+#define PM_KoKOpScene 12
+#define PM_KoKOpOutput 13
+#define PM_KoKOpOutput2 14
+#define PM_KoKOpIsManual 15
+#define PM_KoKOpChangeDimRel 16
+#define PM_KoKOpChangeDimAbs 17
+#define PM_KoKOpChangeSwitch 18
+#define PM_KoKOpResetExternalPM 19
+
+// Helligkeit extern
+#define KoPM_KOpLux                              (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpLux)))
+// Präsenz
+#define KoPM_KOpPresence1                        (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpPresence1)))
+// Bewegung
+#define KoPM_KOpPresence2                        (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpPresence2)))
+// Automatik übersteuern
+#define KoPM_KOpSetAuto                          (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpSetAuto)))
+// Manuell übersteuern
+#define KoPM_KOpSetManual                        (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpSetManual)))
+// Aktorstatus
+#define KoPM_KOpAktorState                       (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpAktorState)))
+// Sperre
+#define KoPM_KOpLock                             (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpLock)))
+// Reset
+#define KoPM_KOpReset                            (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpReset)))
+// Tagesphase
+#define KoPM_KOpDayPhase                         (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpDayPhase)))
+// Einschalt-Helligkeitsschwelle
+#define KoPM_KOpLuxOn                            (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpLuxOn)))
+// Ausschalt-Helligkeitsschwelle
+#define KoPM_KOpLuxOff                           (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpLuxOff)))
+// Nachlaufzeit
+#define KoPM_KOpPresenceDelay                    (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpPresenceDelay)))
+// PM über Szene steuern
+#define KoPM_KOpScene                            (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpScene)))
+// Schalten 1
+#define KoPM_KOpOutput                           (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpOutput)))
+// Schalten 2
+#define KoPM_KOpOutput2                          (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpOutput2)))
+// Status Manuell(1)/Automatik(0)
+#define KoPM_KOpIsManual                         (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpIsManual)))
+// Änderung relativ dimmen
+#define KoPM_KOpChangeDimRel                     (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpChangeDimRel)))
+// Änderung absolut dimmen
+#define KoPM_KOpChangeDimAbs                     (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpChangeDimAbs)))
+// Änderung schalten
+#define KoPM_KOpChangeSwitch                     (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpChangeSwitch)))
+// Externen PM zurücksetzen
+#define KoPM_KOpResetExternalPM                  (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpResetExternalPM)))
+
 #define BI_ChannelCount 4
 
 // Parameter per channel
-#define BI_ParamBlockOffset 46
+#define BI_ParamBlockOffset 748
 #define BI_ParamBlockSize 4
 #define BI_ParamCalcIndex(index) (index + BI_ParamBlockOffset + _channelIndex * BI_ParamBlockSize)
 
@@ -189,10 +1419,10 @@
 #define ParamBI_ChannelPeriodicTimeMS               (paramDelay(knx.paramWord(BI_ParamCalcIndex(BI_ChannelPeriodicTime))))
 
 // deprecated
-#define BI_KoOffset 41
+#define BI_KoOffset 250
 
 // Communication objects per channel (multiple occurrence)
-#define BI_KoBlockOffset 41
+#define BI_KoBlockOffset 250
 #define BI_KoBlockSize 1
 
 #define BI_KoCalcNumber(index) (index + BI_KoBlockOffset + _channelIndex * BI_KoBlockSize)
@@ -204,9 +1434,9 @@
 // 
 #define KoBI_ChannelOutput                       (knx.getGroupObject(BI_KoCalcNumber(BI_KoChannelOutput)))
 
-#define BTN_ReactionTimeMultiClick              62      // 8 Bits, Bit 7-0
-#define BTN_ReactionTimeLong                    63      // 8 Bits, Bit 7-0
-#define BTN_ReactionTimeExtraLong               64      // 8 Bits, Bit 7-0
+#define BTN_ReactionTimeMultiClick              764      // 8 Bits, Bit 7-0
+#define BTN_ReactionTimeLong                    765      // 8 Bits, Bit 7-0
+#define BTN_ReactionTimeExtraLong               766      // 8 Bits, Bit 7-0
 
 //   Mehrfach-Klick
 #define ParamBTN_ReactionTimeMultiClick              (knx.paramByte(BTN_ReactionTimeMultiClick))
@@ -215,10 +1445,10 @@
 //   Extra langer Tastedruck
 #define ParamBTN_ReactionTimeExtraLong               (knx.paramByte(BTN_ReactionTimeExtraLong))
 
-#define BTN_ChannelCount 16
+#define BTN_ChannelCount 10
 
 // Parameter per channel
-#define BTN_ParamBlockOffset 66
+#define BTN_ParamBlockOffset 768
 #define BTN_ParamBlockSize 51
 #define BTN_ParamCalcIndex(index) (index + BTN_ParamBlockOffset + _channelIndex * BTN_ParamBlockSize)
 
@@ -729,10 +1959,10 @@
 #define ParamBTN_ChannelStatusFallbackTimeMS         (paramDelay(knx.paramWord(BTN_ParamCalcIndex(BTN_ChannelStatusFallbackTime))))
 
 // deprecated
-#define BTN_KoOffset 380
+#define BTN_KoOffset 260
 
 // Communication objects per channel (multiple occurrence)
-#define BTN_KoBlockOffset 380
+#define BTN_KoBlockOffset 260
 #define BTN_KoBlockSize 12
 
 #define BTN_KoCalcNumber(index) (index + BTN_KoBlockOffset + _channelIndex * BTN_KoBlockSize)
@@ -777,128 +2007,606 @@
 // 
 #define KoBTN_ChannelOutput6                      (knx.getGroupObject(BTN_KoCalcNumber(BTN_KoChannelOutput6)))
 
-#define LOG_BuzzerInstalled                     882      // 1 Bit, Bit 7
+#define SENS_Error                               1278      // 1 Bit, Bit 7
+#define     SENS_ErrorMask 0x80
+#define     SENS_ErrorShift 7
+#define SENS_Dewpoint                            1278      // 1 Bit, Bit 6
+#define     SENS_DewpointMask 0x40
+#define     SENS_DewpointShift 6
+#define SENS_Comfort                             1278      // 1 Bit, Bit 5
+#define     SENS_ComfortMask 0x20
+#define     SENS_ComfortShift 5
+#define SENS_Airquality                          1278      // 1 Bit, Bit 4
+#define     SENS_AirqualityMask 0x10
+#define     SENS_AirqualityShift 4
+#define SENS_Accuracy                            1278      // 1 Bit, Bit 3
+#define     SENS_AccuracyMask 0x08
+#define     SENS_AccuracyShift 3
+#define SENS_DeleteData                          1278      // 1 Bit, Bit 2
+#define     SENS_DeleteDataMask 0x04
+#define     SENS_DeleteDataShift 2
+#define SENS_TempOffset                          1279      // int8_t
+#define SENS_TempCycleBase                       1280      // 2 Bits, Bit 7-6
+#define     SENS_TempCycleBaseMask 0xC0
+#define     SENS_TempCycleBaseShift 6
+#define SENS_TempCycleTime                       1280      // 14 Bits, Bit 13-0
+#define     SENS_TempCycleTimeMask 0x3FFF
+#define     SENS_TempCycleTimeShift 0
+#define SENS_TempDeltaAbs                        1282      // uint16_t
+#define SENS_TempDeltaPercent                    1284      // uint8_t
+#define SENS_TempSmooth                          1285      // uint8_t
+#define SENS_TempExtCount                        1286      // 2 Bits, Bit 1-0
+#define     SENS_TempExtCountMask 0x03
+#define     SENS_TempExtCountShift 0
+#define SENS_TempExtRead                         1286      // 1 Bit, Bit 2
+#define     SENS_TempExtReadMask 0x04
+#define     SENS_TempExtReadShift 2
+#define SENS_TempIntPercent                      1287      // uint8_t
+#define SENS_TempExt1Percent                     1288      // uint8_t
+#define SENS_TempExt2Percent                     1289      // uint8_t
+#define SENS_HumOffset                           1290      // int8_t
+#define SENS_HumCycleBase                        1291      // 2 Bits, Bit 7-6
+#define     SENS_HumCycleBaseMask 0xC0
+#define     SENS_HumCycleBaseShift 6
+#define SENS_HumCycleTime                        1291      // 14 Bits, Bit 13-0
+#define     SENS_HumCycleTimeMask 0x3FFF
+#define     SENS_HumCycleTimeShift 0
+#define SENS_HumDeltaAbs                         1293      // uint16_t
+#define SENS_HumDeltaPercent                     1295      // uint8_t
+#define SENS_HumSmooth                           1296      // uint8_t
+#define SENS_HumExtCount                         1297      // 2 Bits, Bit 1-0
+#define     SENS_HumExtCountMask 0x03
+#define     SENS_HumExtCountShift 0
+#define SENS_HumExtRead                          1297      // 1 Bit, Bit 2
+#define     SENS_HumExtReadMask 0x04
+#define     SENS_HumExtReadShift 2
+#define SENS_HumIntPercent                       1298      // uint8_t
+#define SENS_HumExt1Percent                      1299      // uint8_t
+#define SENS_HumExt2Percent                      1300      // uint8_t
+#define SENS_PreOffset                           1301      // int8_t
+#define SENS_PreCycleBase                        1302      // 2 Bits, Bit 7-6
+#define     SENS_PreCycleBaseMask 0xC0
+#define     SENS_PreCycleBaseShift 6
+#define SENS_PreCycleTime                        1302      // 14 Bits, Bit 13-0
+#define     SENS_PreCycleTimeMask 0x3FFF
+#define     SENS_PreCycleTimeShift 0
+#define SENS_PreDeltaAbs                         1304      // uint16_t
+#define SENS_PreDeltaPercent                     1306      // uint8_t
+#define SENS_PreSmooth                           1307      // uint8_t
+#define SENS_PreExtCount                         1308      // 2 Bits, Bit 1-0
+#define     SENS_PreExtCountMask 0x03
+#define     SENS_PreExtCountShift 0
+#define SENS_PreExtRead                          1308      // 1 Bit, Bit 2
+#define     SENS_PreExtReadMask 0x04
+#define     SENS_PreExtReadShift 2
+#define SENS_PreIntPercent                       1309      // uint8_t
+#define SENS_PreExt1Percent                      1310      // uint8_t
+#define SENS_PreExt2Percent                      1311      // uint8_t
+#define SENS_VocOffset                           1312      // int8_t
+#define SENS_VocCycleBase                        1313      // 2 Bits, Bit 7-6
+#define     SENS_VocCycleBaseMask 0xC0
+#define     SENS_VocCycleBaseShift 6
+#define SENS_VocCycleTime                        1313      // 14 Bits, Bit 13-0
+#define     SENS_VocCycleTimeMask 0x3FFF
+#define     SENS_VocCycleTimeShift 0
+#define SENS_VocDeltaAbs                         1315      // uint16_t
+#define SENS_VocDeltaPercent                     1317      // uint8_t
+#define SENS_VocSmooth                           1318      // uint8_t
+#define SENS_VocExtCount                         1319      // 2 Bits, Bit 1-0
+#define     SENS_VocExtCountMask 0x03
+#define     SENS_VocExtCountShift 0
+#define SENS_VocExtRead                          1319      // 1 Bit, Bit 2
+#define     SENS_VocExtReadMask 0x04
+#define     SENS_VocExtReadShift 2
+#define SENS_VocIntPercent                       1320      // uint8_t
+#define SENS_VocExt1Percent                      1321      // uint8_t
+#define SENS_VocExt2Percent                      1322      // uint8_t
+#define SENS_Co2Offset                           1323      // int8_t
+#define SENS_Co2CycleBase                        1324      // 2 Bits, Bit 7-6
+#define     SENS_Co2CycleBaseMask 0xC0
+#define     SENS_Co2CycleBaseShift 6
+#define SENS_Co2CycleTime                        1324      // 14 Bits, Bit 13-0
+#define     SENS_Co2CycleTimeMask 0x3FFF
+#define     SENS_Co2CycleTimeShift 0
+#define SENS_Co2DeltaAbs                         1326      // uint16_t
+#define SENS_Co2DeltaPercent                     1328      // uint8_t
+#define SENS_Co2Smooth                           1329      // uint8_t
+#define SENS_Co2ExtCount                         1330      // 2 Bits, Bit 1-0
+#define     SENS_Co2ExtCountMask 0x03
+#define     SENS_Co2ExtCountShift 0
+#define SENS_Co2ExtRead                          1330      // 1 Bit, Bit 2
+#define     SENS_Co2ExtReadMask 0x04
+#define     SENS_Co2ExtReadShift 2
+#define SENS_Co2IntPercent                       1331      // uint8_t
+#define SENS_Co2Ext1Percent                      1332      // uint8_t
+#define SENS_Co2Ext2Percent                      1333      // uint8_t
+#define SENS_DewOffset                           1335      // int8_t
+#define SENS_DewCycleBase                        1336      // 2 Bits, Bit 7-6
+#define     SENS_DewCycleBaseMask 0xC0
+#define     SENS_DewCycleBaseShift 6
+#define SENS_DewCycleTime                        1336      // 14 Bits, Bit 13-0
+#define     SENS_DewCycleTimeMask 0x3FFF
+#define     SENS_DewCycleTimeShift 0
+#define SENS_DewDeltaAbs                         1338      // uint16_t
+#define SENS_DewDeltaPercent                     1340      // uint8_t
+#define SENS_DewSmooth                           1341      // uint8_t
+#define SENS_LuxOffset                           1342      // int8_t
+#define SENS_LuxCycleBase                        1343      // 2 Bits, Bit 7-6
+#define     SENS_LuxCycleBaseMask 0xC0
+#define     SENS_LuxCycleBaseShift 6
+#define SENS_LuxCycleTime                        1343      // 14 Bits, Bit 13-0
+#define     SENS_LuxCycleTimeMask 0x3FFF
+#define     SENS_LuxCycleTimeShift 0
+#define SENS_LuxDeltaAbs                         1345      // uint16_t
+#define SENS_LuxDeltaPercent                     1347      // uint8_t
+#define SENS_LuxSmooth                           1348      // uint8_t
+#define SENS_LuxExtCount                         1349      // 2 Bits, Bit 1-0
+#define     SENS_LuxExtCountMask 0x03
+#define     SENS_LuxExtCountShift 0
+#define SENS_LuxExtRead                          1349      // 1 Bit, Bit 2
+#define     SENS_LuxExtReadMask 0x04
+#define     SENS_LuxExtReadShift 2
+#define SENS_LuxIntPercent                       1350      // uint8_t
+#define SENS_LuxExt1Percent                      1351      // uint8_t
+#define SENS_LuxExt2Percent                      1352      // uint8_t
+#define SENS_TofOffset                           1353      // int8_t
+#define SENS_TofCycleBase                        1354      // 2 Bits, Bit 7-6
+#define     SENS_TofCycleBaseMask 0xC0
+#define     SENS_TofCycleBaseShift 6
+#define SENS_TofCycleTime                        1354      // 14 Bits, Bit 13-0
+#define     SENS_TofCycleTimeMask 0x3FFF
+#define     SENS_TofCycleTimeShift 0
+#define SENS_TofDeltaAbs                         1356      // uint16_t
+#define SENS_TofDeltaPercent                     1358      // uint8_t
+#define SENS_TofSmooth                           1359      // uint8_t
+#define SENS_TofExtCount                         1360      // 2 Bits, Bit 1-0
+#define     SENS_TofExtCountMask 0x03
+#define     SENS_TofExtCountShift 0
+#define SENS_TofExtRead                          1360      // 1 Bit, Bit 2
+#define     SENS_TofExtReadMask 0x04
+#define     SENS_TofExtReadShift 2
+#define SENS_TofIntPercent                       1361      // uint8_t
+#define SENS_TofExt1Percent                      1362      // uint8_t
+#define SENS_TofExt2Percent                      1363      // uint8_t
+#define SENS_TempSensor                          1364      // 4 Bits, Bit 7-4
+#define     SENS_TempSensorMask 0xF0
+#define     SENS_TempSensorShift 4
+#define SENS_HumSensor                           1364      // 4 Bits, Bit 3-0
+#define     SENS_HumSensorMask 0x0F
+#define     SENS_HumSensorShift 0
+#define SENS_PreSensor                           1365      // 4 Bits, Bit 7-4
+#define     SENS_PreSensorMask 0xF0
+#define     SENS_PreSensorShift 4
+#define SENS_VocSensor                           1365      // 4 Bits, Bit 3-0
+#define     SENS_VocSensorMask 0x0F
+#define     SENS_VocSensorShift 0
+#define SENS_Co2Sensor                           1366      // 4 Bits, Bit 7-4
+#define     SENS_Co2SensorMask 0xF0
+#define     SENS_Co2SensorShift 4
+#define SENS_LuxSensor                           1366      // 4 Bits, Bit 3-0
+#define     SENS_LuxSensorMask 0x0F
+#define     SENS_LuxSensorShift 0
+#define SENS_TofSensor                           1367      // 4 Bits, Bit 7-4
+#define     SENS_TofSensorMask 0xF0
+#define     SENS_TofSensorShift 4
+
+// Fehlerobjekt für Standardmesswerte anzeigen
+#define ParamSENS_Error                               ((bool)(knx.paramByte(SENS_Error) & SENS_ErrorMask))
+// Taupunkt berechnen
+#define ParamSENS_Dewpoint                            ((bool)(knx.paramByte(SENS_Dewpoint) & SENS_DewpointMask))
+// Behaglichkeitszone ausgeben
+#define ParamSENS_Comfort                             ((bool)(knx.paramByte(SENS_Comfort) & SENS_ComfortMask))
+// Luftqualitätsampel ausgeben
+#define ParamSENS_Airquality                          ((bool)(knx.paramByte(SENS_Airquality) & SENS_AirqualityMask))
+// Kalibrierungsfortschritt ausgeben
+#define ParamSENS_Accuracy                            ((bool)(knx.paramByte(SENS_Accuracy) & SENS_AccuracyMask))
+// Kalibrierungsdaten löschen
+#define ParamSENS_DeleteData                          ((bool)(knx.paramByte(SENS_DeleteData) & SENS_DeleteDataMask))
+// Temperatur anpassen (interner Messwert)
+#define ParamSENS_TempOffset                          ((int8_t)knx.paramByte(SENS_TempOffset))
+// Zeitbasis
+#define ParamSENS_TempCycleBase                       ((knx.paramByte(SENS_TempCycleBase) & SENS_TempCycleBaseMask) >> SENS_TempCycleBaseShift)
+// Zeit
+#define ParamSENS_TempCycleTime                       (knx.paramWord(SENS_TempCycleTime) & SENS_TempCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_TempCycleTimeMS                     (paramDelay(knx.paramWord(SENS_TempCycleTime)))
+// Temperatur bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_TempDeltaAbs                        (knx.paramWord(SENS_TempDeltaAbs))
+// Temperatur bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_TempDeltaPercent                    (knx.paramByte(SENS_TempDeltaPercent))
+// Temperatur glätten: P =
+#define ParamSENS_TempSmooth                          (knx.paramByte(SENS_TempSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_TempExtCount                        (knx.paramByte(SENS_TempExtCount) & SENS_TempExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_TempExtRead                         ((bool)(knx.paramByte(SENS_TempExtRead) & SENS_TempExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_TempIntPercent                      (knx.paramByte(SENS_TempIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_TempExt1Percent                     (knx.paramByte(SENS_TempExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_TempExt2Percent                     (knx.paramByte(SENS_TempExt2Percent))
+// Luftfeuchte anpassen (interner Messwert)
+#define ParamSENS_HumOffset                           ((int8_t)knx.paramByte(SENS_HumOffset))
+// Zeitbasis
+#define ParamSENS_HumCycleBase                        ((knx.paramByte(SENS_HumCycleBase) & SENS_HumCycleBaseMask) >> SENS_HumCycleBaseShift)
+// Zeit
+#define ParamSENS_HumCycleTime                        (knx.paramWord(SENS_HumCycleTime) & SENS_HumCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_HumCycleTimeMS                      (paramDelay(knx.paramWord(SENS_HumCycleTime)))
+// Luftfeuchte bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_HumDeltaAbs                         (knx.paramWord(SENS_HumDeltaAbs))
+// Luftfeuchte bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_HumDeltaPercent                     (knx.paramByte(SENS_HumDeltaPercent))
+// Luftfeuchte glätten: P =
+#define ParamSENS_HumSmooth                           (knx.paramByte(SENS_HumSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_HumExtCount                         (knx.paramByte(SENS_HumExtCount) & SENS_HumExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_HumExtRead                          ((bool)(knx.paramByte(SENS_HumExtRead) & SENS_HumExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_HumIntPercent                       (knx.paramByte(SENS_HumIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_HumExt1Percent                      (knx.paramByte(SENS_HumExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_HumExt2Percent                      (knx.paramByte(SENS_HumExt2Percent))
+// Luftdruck anpassen (interner Messwert)
+#define ParamSENS_PreOffset                           ((int8_t)knx.paramByte(SENS_PreOffset))
+// Zeitbasis
+#define ParamSENS_PreCycleBase                        ((knx.paramByte(SENS_PreCycleBase) & SENS_PreCycleBaseMask) >> SENS_PreCycleBaseShift)
+// Zeit
+#define ParamSENS_PreCycleTime                        (knx.paramWord(SENS_PreCycleTime) & SENS_PreCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_PreCycleTimeMS                      (paramDelay(knx.paramWord(SENS_PreCycleTime)))
+// Luftdruck bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_PreDeltaAbs                         (knx.paramWord(SENS_PreDeltaAbs))
+// Luftdruck bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_PreDeltaPercent                     (knx.paramByte(SENS_PreDeltaPercent))
+// Luftdruck glätten: P =
+#define ParamSENS_PreSmooth                           (knx.paramByte(SENS_PreSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_PreExtCount                         (knx.paramByte(SENS_PreExtCount) & SENS_PreExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_PreExtRead                          ((bool)(knx.paramByte(SENS_PreExtRead) & SENS_PreExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_PreIntPercent                       (knx.paramByte(SENS_PreIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_PreExt1Percent                      (knx.paramByte(SENS_PreExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_PreExt2Percent                      (knx.paramByte(SENS_PreExt2Percent))
+// Voc anpassen (interner Messwert)
+#define ParamSENS_VocOffset                           ((int8_t)knx.paramByte(SENS_VocOffset))
+// Zeitbasis
+#define ParamSENS_VocCycleBase                        ((knx.paramByte(SENS_VocCycleBase) & SENS_VocCycleBaseMask) >> SENS_VocCycleBaseShift)
+// Zeit
+#define ParamSENS_VocCycleTime                        (knx.paramWord(SENS_VocCycleTime) & SENS_VocCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_VocCycleTimeMS                      (paramDelay(knx.paramWord(SENS_VocCycleTime)))
+// Voc bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_VocDeltaAbs                         (knx.paramWord(SENS_VocDeltaAbs))
+// Voc bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_VocDeltaPercent                     (knx.paramByte(SENS_VocDeltaPercent))
+// Voc glätten: P =
+#define ParamSENS_VocSmooth                           (knx.paramByte(SENS_VocSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_VocExtCount                         (knx.paramByte(SENS_VocExtCount) & SENS_VocExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_VocExtRead                          ((bool)(knx.paramByte(SENS_VocExtRead) & SENS_VocExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_VocIntPercent                       (knx.paramByte(SENS_VocIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_VocExt1Percent                      (knx.paramByte(SENS_VocExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_VocExt2Percent                      (knx.paramByte(SENS_VocExt2Percent))
+// CO2 anpassen (interner Messwert)
+#define ParamSENS_Co2Offset                           ((int8_t)knx.paramByte(SENS_Co2Offset))
+// Zeitbasis
+#define ParamSENS_Co2CycleBase                        ((knx.paramByte(SENS_Co2CycleBase) & SENS_Co2CycleBaseMask) >> SENS_Co2CycleBaseShift)
+// Zeit
+#define ParamSENS_Co2CycleTime                        (knx.paramWord(SENS_Co2CycleTime) & SENS_Co2CycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_Co2CycleTimeMS                      (paramDelay(knx.paramWord(SENS_Co2CycleTime)))
+// CO2 bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_Co2DeltaAbs                         (knx.paramWord(SENS_Co2DeltaAbs))
+// CO2 bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_Co2DeltaPercent                     (knx.paramByte(SENS_Co2DeltaPercent))
+// CO2 glätten: P =
+#define ParamSENS_Co2Smooth                           (knx.paramByte(SENS_Co2Smooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_Co2ExtCount                         (knx.paramByte(SENS_Co2ExtCount) & SENS_Co2ExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_Co2ExtRead                          ((bool)(knx.paramByte(SENS_Co2ExtRead) & SENS_Co2ExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_Co2IntPercent                       (knx.paramByte(SENS_Co2IntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_Co2Ext1Percent                      (knx.paramByte(SENS_Co2Ext1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_Co2Ext2Percent                      (knx.paramByte(SENS_Co2Ext2Percent))
+// Taupunkt anpassen
+#define ParamSENS_DewOffset                           ((int8_t)knx.paramByte(SENS_DewOffset))
+// Zeitbasis
+#define ParamSENS_DewCycleBase                        ((knx.paramByte(SENS_DewCycleBase) & SENS_DewCycleBaseMask) >> SENS_DewCycleBaseShift)
+// Zeit
+#define ParamSENS_DewCycleTime                        (knx.paramWord(SENS_DewCycleTime) & SENS_DewCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_DewCycleTimeMS                      (paramDelay(knx.paramWord(SENS_DewCycleTime)))
+// Taupunkt bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_DewDeltaAbs                         (knx.paramWord(SENS_DewDeltaAbs))
+// Taupunkt bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_DewDeltaPercent                     (knx.paramByte(SENS_DewDeltaPercent))
+// Taupunkt glätten: P =
+#define ParamSENS_DewSmooth                           (knx.paramByte(SENS_DewSmooth))
+// Helligkeit anpassen (interner Messwert)
+#define ParamSENS_LuxOffset                           ((int8_t)knx.paramByte(SENS_LuxOffset))
+// Zeitbasis
+#define ParamSENS_LuxCycleBase                        ((knx.paramByte(SENS_LuxCycleBase) & SENS_LuxCycleBaseMask) >> SENS_LuxCycleBaseShift)
+// Zeit
+#define ParamSENS_LuxCycleTime                        (knx.paramWord(SENS_LuxCycleTime) & SENS_LuxCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_LuxCycleTimeMS                      (paramDelay(knx.paramWord(SENS_LuxCycleTime)))
+// Helligkeit bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_LuxDeltaAbs                         (knx.paramWord(SENS_LuxDeltaAbs))
+// Helligkeit bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_LuxDeltaPercent                     (knx.paramByte(SENS_LuxDeltaPercent))
+// Helligkeit glätten: P =
+#define ParamSENS_LuxSmooth                           (knx.paramByte(SENS_LuxSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_LuxExtCount                         (knx.paramByte(SENS_LuxExtCount) & SENS_LuxExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_LuxExtRead                          ((bool)(knx.paramByte(SENS_LuxExtRead) & SENS_LuxExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_LuxIntPercent                       (knx.paramByte(SENS_LuxIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_LuxExt1Percent                      (knx.paramByte(SENS_LuxExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_LuxExt2Percent                      (knx.paramByte(SENS_LuxExt2Percent))
+// Entfernung anpassen (interner Messwert)
+#define ParamSENS_TofOffset                           ((int8_t)knx.paramByte(SENS_TofOffset))
+// Zeitbasis
+#define ParamSENS_TofCycleBase                        ((knx.paramByte(SENS_TofCycleBase) & SENS_TofCycleBaseMask) >> SENS_TofCycleBaseShift)
+// Zeit
+#define ParamSENS_TofCycleTime                        (knx.paramWord(SENS_TofCycleTime) & SENS_TofCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_TofCycleTimeMS                      (paramDelay(knx.paramWord(SENS_TofCycleTime)))
+// Entfernung bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_TofDeltaAbs                         (knx.paramWord(SENS_TofDeltaAbs))
+// Entfernung bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_TofDeltaPercent                     (knx.paramByte(SENS_TofDeltaPercent))
+// Entfernung glätten: P =
+#define ParamSENS_TofSmooth                           (knx.paramByte(SENS_TofSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_TofExtCount                         (knx.paramByte(SENS_TofExtCount) & SENS_TofExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_TofExtRead                          ((bool)(knx.paramByte(SENS_TofExtRead) & SENS_TofExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_TofIntPercent                       (knx.paramByte(SENS_TofIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_TofExt1Percent                      (knx.paramByte(SENS_TofExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_TofExt2Percent                      (knx.paramByte(SENS_TofExt2Percent))
+// Temperatursensor
+#define ParamSENS_TempSensor                          ((knx.paramByte(SENS_TempSensor) & SENS_TempSensorMask) >> SENS_TempSensorShift)
+// Luftfeuchtesensor
+#define ParamSENS_HumSensor                           (knx.paramByte(SENS_HumSensor) & SENS_HumSensorMask)
+// Luftdrucksensor
+#define ParamSENS_PreSensor                           ((knx.paramByte(SENS_PreSensor) & SENS_PreSensorMask) >> SENS_PreSensorShift)
+// Voc-Sensor
+#define ParamSENS_VocSensor                           (knx.paramByte(SENS_VocSensor) & SENS_VocSensorMask)
+// Co2-Sensor
+#define ParamSENS_Co2Sensor                           ((knx.paramByte(SENS_Co2Sensor) & SENS_Co2SensorMask) >> SENS_Co2SensorShift)
+// Helligkeitssensor
+#define ParamSENS_LuxSensor                           (knx.paramByte(SENS_LuxSensor) & SENS_LuxSensorMask)
+// Näherungssensor
+#define ParamSENS_TofSensor                           ((knx.paramByte(SENS_TofSensor) & SENS_TofSensorMask) >> SENS_TofSensorShift)
+
+#define SENS_KoRequestValues 400
+#define SENS_KoError 401
+#define SENS_KoTemp 410
+#define SENS_KoExt1Temp 420
+#define SENS_KoExt2Temp 421
+#define SENS_KoHum 411
+#define SENS_KoExt1Hum 422
+#define SENS_KoExt2Hum 423
+#define SENS_KoPre 412
+#define SENS_KoExt1Pre 424
+#define SENS_KoExt2Pre 425
+#define SENS_KoVoc 413
+#define SENS_KoExt1Voc 426
+#define SENS_KoExt2Voc 427
+#define SENS_KoCo2 414
+#define SENS_KoExt1Co2 428
+#define SENS_KoExt2Co2 429
+#define SENS_KoLux 437
+#define SENS_KoExt1Lux 430
+#define SENS_KoExt2Lux 431
+#define SENS_KoTof 438
+#define SENS_KoExt1Tof 432
+#define SENS_KoExt2Tof 433
+#define SENS_KoCo2b 415
+#define SENS_KoDewpoint 416
+#define SENS_KoComfort 417
+#define SENS_KoAirquality 418
+#define SENS_KoSensorAccuracy 419
+
+// Sensorwerte anfordern
+#define KoSENS_RequestValues                       (knx.getGroupObject(SENS_KoRequestValues))
+// Sensorfehler
+#define KoSENS_Error                               (knx.getGroupObject(SENS_KoError))
+// Temperatur
+#define KoSENS_Temp                                (knx.getGroupObject(SENS_KoTemp))
+// Extern: Temperatur 1
+#define KoSENS_Ext1Temp                            (knx.getGroupObject(SENS_KoExt1Temp))
+// Extern: Temperatur 2
+#define KoSENS_Ext2Temp                            (knx.getGroupObject(SENS_KoExt2Temp))
+// Luftfeuchte
+#define KoSENS_Hum                                 (knx.getGroupObject(SENS_KoHum))
+// Extern: Luftfeuchte 1
+#define KoSENS_Ext1Hum                             (knx.getGroupObject(SENS_KoExt1Hum))
+// Extern: Luftfeuchte 2
+#define KoSENS_Ext2Hum                             (knx.getGroupObject(SENS_KoExt2Hum))
+// Luftdruck
+#define KoSENS_Pre                                 (knx.getGroupObject(SENS_KoPre))
+// Extern: Luftdruck 1
+#define KoSENS_Ext1Pre                             (knx.getGroupObject(SENS_KoExt1Pre))
+// Extern: Luftdruck 2
+#define KoSENS_Ext2Pre                             (knx.getGroupObject(SENS_KoExt2Pre))
+// Voc
+#define KoSENS_Voc                                 (knx.getGroupObject(SENS_KoVoc))
+// Extern: Voc 1
+#define KoSENS_Ext1Voc                             (knx.getGroupObject(SENS_KoExt1Voc))
+// Extern: Voc 2
+#define KoSENS_Ext2Voc                             (knx.getGroupObject(SENS_KoExt2Voc))
+// CO2
+#define KoSENS_Co2                                 (knx.getGroupObject(SENS_KoCo2))
+// Extern: CO2 1
+#define KoSENS_Ext1Co2                             (knx.getGroupObject(SENS_KoExt1Co2))
+// Extern: CO2 2
+#define KoSENS_Ext2Co2                             (knx.getGroupObject(SENS_KoExt2Co2))
+// Helligkeit
+#define KoSENS_Lux                                 (knx.getGroupObject(SENS_KoLux))
+// Extern: Helligkeit 1
+#define KoSENS_Ext1Lux                             (knx.getGroupObject(SENS_KoExt1Lux))
+// Extern: Helligkeit 2
+#define KoSENS_Ext2Lux                             (knx.getGroupObject(SENS_KoExt2Lux))
+// Entfernung
+#define KoSENS_Tof                                 (knx.getGroupObject(SENS_KoTof))
+// Extern: Entfernung 1
+#define KoSENS_Ext1Tof                             (knx.getGroupObject(SENS_KoExt1Tof))
+// Extern: Entfernung 2
+#define KoSENS_Ext2Tof                             (knx.getGroupObject(SENS_KoExt2Tof))
+// CO2-VOC
+#define KoSENS_Co2b                                (knx.getGroupObject(SENS_KoCo2b))
+// Taupunkt
+#define KoSENS_Dewpoint                            (knx.getGroupObject(SENS_KoDewpoint))
+// Behaglichkeit
+#define KoSENS_Comfort                             (knx.getGroupObject(SENS_KoComfort))
+// Luftqualitätsampel (1-6)
+#define KoSENS_Airquality                          (knx.getGroupObject(SENS_KoAirquality))
+// Kalibrierungfortschritt
+#define KoSENS_SensorAccuracy                      (knx.getGroupObject(SENS_KoSensorAccuracy))
+
+#define LOG_BuzzerInstalled                     1368      // 1 Bit, Bit 7
 #define     LOG_BuzzerInstalledMask 0x80
 #define     LOG_BuzzerInstalledShift 7
-#define LOG_LedInstalled                        882      // 1 Bit, Bit 6
+#define LOG_LedInstalled                        1368      // 1 Bit, Bit 6
 #define     LOG_LedInstalledMask 0x40
 #define     LOG_LedInstalledShift 6
-#define LOG_VacationKo                          882      // 1 Bit, Bit 5
+#define LOG_VacationKo                          1368      // 1 Bit, Bit 5
 #define     LOG_VacationKoMask 0x20
 #define     LOG_VacationKoShift 5
-#define LOG_HolidayKo                           882      // 1 Bit, Bit 4
+#define LOG_HolidayKo                           1368      // 1 Bit, Bit 4
 #define     LOG_HolidayKoMask 0x10
 #define     LOG_HolidayKoShift 4
-#define LOG_VacationRead                        882      // 1 Bit, Bit 3
+#define LOG_VacationRead                        1368      // 1 Bit, Bit 3
 #define     LOG_VacationReadMask 0x08
 #define     LOG_VacationReadShift 3
-#define LOG_HolidaySend                         882      // 1 Bit, Bit 2
+#define LOG_HolidaySend                         1368      // 1 Bit, Bit 2
 #define     LOG_HolidaySendMask 0x04
 #define     LOG_HolidaySendShift 2
-#define LOG_EnableSave                          882      // 1 Bit, Bit 1
+#define LOG_EnableSave                          1368      // 1 Bit, Bit 1
 #define     LOG_EnableSaveMask 0x02
 #define     LOG_EnableSaveShift 1
-#define LOG_Neujahr                             883      // 1 Bit, Bit 7
+#define LOG_Neujahr                             1369      // 1 Bit, Bit 7
 #define     LOG_NeujahrMask 0x80
 #define     LOG_NeujahrShift 7
-#define LOG_DreiKoenige                         883      // 1 Bit, Bit 6
+#define LOG_DreiKoenige                         1369      // 1 Bit, Bit 6
 #define     LOG_DreiKoenigeMask 0x40
 #define     LOG_DreiKoenigeShift 6
-#define LOG_Weiberfastnacht                     883      // 1 Bit, Bit 5
+#define LOG_Weiberfastnacht                     1369      // 1 Bit, Bit 5
 #define     LOG_WeiberfastnachtMask 0x20
 #define     LOG_WeiberfastnachtShift 5
-#define LOG_Rosenmontag                         883      // 1 Bit, Bit 4
+#define LOG_Rosenmontag                         1369      // 1 Bit, Bit 4
 #define     LOG_RosenmontagMask 0x10
 #define     LOG_RosenmontagShift 4
-#define LOG_Fastnachtsdienstag                  883      // 1 Bit, Bit 3
+#define LOG_Fastnachtsdienstag                  1369      // 1 Bit, Bit 3
 #define     LOG_FastnachtsdienstagMask 0x08
 #define     LOG_FastnachtsdienstagShift 3
-#define LOG_Aschermittwoch                      883      // 1 Bit, Bit 2
+#define LOG_Aschermittwoch                      1369      // 1 Bit, Bit 2
 #define     LOG_AschermittwochMask 0x04
 #define     LOG_AschermittwochShift 2
-#define LOG_Frauentag                           883      // 1 Bit, Bit 1
+#define LOG_Frauentag                           1369      // 1 Bit, Bit 1
 #define     LOG_FrauentagMask 0x02
 #define     LOG_FrauentagShift 1
-#define LOG_Gruendonnerstag                     883      // 1 Bit, Bit 0
+#define LOG_Gruendonnerstag                     1369      // 1 Bit, Bit 0
 #define     LOG_GruendonnerstagMask 0x01
 #define     LOG_GruendonnerstagShift 0
-#define LOG_Karfreitag                          884      // 1 Bit, Bit 7
+#define LOG_Karfreitag                          1370      // 1 Bit, Bit 7
 #define     LOG_KarfreitagMask 0x80
 #define     LOG_KarfreitagShift 7
-#define LOG_Ostersonntag                        884      // 1 Bit, Bit 6
+#define LOG_Ostersonntag                        1370      // 1 Bit, Bit 6
 #define     LOG_OstersonntagMask 0x40
 #define     LOG_OstersonntagShift 6
-#define LOG_Ostermontag                         884      // 1 Bit, Bit 5
+#define LOG_Ostermontag                         1370      // 1 Bit, Bit 5
 #define     LOG_OstermontagMask 0x20
 #define     LOG_OstermontagShift 5
-#define LOG_TagDerArbeit                        884      // 1 Bit, Bit 4
+#define LOG_TagDerArbeit                        1370      // 1 Bit, Bit 4
 #define     LOG_TagDerArbeitMask 0x10
 #define     LOG_TagDerArbeitShift 4
-#define LOG_Himmelfahrt                         884      // 1 Bit, Bit 3
+#define LOG_Himmelfahrt                         1370      // 1 Bit, Bit 3
 #define     LOG_HimmelfahrtMask 0x08
 #define     LOG_HimmelfahrtShift 3
-#define LOG_Pfingstsonntag                      884      // 1 Bit, Bit 2
+#define LOG_Pfingstsonntag                      1370      // 1 Bit, Bit 2
 #define     LOG_PfingstsonntagMask 0x04
 #define     LOG_PfingstsonntagShift 2
-#define LOG_Pfingstmontag                       884      // 1 Bit, Bit 1
+#define LOG_Pfingstmontag                       1370      // 1 Bit, Bit 1
 #define     LOG_PfingstmontagMask 0x02
 #define     LOG_PfingstmontagShift 1
-#define LOG_Fronleichnam                        884      // 1 Bit, Bit 0
+#define LOG_Fronleichnam                        1370      // 1 Bit, Bit 0
 #define     LOG_FronleichnamMask 0x01
 #define     LOG_FronleichnamShift 0
-#define LOG_Friedensfest                        885      // 1 Bit, Bit 7
+#define LOG_Friedensfest                        1371      // 1 Bit, Bit 7
 #define     LOG_FriedensfestMask 0x80
 #define     LOG_FriedensfestShift 7
-#define LOG_MariaHimmelfahrt                    885      // 1 Bit, Bit 6
+#define LOG_MariaHimmelfahrt                    1371      // 1 Bit, Bit 6
 #define     LOG_MariaHimmelfahrtMask 0x40
 #define     LOG_MariaHimmelfahrtShift 6
-#define LOG_DeutscheEinheit                     885      // 1 Bit, Bit 5
+#define LOG_DeutscheEinheit                     1371      // 1 Bit, Bit 5
 #define     LOG_DeutscheEinheitMask 0x20
 #define     LOG_DeutscheEinheitShift 5
-#define LOG_Nationalfeiertag                    886      // 1 Bit, Bit 1
+#define LOG_Nationalfeiertag                    1372      // 1 Bit, Bit 1
 #define     LOG_NationalfeiertagMask 0x02
 #define     LOG_NationalfeiertagShift 1
-#define LOG_Reformationstag                     885      // 1 Bit, Bit 4
+#define LOG_Reformationstag                     1371      // 1 Bit, Bit 4
 #define     LOG_ReformationstagMask 0x10
 #define     LOG_ReformationstagShift 4
-#define LOG_Allerheiligen                       885      // 1 Bit, Bit 3
+#define LOG_Allerheiligen                       1371      // 1 Bit, Bit 3
 #define     LOG_AllerheiligenMask 0x08
 #define     LOG_AllerheiligenShift 3
-#define LOG_BussBettag                          885      // 1 Bit, Bit 2
+#define LOG_BussBettag                          1371      // 1 Bit, Bit 2
 #define     LOG_BussBettagMask 0x04
 #define     LOG_BussBettagShift 2
-#define LOG_MariaEmpfaengnis                    886      // 1 Bit, Bit 0
+#define LOG_MariaEmpfaengnis                    1372      // 1 Bit, Bit 0
 #define     LOG_MariaEmpfaengnisMask 0x01
 #define     LOG_MariaEmpfaengnisShift 0
-#define LOG_Advent1                             885      // 1 Bit, Bit 1
+#define LOG_Advent1                             1371      // 1 Bit, Bit 1
 #define     LOG_Advent1Mask 0x02
 #define     LOG_Advent1Shift 1
-#define LOG_Advent2                             885      // 1 Bit, Bit 0
+#define LOG_Advent2                             1371      // 1 Bit, Bit 0
 #define     LOG_Advent2Mask 0x01
 #define     LOG_Advent2Shift 0
-#define LOG_Advent3                             886      // 1 Bit, Bit 7
+#define LOG_Advent3                             1372      // 1 Bit, Bit 7
 #define     LOG_Advent3Mask 0x80
 #define     LOG_Advent3Shift 7
-#define LOG_Advent4                             886      // 1 Bit, Bit 6
+#define LOG_Advent4                             1372      // 1 Bit, Bit 6
 #define     LOG_Advent4Mask 0x40
 #define     LOG_Advent4Shift 6
-#define LOG_Heiligabend                         886      // 1 Bit, Bit 5
+#define LOG_Heiligabend                         1372      // 1 Bit, Bit 5
 #define     LOG_HeiligabendMask 0x20
 #define     LOG_HeiligabendShift 5
-#define LOG_Weihnachtstag1                      886      // 1 Bit, Bit 4
+#define LOG_Weihnachtstag1                      1372      // 1 Bit, Bit 4
 #define     LOG_Weihnachtstag1Mask 0x10
 #define     LOG_Weihnachtstag1Shift 4
-#define LOG_Weihnachtstag2                      886      // 1 Bit, Bit 3
+#define LOG_Weihnachtstag2                      1372      // 1 Bit, Bit 3
 #define     LOG_Weihnachtstag2Mask 0x08
 #define     LOG_Weihnachtstag2Shift 3
-#define LOG_Silvester                           886      // 1 Bit, Bit 2
+#define LOG_Silvester                           1372      // 1 Bit, Bit 2
 #define     LOG_SilvesterMask 0x04
 #define     LOG_SilvesterShift 2
-#define LOG_BuzzerSilent                        887      // uint16_t
-#define LOG_BuzzerNormal                        889      // uint16_t
-#define LOG_BuzzerLoud                          891      // uint16_t
-#define LOG_VisibleChannels                     893      // uint8_t
-#define LOG_LedMapping                          894      // 3 Bits, Bit 7-5
+#define LOG_BuzzerSilent                        1373      // uint16_t
+#define LOG_BuzzerNormal                        1375      // uint16_t
+#define LOG_BuzzerLoud                          1377      // uint16_t
+#define LOG_VisibleChannels                     1379      // uint8_t
+#define LOG_LedMapping                          1380      // 3 Bits, Bit 7-5
 #define     LOG_LedMappingMask 0xE0
 #define     LOG_LedMappingShift 5
 
@@ -1011,7 +2719,7 @@
 #define LOG_ChannelCount 30
 
 // Parameter per channel
-#define LOG_ParamBlockOffset 895
+#define LOG_ParamBlockOffset 1381
 #define LOG_ParamBlockSize 84
 #define LOG_ParamCalcIndex(index) (index + LOG_ParamBlockOffset + _channelIndex * LOG_ParamBlockSize)
 
@@ -2666,10 +4374,10 @@
 #define ParamLOG_fOOffKOSendNumber                   (knx.paramWord(LOG_ParamCalcIndex(LOG_fOOffKOSendNumber)) & LOG_fOOffKOSendNumberMask)
 
 // deprecated
-#define LOG_KoOffset 280
+#define LOG_KoOffset 450
 
 // Communication objects per channel (multiple occurrence)
-#define LOG_KoBlockOffset 280
+#define LOG_KoBlockOffset 450
 #define LOG_KoBlockSize 3
 
 #define LOG_KoCalcNumber(index) (index + LOG_KoBlockOffset + _channelIndex * LOG_KoBlockSize)
@@ -2695,7 +4403,7 @@
 #define BASE_KommentarModuleModuleParamSize 0
 #define BASE_KommentarModuleSubmodulesParamSize 0
 #define BASE_KommentarModuleParamSize 0
-#define BASE_KommentarModuleParamOffset 3415
+#define BASE_KommentarModuleParamOffset 3901
 #define BASE_KommentarModuleCalcIndex(index, m1) (index + BASE_KommentarModuleParamOffset + _channelIndex * BASE_KommentarModuleCount * BASE_KommentarModuleParamSize + m1 * BASE_KommentarModuleParamSize)
 
 
