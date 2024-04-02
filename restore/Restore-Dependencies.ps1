@@ -358,7 +358,7 @@ function CloneRepository($projectFilesGitInfo, $dependedProjects, $CloneDir, $Cl
           }
         }
         if($DoClone) {
-          Invoke-RestMethod -Uri $GitClone -Method Head -ErrorAction Stop;
+          #Invoke-RestMethod -Uri $GitClone -Method Head -ErrorAction Stop;
           if($Verbose) { $GitCmd= "git clone '$($GitClone)' '$($CloneTarget.ToString())'" 
           } else { $GitCmd= "git clone -q '$($GitClone)' '$($CloneTarget.ToString())'" }
           Invoke-Expression $($GitCmd)
