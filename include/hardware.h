@@ -2,7 +2,7 @@
 
 #ifdef BOARD_LEDUP14x24V
 
-#define HARDWARE_NAME "SEN-UP1-8xTH V00.10"
+#define HARDWARE_NAME "LED-UP1-4x24V"
 
 #define OKNXHW_UP1_CONTROLLER2040
 #include "OpenKNXHardware.h"
@@ -24,7 +24,8 @@
 #define BI_PIN_C 15
 #define BI_PIN_D 17
 
-#define SENS_PIN_SCL 27
-#define SENS_PIN_SDA 26
+#define I2C_WIRE Wire1
+#define I2C_SDA_PIN 26
+#define I2C_SCL_PIN 27
 
 #endif
