@@ -276,70 +276,85 @@
 #define KoLED_StateOnOff_                         (knx.getGroupObject(LED_KoCalcNumber(LED_KoStateOnOff_)))
 
 #define PM_VisibleChannels                     214      // uint8_t
-#define PM_SendRAW                             215      // 1 Bit, Bit 7
-#define     PM_SendRAWMask 0x80
-#define     PM_SendRAWShift 7
-#define PM_LEDPresence                         215      // 2 Bits, Bit 6-5
-#define     PM_LEDPresenceMask 0x60
-#define     PM_LEDPresenceShift 5
-#define PM_LEDMove                             215      // 2 Bits, Bit 4-3
-#define     PM_LEDMoveMask 0x18
-#define     PM_LEDMoveShift 3
-#define PM_HWPresence                          215      // 3 Bits, Bit 2-0
-#define     PM_HWPresenceMask 0x07
-#define     PM_HWPresenceShift 0
-#define PM_HWLux                               216      // 2 Bits, Bit 7-6
-#define     PM_HWLuxMask 0xC0
-#define     PM_HWLuxShift 6
-#define PM_ReadLed                             216      // 1 Bit, Bit 5
-#define     PM_ReadLedMask 0x20
-#define     PM_ReadLedShift 5
-#define PM_PirSensitivity                      216      // 4 Bits, Bit 4-1
-#define     PM_PirSensitivityMask 0x1E
-#define     PM_PirSensitivityShift 1
-#define PM_LuxOffsetPM                         217      // int8_t
-#define PM_LuxSendDeltaAbsRel                  218      // 1 Bit, Bit 7
-#define     PM_LuxSendDeltaAbsRelMask 0x80
-#define     PM_LuxSendDeltaAbsRelShift 7
-#define PM_LuxSendDelta                        218      // 15 Bits, Bit 14-0
-#define     PM_LuxSendDeltaMask 0x7FFF
-#define     PM_LuxSendDeltaShift 0
-#define PM_LuxSendCycleDelayBase               220      // 2 Bits, Bit 7-6
-#define     PM_LuxSendCycleDelayBaseMask 0xC0
-#define     PM_LuxSendCycleDelayBaseShift 6
-#define PM_LuxSendCycleDelayTime               220      // 14 Bits, Bit 13-0
-#define     PM_LuxSendCycleDelayTimeMask 0x3FFF
-#define     PM_LuxSendCycleDelayTimeShift 0
-#define PM_HfScenario                          222      // 3 Bits, Bit 7-5
-#define     PM_HfScenarioMask 0xE0
-#define     PM_HfScenarioShift 5
-#define PM_HfSensitivity                       222      // 4 Bits, Bit 4-1
-#define     PM_HfSensitivityMask 0x1E
-#define     PM_HfSensitivityShift 1
-#define PM_HfDelayTime                         223      // uint16_t
-#define PM_HfRangeGateMin                      225      // 4 Bits, Bit 7-4
+#define PM_LEDPresence                         215      // 2 Bits, Bit 7-6
+#define     PM_LEDPresenceMask 0xC0
+#define     PM_LEDPresenceShift 6
+#define PM_LEDMove                             215      // 2 Bits, Bit 5-4
+#define     PM_LEDMoveMask 0x30
+#define     PM_LEDMoveShift 4
+#define PM_PirSensitivity                      215      // 4 Bits, Bit 3-0
+#define     PM_PirSensitivityMask 0x0F
+#define     PM_PirSensitivityShift 0
+#define PM_HfPresence                          216      // 3 Bits, Bit 7-5
+#define     PM_HfPresenceMask 0xE0
+#define     PM_HfPresenceShift 5
+#define PM_HfScenario                          216      // 3 Bits, Bit 4-2
+#define     PM_HfScenarioMask 0x1C
+#define     PM_HfScenarioShift 2
+#define PM_HWLux                               216      // 2 Bits, Bit 1-0
+#define     PM_HWLuxMask 0x03
+#define     PM_HWLuxShift 0
+#define PM_HfSensitivity                       217      // 4 Bits, Bit 7-4
+#define     PM_HfSensitivityMask 0xF0
+#define     PM_HfSensitivityShift 4
+#define PM_SendRAW                             217      // 1 Bit, Bit 3
+#define     PM_SendRAWMask 0x08
+#define     PM_SendRAWShift 3
+#define PM_ReadLed                             217      // 1 Bit, Bit 2
+#define     PM_ReadLedMask 0x04
+#define     PM_ReadLedShift 2
+#define PM_PirPresence                         217      // 2 Bits, Bit 1-0
+#define     PM_PirPresenceMask 0x03
+#define     PM_PirPresenceShift 0
+#define PM_HfDelayTime                         218      // uint16_t
+#define PM_HfRangeGateMin                      220      // 4 Bits, Bit 7-4
 #define     PM_HfRangeGateMinMask 0xF0
 #define     PM_HfRangeGateMinShift 4
-#define PM_HfRangeGateMax                      225      // 4 Bits, Bit 3-0
+#define PM_HfRangeGateMax                      220      // 4 Bits, Bit 3-0
 #define     PM_HfRangeGateMaxMask 0x0F
 #define     PM_HfRangeGateMaxShift 0
+#define PM_LuxOffsetPM                         221      // int8_t
+#define PM_LuxSendDeltaAbsRel                  222      // 1 Bit, Bit 7
+#define     PM_LuxSendDeltaAbsRelMask 0x80
+#define     PM_LuxSendDeltaAbsRelShift 7
+#define PM_LuxSendDelta                        222      // 15 Bits, Bit 14-0
+#define     PM_LuxSendDeltaMask 0x7FFF
+#define     PM_LuxSendDeltaShift 0
+#define PM_LuxSendCycleDelayBase               224      // 2 Bits, Bit 7-6
+#define     PM_LuxSendCycleDelayBaseMask 0xC0
+#define     PM_LuxSendCycleDelayBaseShift 6
+#define PM_LuxSendCycleDelayTime               224      // 14 Bits, Bit 13-0
+#define     PM_LuxSendCycleDelayTimeMask 0x3FFF
+#define     PM_LuxSendCycleDelayTimeShift 0
 
 // Verfügbare Kanäle
 #define ParamPM_VisibleChannels                     (knx.paramByte(PM_VisibleChannels))
-// Präsenz-Rohdaten auf den Bus senden?
-#define ParamPM_SendRAW                             ((bool)(knx.paramByte(PM_SendRAW) & PM_SendRAWMask))
 // LED Präsenz
 #define ParamPM_LEDPresence                         ((knx.paramByte(PM_LEDPresence) & PM_LEDPresenceMask) >> PM_LEDPresenceShift)
 // LED Bewegung
 #define ParamPM_LEDMove                             ((knx.paramByte(PM_LEDMove) & PM_LEDMoveMask) >> PM_LEDMoveShift)
-// Präsenz-Sensor
-#define ParamPM_HWPresence                          (knx.paramByte(PM_HWPresence) & PM_HWPresenceMask)
+// PIR-Empfindlichkeit
+#define ParamPM_PirSensitivity                      (knx.paramByte(PM_PirSensitivity) & PM_PirSensitivityMask)
+// HF-Sensor
+#define ParamPM_HfPresence                          ((knx.paramByte(PM_HfPresence) & PM_HfPresenceMask) >> PM_HfPresenceShift)
+// Detektions-Szenario
+#define ParamPM_HfScenario                          ((knx.paramByte(PM_HfScenario) & PM_HfScenarioMask) >> PM_HfScenarioShift)
 // Helligkeits-Sensor
-#define ParamPM_HWLux                               ((knx.paramByte(PM_HWLux) & PM_HWLuxMask) >> PM_HWLuxShift)
+#define ParamPM_HWLux                               (knx.paramByte(PM_HWLux) & PM_HWLuxMask)
+// Hf-Empfindlichkeit
+#define ParamPM_HfSensitivity                       ((knx.paramByte(PM_HfSensitivity) & PM_HfSensitivityMask) >> PM_HfSensitivityShift)
+// Präsenz-Rohdaten auf den Bus senden?
+#define ParamPM_SendRAW                             ((bool)(knx.paramByte(PM_SendRAW) & PM_SendRAWMask))
 // Wert nach einem Neustart lesen?
 #define ParamPM_ReadLed                             ((bool)(knx.paramByte(PM_ReadLed) & PM_ReadLedMask))
-// PIR-Empfindlichkeit
-#define ParamPM_PirSensitivity                      ((knx.paramByte(PM_PirSensitivity) & PM_PirSensitivityMask) >> PM_PirSensitivityShift)
+// PIR-Sensor
+#define ParamPM_PirPresence                         (knx.paramByte(PM_PirPresence) & PM_PirPresenceMask)
+// Verzögerung
+#define ParamPM_HfDelayTime                         (knx.paramWord(PM_HfDelayTime))
+// Mindestentfernung
+#define ParamPM_HfRangeGateMin                      ((knx.paramByte(PM_HfRangeGateMin) & PM_HfRangeGateMinMask) >> PM_HfRangeGateMinShift)
+// Maximalentfernung
+#define ParamPM_HfRangeGateMax                      (knx.paramByte(PM_HfRangeGateMax) & PM_HfRangeGateMaxMask)
 // Korrektur Luxwert
 #define ParamPM_LuxOffsetPM                         ((int8_t)knx.paramByte(PM_LuxOffsetPM))
 // Helligkeitsänderung wird angegeben in
@@ -352,16 +367,6 @@
 #define ParamPM_LuxSendCycleDelayTime               (knx.paramWord(PM_LuxSendCycleDelayTime) & PM_LuxSendCycleDelayTimeMask)
 // Zeit (in Millisekunden)
 #define ParamPM_LuxSendCycleDelayTimeMS             (paramDelay(knx.paramWord(PM_LuxSendCycleDelayTime)))
-// Detektions-Szenario
-#define ParamPM_HfScenario                          ((knx.paramByte(PM_HfScenario) & PM_HfScenarioMask) >> PM_HfScenarioShift)
-// Sensor-Empfindlichkeit
-#define ParamPM_HfSensitivity                       ((knx.paramByte(PM_HfSensitivity) & PM_HfSensitivityMask) >> PM_HfSensitivityShift)
-// Verzögerung
-#define ParamPM_HfDelayTime                         (knx.paramWord(PM_HfDelayTime))
-// Mindestentfernung
-#define ParamPM_HfRangeGateMin                      ((knx.paramByte(PM_HfRangeGateMin) & PM_HfRangeGateMinMask) >> PM_HfRangeGateMinShift)
-// Maximalentfernung
-#define ParamPM_HfRangeGateMax                      (knx.paramByte(PM_HfRangeGateMax) & PM_HfRangeGateMaxMask)
 
 #define PM_KoLuxOut 100
 #define PM_KoPresenceOut 101
@@ -380,7 +385,7 @@
 #define KoPM_PresenceOut                         (knx.getGroupObject(PM_KoPresenceOut))
 // Ausgang Bewegung (0=keine, 1=radial, 2=nähern, 3=entf.)
 #define KoPM_MoveOut                             (knx.getGroupObject(PM_KoMoveOut))
-// Ausgang Bewegungsmoment
+// Ausgang Entfernung
 #define KoPM_MoveSpeedOut                        (knx.getGroupObject(PM_KoMoveSpeedOut))
 // Eingang LED Präsenz
 #define KoPM_LEDPresence                         (knx.getGroupObject(PM_KoLEDPresence))
@@ -1474,7 +1479,7 @@
 #define KoPM_KOpSetManual                        (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpSetManual)))
 // Aktorstatus
 #define KoPM_KOpAktorState                       (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpAktorState)))
-// Sperre
+// Zwangsführung
 #define KoPM_KOpLock                             (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpLock)))
 // Reset
 #define KoPM_KOpReset                            (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpReset)))
@@ -1488,9 +1493,9 @@
 #define KoPM_KOpPresenceDelay                    (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpPresenceDelay)))
 // PM über Szene steuern
 #define KoPM_KOpScene                            (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpScene)))
-// Schalten 1
+// Wert 1
 #define KoPM_KOpOutput                           (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpOutput)))
-// Schalten 2
+// Wert 2
 #define KoPM_KOpOutput2                          (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpOutput2)))
 // Status Manuell(1)/Automatik(0)
 #define KoPM_KOpIsManual                         (knx.getGroupObject(PM_KoCalcNumber(PM_KoKOpIsManual)))
@@ -2632,9 +2637,6 @@
 #define LOG_HolidaySend                         1536      // 1 Bit, Bit 2
 #define     LOG_HolidaySendMask 0x04
 #define     LOG_HolidaySendShift 2
-#define LOG_EnableSave                          1536      // 1 Bit, Bit 1
-#define     LOG_EnableSaveMask 0x02
-#define     LOG_EnableSaveShift 1
 #define LOG_Neujahr                             1537      // 1 Bit, Bit 7
 #define     LOG_NeujahrMask 0x80
 #define     LOG_NeujahrShift 7
@@ -2751,8 +2753,6 @@
 #define ParamLOG_VacationRead                        ((bool)(knx.paramByte(LOG_VacationRead) & LOG_VacationReadMask))
 // Nach Neuberechnung Feiertagsinfo senden?
 #define ParamLOG_HolidaySend                         ((bool)(knx.paramByte(LOG_HolidaySend) & LOG_HolidaySendMask))
-// Speichern von Werten in Hardware möglich?
-#define ParamLOG_EnableSave                          ((bool)(knx.paramByte(LOG_EnableSave) & LOG_EnableSaveMask))
 // 1. Neujahr
 #define ParamLOG_Neujahr                             ((bool)(knx.paramByte(LOG_Neujahr) & LOG_NeujahrMask))
 // 2. Heilige Drei Könige
@@ -2967,9 +2967,6 @@
 #define LOG_fE1Low6Valid                        20      // 1 Bit, Bit 1
 #define     LOG_fE1Low6ValidMask 0x02
 #define     LOG_fE1Low6ValidShift 1
-#define LOG_fE1Low7Valid                        20      // 1 Bit, Bit 0
-#define     LOG_fE1Low7ValidMask 0x01
-#define     LOG_fE1Low7ValidShift 0
 #define LOG_fE1Low0Dpt2                         13      // 8 Bits, Bit 7-0
 #define LOG_fE1Low1Dpt2                         14      // 8 Bits, Bit 7-0
 #define LOG_fE1Low2Dpt2                         15      // 8 Bits, Bit 7-0
@@ -3111,9 +3108,6 @@
 #define LOG_fE2Low6Valid                        35      // 1 Bit, Bit 1
 #define     LOG_fE2Low6ValidMask 0x02
 #define     LOG_fE2Low6ValidShift 1
-#define LOG_fE2Low7Valid                        35      // 1 Bit, Bit 0
-#define     LOG_fE2Low7ValidMask 0x01
-#define     LOG_fE2Low7ValidShift 0
 #define LOG_fE2Low0Dpt2                         28      // 8 Bits, Bit 7-0
 #define LOG_fE2Low1Dpt2                         29      // 8 Bits, Bit 7-0
 #define LOG_fE2Low2Dpt2                         30      // 8 Bits, Bit 7-0
@@ -3749,8 +3743,6 @@
 #define ParamLOG_fE1Low5Valid                        ((bool)(knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low5Valid)) & LOG_fE1Low5ValidMask))
 // Nächste Zeile auswerten?
 #define ParamLOG_fE1Low6Valid                        ((bool)(knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low6Valid)) & LOG_fE1Low6ValidMask))
-// Nächste Zeile auswerten?
-#define ParamLOG_fE1Low7Valid                        ((bool)(knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low7Valid)) & LOG_fE1Low7ValidMask))
 // Eingang ist EIN, wenn Wert gleich
 #define ParamLOG_fE1Low0Dpt2                         (knx.paramByte(LOG_ParamCalcIndex(LOG_fE1Low0Dpt2)))
 // ... oder wenn Wert gleich 
@@ -3951,8 +3943,6 @@
 #define ParamLOG_fE2Low5Valid                        ((bool)(knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low5Valid)) & LOG_fE2Low5ValidMask))
 // Nächste Zeile auswerten?
 #define ParamLOG_fE2Low6Valid                        ((bool)(knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low6Valid)) & LOG_fE2Low6ValidMask))
-// Nächste Zeile auswerten?
-#define ParamLOG_fE2Low7Valid                        ((bool)(knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low7Valid)) & LOG_fE2Low7ValidMask))
 // Eingang ist EIN, wenn Wert gleich
 #define ParamLOG_fE2Low0Dpt2                         (knx.paramByte(LOG_ParamCalcIndex(LOG_fE2Low0Dpt2)))
 // ... oder wenn Wert gleich 

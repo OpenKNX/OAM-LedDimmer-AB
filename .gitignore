@@ -5,3 +5,4 @@
 .vscode/ipch
 LED-UP1-4x24V.baggages
 LED-UP1-4x24V.appl.debug.xml
+*.knxprod

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
+  <op:config name="%LOG_NumChannelsDefault%" value="5" />
+  <op:config name="%PM_NumChannelsDefault%" value="3" />
   <op:ETS
     OpenKnxId="0xA1"
     ApplicationNumber="21"
