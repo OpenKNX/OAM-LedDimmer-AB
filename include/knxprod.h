@@ -2141,9 +2141,6 @@
 // 
 #define KoBTN_ChannelOutput6                      (knx.getGroupObject(BTN_KoCalcNumber(BTN_KoChannelOutput6)))
 
-#define SENS_Error                               1446      // 1 Bit, Bit 7
-#define     SENS_ErrorMask 0x80
-#define     SENS_ErrorShift 7
 #define SENS_Dewpoint                            1446      // 1 Bit, Bit 6
 #define     SENS_DewpointMask 0x40
 #define     SENS_DewpointShift 6
@@ -2324,8 +2321,6 @@
 #define     SENS_TofSensorMask 0xF0
 #define     SENS_TofSensorShift 4
 
-// Fehlerobjekt für Standardmesswerte anzeigen
-#define ParamSENS_Error                               ((bool)(knx.paramByte(SENS_Error) & SENS_ErrorMask))
 // Taupunkt berechnen
 #define ParamSENS_Dewpoint                            ((bool)(knx.paramByte(SENS_Dewpoint) & SENS_DewpointMask))
 // Behaglichkeitszone ausgeben
@@ -2534,7 +2529,6 @@
 #define ParamSENS_TofSensor                           ((knx.paramByte(SENS_TofSensor) & SENS_TofSensorMask) >> SENS_TofSensorShift)
 
 #define SENS_KoRequestValues 400
-#define SENS_KoError 401
 #define SENS_KoTemp 410
 #define SENS_KoExt1Temp 420
 #define SENS_KoExt2Temp 421
@@ -2564,8 +2558,6 @@
 
 // Sensorwerte anfordern
 #define KoSENS_RequestValues                       (knx.getGroupObject(SENS_KoRequestValues))
-// Sensorfehler
-#define KoSENS_Error                               (knx.getGroupObject(SENS_KoError))
 // Temperatur
 #define KoSENS_Temp                                (knx.getGroupObject(SENS_KoTemp))
 // Extern: Temperatur 1
