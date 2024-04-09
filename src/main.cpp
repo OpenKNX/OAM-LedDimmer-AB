@@ -13,18 +13,12 @@
 #include "SensorModule.h"
 
 
-
-
 void setup()
 {
     const uint8_t firmwareRevision = 0;
     openknx.init(firmwareRevision);
 
-    uint8_t gpioPins[BI_ChannelCount] = {BI_PIN_A, BI_PIN_B, BI_PIN_C, BI_PIN_D};
 
-    openknxBasicBinaryInputModule.setPins(gpioPins);
-
-    
     openknx.addModule(1, openknxLogic);
     openknx.addModule(2, openknxBasicBinaryInputModule);
     openknx.addModule(3, openknxVirtualButtonModule);

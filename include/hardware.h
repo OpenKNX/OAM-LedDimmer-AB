@@ -6,6 +6,7 @@
 
 #define OKNXHW_UP1_CONTROLLER2040
 #include "OpenKNXHardware.h"
+#undef SAVE_INTERRUPT_PIN
 
 #define INFO_LED_PIN 12
 #define INFO_LED_PIN_ACTIVE_ON HIGH
@@ -23,6 +24,7 @@
 #define BI_PIN_B 14
 #define BI_PIN_C 15
 #define BI_PIN_D 17
+#define OPENKNX_BASIC_BINARY_INPUT_GPIO_PINS BI_PIN_A, BI_PIN_B, BI_PIN_C, BI_PIN_D
 
 #define I2C_WIRE Wire1
 #define I2C_SDA_PIN 26
