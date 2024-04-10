@@ -409,8 +409,10 @@ function CloneRepository($projectFilesGitInfo, $dependedProjects, $CloneDir, $Cl
 
         # Let's do the git checkout
         if($Verbose) { 
+          Invoke-Expression "$GitCmd fetch --all"
           Invoke-Expression "$GitCmd $CheckOutMethod $($CheckOutTarget)"
         } else { 
+          Invoke-Expression "$GitCmd fetch --all -q" | Out-Null
           Invoke-Expression "$GitCmd $CheckOutMethod $($CheckOutTarget) -q" | Out-Null
         }
 
