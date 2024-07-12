@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAIN_Version "5be9b1f"
+#define MAIN_Version "cb41bab"
 #define KNX_Version "9d7c8ac"
 #define MODULE_Common_Version "1.1.1+345ad49"
 #define MODULE_Common_ETS 17
@@ -12,6 +12,8 @@
 #define MODULE_VirtualButton_ETS 3
 #define MODULE_FileTransferModule_Version "0.0.4+0ba2086"
 #define MODULE_FileTransferModule_ETS 0
+#define MODULE_LedModule_Version "0.1.0+979d67e"
+#define MODULE_LedModule_ETS 1
 #define MODULE_PresenceModule_Version "3.0.0+1570511"
 #define MODULE_PresenceModule_ETS 48
 #define MODULE_SensorDevices_Version "2.0.0+e7daf1e"
