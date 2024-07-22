@@ -10,7 +10,7 @@
                                              
 #define MAIN_OpenKnxId 0xA1
 #define MAIN_ApplicationNumber 21
-#define MAIN_ApplicationVersion 3
+#define MAIN_ApplicationVersion 4
 #define MAIN_ParameterSize 7091
 #define MAIN_MaxKoNumber 539
 #define MAIN_OrderNumber "LED-UP1-4x24V"
@@ -255,7 +255,7 @@
 
 // Communication objects per channel (multiple occurrence)
 #define LED_KoBlockOffset 20
-#define LED_KoBlockSize 4
+#define LED_KoBlockSize 6
 
 #define LED_KoCalcNumber(index) (index + LED_KoBlockOffset + _channelIndex * LED_KoBlockSize)
 #define LED_KoCalcIndex(number) ((number >= LED_KoCalcNumber(0) && number < LED_KoCalcNumber(LED_KoBlockSize)) ? (number - LED_KoBlockOffset) % LED_KoBlockSize : -1)
@@ -265,6 +265,8 @@
 #define LED_KoSceneStatus_ 1
 #define LED_KoOnOff_ 2
 #define LED_KoStateOnOff_ 3
+#define LED_KoBrightness_ 4
+#define LED_KoBrightnessStatus_ 5
 
 // Scene
 #define KoLED_Scene_                              (knx.getGroupObject(LED_KoCalcNumber(LED_KoScene_)))
@@ -274,6 +276,10 @@
 #define KoLED_OnOff_                              (knx.getGroupObject(LED_KoCalcNumber(LED_KoOnOff_)))
 // State On/Off
 #define KoLED_StateOnOff_                         (knx.getGroupObject(LED_KoCalcNumber(LED_KoStateOnOff_)))
+// Brightness
+#define KoLED_Brightness_                         (knx.getGroupObject(LED_KoCalcNumber(LED_KoBrightness_)))
+// Brightness Status
+#define KoLED_BrightnessStatus_                   (knx.getGroupObject(LED_KoCalcNumber(LED_KoBrightnessStatus_)))
 
 #define PM_VisibleChannels                     214      // uint8_t
 #define PM_LEDPresence                         215      // 2 Bits, Bit 7-6
