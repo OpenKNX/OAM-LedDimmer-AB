@@ -1,6 +1,6 @@
 #include "OpenKNX.h"
 #include "Logic.h"
-#include "BasicBinaryInputModule.h"
+#include "GpioBinaryInputModule.h"
 #include "VirtualButtonModule.h"
 #include "FileTransferModule.h"
 #include "LedModule.h"
@@ -14,7 +14,7 @@ void setup()
     openknx.init(firmwareRevision);
 
     openknx.addModule(1, openknxLogic);
-    openknx.addModule(2, openknxBasicBinaryInputModule);
+    openknx.addModule(2, openknxGpioBinaryInputModule);
     openknx.addModule(3, openknxVirtualButtonModule);
     openknx.addModule(9, openknxFileTransferModule);
     openknx.addModule(4, openknxPresenceModule);

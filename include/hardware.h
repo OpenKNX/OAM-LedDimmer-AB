@@ -34,7 +34,8 @@
     #define BI_PIN_B                                14
     #define BI_PIN_C                                15
     #define BI_PIN_D                                17
-    #define OPENKNX_BASIC_BINARY_INPUT_GPIO_PINS    BI_PIN_A, BI_PIN_B, BI_PIN_C, BI_PIN_D
+    #define OPENKNX_BI_GPIO_PINS                    BI_PIN_A, BI_PIN_B, BI_PIN_C, BI_PIN_D
+    #define OPENKNX_BI_GPIO_COUNT                   4
 
     /*#define I2C_WIRE Wire1
     #define I2C_SDA_PIN 26
@@ -90,5 +91,6 @@
     #define BI_PIN_B                                14
     #define BI_PIN_C                                15
     #define BI_PIN_D                                17
-    #define OPENKNX_BASIC_BINARY_INPUT_GPIO_PINS    BI_PIN_A, BI_PIN_B, BI_PIN_C, BI_PIN_D
+    #define OPENKNX_BI_GPIO_PINS                    BI_PIN_A, BI_PIN_B, BI_PIN_C, BI_PIN_D
+    #define OPENKNX_BI_GPIO_COUNT                   4
 #endif
