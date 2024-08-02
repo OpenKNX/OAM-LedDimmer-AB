@@ -94,4 +94,8 @@
     #define BI_PIN_D                                17
     #define OPENKNX_BI_GPIO_PINS                    BI_PIN_A, BI_PIN_B, BI_PIN_C, BI_PIN_D
     #define OPENKNX_BI_GPIO_COUNT                   4
+
+    #define OPENKNX_LED_TEMPSENS_WIRE               Wire
+    #define OPENKNX_LED_TEMPSENS_PIN_SCL            5
+    #define OPENKNX_LED_TEMPSENS_PIN_SDA            4
 #endif
