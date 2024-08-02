@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
+
   <op:config name="%LOG_NumChannelsDefault%" value="5" />
   <op:config name="%PM_NumChannelsDefault%" value="3" />
+
   <op:ETS
     OpenKnxId="0xA1"
     ApplicationNumber="21"
@@ -21,17 +23,39 @@
   <op:define prefix="BASE" ModuleType="10"
     share="../lib/OGM-Common/src/Common.share.xml">
     <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.2" />
+    <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.2" />
   </op:define>
 
 
-    <op:define prefix="LED" ModuleType="2"
-    share="../lib/OFM-LedModule/src/LedModule.share.xml"
-    template="../lib/OFM-LedModule/src/LedModule.templ.xml"
-    NumChannels="4" 
-    KoSingleOffset="0"
-    KoOffset="20">
+  <op:define prefix="LED" 
+    share="../lib/OFM-LedModule/src/LEDModule.share.xml"
+    template="../lib/OFM-LedModule/src/LEDModule.templ.xml"
+    ModuleType="20"
+    KoOffset="0"
+    NumChannels="4">
+    <op:verify File="../lib/OFM-LedModule/library.json" ModuleVersion="0.1" />
   </op:define>
 
+  <op:define prefix="LED_SC" 
+    share="../lib/OFM-LedModule/src/Single.share.xml"
+    template="../lib/OFM-LedModule/src/Single.templ.xml"
+    ModuleType="21"
+    KoOffset="12"
+    NumChannels="4" />
+  
+  <op:define prefix="LED_TW" 
+    share="../lib/OFM-LedModule/src/TW.share.xml"
+    template="../lib/OFM-LedModule/src/TW.templ.xml"
+    ModuleType="22"
+    KoOffset="76"
+    NumChannels="2"/>
+
+  <op:define prefix="LED_RGB" 
+    share="../lib/OFM-LedModule/src/RGB.share.xml"
+    template="../lib/OFM-LedModule/src/RGB.templ.xml"
+    ModuleType="23"
+    KoOffset="116"
+    NumChannels="1"/>
 
 <op:define prefix="PM" ModuleType="30"
   share="../lib/OFM-PresenceModule/src/PMmodul.share.xml"
@@ -58,8 +82,8 @@
   
   <op:define prefix="SENS" ModuleType="60"
     share="../lib/OFM-SensorModule/src/Sensormodul.share.xml"
-    KoSingleOffset="350">
-    <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="2.0" />
+    KoSingleOffset="312">
+    <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="3.1" />
   </op:define>
 
   <op:define prefix="LOG" ModuleType="10"
@@ -69,5 +93,15 @@
   <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.3" /> 
 </op:define>
 
-  <generate />
+<generate>
+  <Dynamic>
+  <op:include href="../lib/OGM-Common/src/Common.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BASE" />
+  <op:include href="../lib/OFM-LedModule/src/LEDModule.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="CMN" />
+  <op:include href="../lib/OFM-PresenceModule/src/PMmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="PM" />
+  <op:include href="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BI" />
+  <op:include href="../lib/OFM-VirtualButton/src/VirtualButton.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BTN" />
+  <op:include href="../lib/OFM-SensorModule/src/Sensormodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SENS" />
+  <op:include href="../lib/OFM-LogicModule/src/Logikmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="LOG" />
+  </Dynamic>
+  </generate>
 </KNX>
