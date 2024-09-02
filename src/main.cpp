@@ -10,7 +10,7 @@
 
 #include <Temperature_LM75_Derived.h>
 
-Generic_LM75_9_to_12Bit_OneShot mytemperature;
+Generic_LM75_9_to_12Bit_OneShot mytemperature(0x49);
 
 void setup()
 {
