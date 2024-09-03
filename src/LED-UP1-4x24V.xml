@@ -8,8 +8,8 @@
   <op:ETS
     OpenKnxId="0xA1"
     ApplicationNumber="21"
-    ApplicationVersion="0.6"
-    ReplacesVersions="0.5"
+    ApplicationVersion="0.7"
+    ReplacesVersions="0.6"
     ApplicationRevision="0"
     ProductName="LED-UP1-4x24V"
     BusCurrent="10"

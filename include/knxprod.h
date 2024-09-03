@@ -10,7 +10,7 @@
                                              
 #define MAIN_OpenKnxId 0xA1
 #define MAIN_ApplicationNumber 21
-#define MAIN_ApplicationVersion 47
+#define MAIN_ApplicationVersion 50
 #define MAIN_ParameterSize 7280
 #define MAIN_MaxKoNumber 512
 #define MAIN_OrderNumber "LED-UP1-4x24V"
@@ -562,9 +562,9 @@
 #define LED_TW_ParamBlockSize 47
 #define LED_TW_ParamCalcIndex(index) (index + LED_TW_ParamBlockOffset + _channelIndex * LED_TW_ParamBlockSize)
 
-#define LED_TW_LightDimmTime_                       1      // uint16_t
+#define LED_TW_LightDimmTime_                       0      // uint16_t
 #define LED_TW_ColorTempCW_                         2      // uint16_t
-#define LED_TW_ColorTempWW_                         3      // uint16_t
+#define LED_TW_ColorTempWW_                         4      // uint16_t
 #define LED_TW_SceneA_Type_                         7      // 3 Bits, Bit 7-5
 #define     LED_TW_SceneA_Type_Mask 0xE0
 #define     LED_TW_SceneA_Type_Shift 5
@@ -975,7 +975,7 @@
 #define LED_RGB_ParamBlockSize 47
 #define LED_RGB_ParamCalcIndex(index) (index + LED_RGB_ParamBlockOffset + _channelIndex * LED_RGB_ParamBlockSize)
 
-#define LED_RGB_LightDimmTime_                       1      // uint16_t
+#define LED_RGB_LightDimmTime_                       0      // uint16_t
 #define LED_RGB_SceneA_Type_                         7      // 3 Bits, Bit 7-5
 #define     LED_RGB_SceneA_Type_Mask 0xE0
 #define     LED_RGB_SceneA_Type_Shift 5
