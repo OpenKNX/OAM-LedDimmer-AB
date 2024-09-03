@@ -99,3 +99,45 @@
     #define OPENKNX_LED_TEMPSENS_PIN_SCL            5
     #define OPENKNX_LED_TEMPSENS_PIN_SDA            4
 #endif
+
+
+/**
+ * @brief  AB-SmartHouse Constant Voltage (CV) Test Configuration
+ */
+#ifdef BOARD_AB_SMARTHOUSE_CV
+
+    #define HARDWARE_NAME                           "AB-SmartHouse CV"
+    #define INFO_LED_PIN                            11
+    #define INFO_LED_PIN_ACTIVE_ON                  HIGH
+    #define PROG_LED_PIN                            10
+    #define PROG_LED_PIN_ACTIVE_ON                  HIGH
+    #define PROG_BUTTON_PIN                         9
+    #define PROG_BUTTON_PIN_INTERRUPT_ON            FALLING
+    #define SAVE_INTERRUPT_PIN                      0
+    #define KNX_SERIAL                              Serial1
+    #define KNX_UART_RX_PIN                         13
+    #define KNX_UART_TX_PIN                         12
+
+    #define LEDMODULE_DIMMMER_RP2040
+    #define LED_PWM_PIN_A                           1
+    #define LED_PWM_PIN_B                           2
+    #define LED_PWM_PIN_C                           3
+    #define LED_PWM_PIN_D                           4
+    #define LED_PWM_PIN_E                           5
+    #define LED_PWM_PIN_F                           6
+    #define LEDMODULE_PWM_PINS                      LED_PWM_PIN_A, LED_PWM_PIN_B, LED_PWM_PIN_C, LED_PWM_PIN_D, LED_PWM_PIN_E, LED_PWM_PIN_F
+    #define LEDMODULE_MAX_LIGHT_CHANNELS            6
+
+    #define BI_PIN_A                                23
+    #define BI_PIN_B                                24
+    #define BI_PIN_C                                25
+    #define BI_PIN_D                                26
+    #define BI_PIN_E                                27
+    #define BI_PIN_F                                28
+    #define OPENKNX_BI_GPIO_PINS                    BI_PIN_A, BI_PIN_B, BI_PIN_C, BI_PIN_D, BI_PIN_E, BI_PIN_F
+    #define OPENKNX_BI_GPIO_COUNT                   6
+
+    #define OPENKNX_LED_TEMPSENS_WIRE               Wire
+    #define OPENKNX_LED_TEMPSENS_PIN_SCL            21
+    #define OPENKNX_LED_TEMPSENS_PIN_SDA            20
+#endif

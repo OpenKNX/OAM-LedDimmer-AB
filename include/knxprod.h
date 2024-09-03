@@ -10,7 +10,7 @@
                                              
 #define MAIN_OpenKnxId 0xA1
 #define MAIN_ApplicationNumber 21
-#define MAIN_ApplicationVersion 50
+#define MAIN_ApplicationVersion 7
 #define MAIN_ParameterSize 7280
 #define MAIN_MaxKoNumber 512
 #define MAIN_OrderNumber "LED-UP1-4x24V"
