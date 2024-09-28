@@ -10,7 +10,7 @@
 
 #include <Temperature_LM75_Derived.h>
 
-Generic_LM75_9_to_12Bit_OneShot mytemperature(0x49);
+Generic_LM75_9_to_12Bit_OneShot mytemperature(OPENKNX_LED_TEMPSENS_ADDR);
 
 void setup()
 {
