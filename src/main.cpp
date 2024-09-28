@@ -18,7 +18,9 @@ void setup()
     openknx.init(firmwareRevision);
 
     openknx.addModule(1, openknxLogic);
+#if defined(OPENKNX_BI_GPIO_PINS) && OPENKNX_BI_GPIO_COUNT > 0 && BI_ChannelCount > 0
     openknx.addModule(2, openknxGpioBinaryInputModule);
+#endif
     openknx.addModule(3, openknxVirtualButtonModule);
     openknx.addModule(9, openknxFileTransferModule);
     openknx.addModule(4, openknxPresenceModule);

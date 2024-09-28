@@ -128,14 +128,52 @@
     #define LEDMODULE_PWM_PINS                      LED_PWM_PIN_A, LED_PWM_PIN_B, LED_PWM_PIN_C, LED_PWM_PIN_D, LED_PWM_PIN_E, LED_PWM_PIN_F
     #define LEDMODULE_MAX_LIGHT_CHANNELS            6
 
-    #define BI_PIN_A                                23
-    #define BI_PIN_B                                24
-    #define BI_PIN_C                                25
-    #define BI_PIN_D                                26
-    #define BI_PIN_E                                27
-    #define BI_PIN_F                                28
-    #define OPENKNX_BI_GPIO_PINS                    BI_PIN_A, BI_PIN_B, BI_PIN_C, BI_PIN_D, BI_PIN_E, BI_PIN_F
-    #define OPENKNX_BI_GPIO_COUNT                   6
+    #define OPENKNX_BI_GPIO_COUNT                   0
+
+    #define OPENKNX_LED_TEMPSENS_WIRE               Wire
+    #define OPENKNX_LED_TEMPSENS_PIN_SCL            21
+    #define OPENKNX_LED_TEMPSENS_PIN_SDA            20
+#endif
+
+
+/**
+ * @brief  AB-SmartHouse Constant Current (CC) Test Configuration
+ */
+#ifdef BOARD_AB_SMARTHOUSE_CC
+
+    #define HARDWARE_NAME                           "AB-SmartHouse CC"
+    #define INFO_LED_PIN                            11
+    #define INFO_LED_PIN_ACTIVE_ON                  HIGH
+    #define PROG_LED_PIN                            10
+    #define PROG_LED_PIN_ACTIVE_ON                  HIGH
+    #define PROG_BUTTON_PIN                         9
+    #define PROG_BUTTON_PIN_INTERRUPT_ON            FALLING
+    #define SAVE_INTERRUPT_PIN                      0
+    #define KNX_SERIAL                              Serial1
+    #define KNX_UART_RX_PIN                         13
+    #define KNX_UART_TX_PIN                         12
+
+    #define LEDMODULE_DIMMMER_RP2040
+    #define LED_PWM_PIN_A                           1
+    #define LED_PWM_PIN_B                           2
+    #define LED_PWM_PIN_C                           3
+    #define LED_PWM_PIN_D                           4
+    #define LED_PWM_PIN_E                           5
+    #define LED_PWM_PIN_F                           6
+    #define LED_PWM_PIN_G                           7
+    #define LED_PWM_PIN_H                           8
+    #define LED_PWM_PIN_I                           18
+    #define LED_PWM_PIN_J                           19
+    #define LED_PWM_PIN_K                           23
+    #define LED_PWM_PIN_L                           24
+    #define LED_PWM_PIN_M                           25
+    #define LED_PWM_PIN_N                           26
+    #define LED_PWM_PIN_O                           27
+    #define LED_PWM_PIN_P                           28
+    #define LEDMODULE_PWM_PINS                      LED_PWM_PIN_A, LED_PWM_PIN_B, LED_PWM_PIN_C, LED_PWM_PIN_D, LED_PWM_PIN_E, LED_PWM_PIN_F, LED_PWM_PIN_G, LED_PWM_PIN_H, LED_PWM_PIN_I, LED_PWM_PIN_J, LED_PWM_PIN_K, LED_PWM_PIN_L, LED_PWM_PIN_M, LED_PWM_PIN_N, LED_PWM_PIN_O, LED_PWM_PIN_P
+    #define LEDMODULE_MAX_LIGHT_CHANNELS            16
+
+    #define OPENKNX_BI_GPIO_COUNT                   0
 
     #define OPENKNX_LED_TEMPSENS_WIRE               Wire
     #define OPENKNX_LED_TEMPSENS_PIN_SCL            21
