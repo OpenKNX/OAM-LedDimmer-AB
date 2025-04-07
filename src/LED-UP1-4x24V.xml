@@ -31,7 +31,7 @@
     template="../lib/OFM-LedModule/src/LEDModule.templ.xml"
     ModuleType="20"
     KoOffset="0"
-    NumChannels="4">
+    NumChannels="6">
     <op:verify File="../lib/OFM-LedModule/library.json" ModuleVersion="0.2" />
   </op:define>
 
@@ -40,21 +40,21 @@
     template="../lib/OFM-LedModule/src/Single.templ.xml"
     ModuleType="21"
     KoOffset="12"
-    NumChannels="4" />
+    NumChannels="6" />
   
   <op:define prefix="LED_TW" 
     share="../lib/OFM-LedModule/src/TW.share.xml"
     template="../lib/OFM-LedModule/src/TW.templ.xml"
     ModuleType="22"
     KoOffset="76"
-    NumChannels="2"/>
+    NumChannels="3"/>
 
   <op:define prefix="LED_RGB" 
     share="../lib/OFM-LedModule/src/RGB.share.xml"
     template="../lib/OFM-LedModule/src/RGB.templ.xml"
     ModuleType="23"
     KoOffset="116"
-    NumChannels="1"/>
+    NumChannels="2"/>
 
 <op:define prefix="PM" ModuleType="30"
   share="../lib/OFM-PresenceModule/src/PMmodul.share.xml"
@@ -62,7 +62,7 @@
   NumChannels="5" 
   KoSingleOffset="130"
   KoOffset="160">
-  <op:verify File="../lib/OFM-PresenceModule/library.json" ModuleVersion="3.2" />
+  <op:verify File="../lib/OFM-PresenceModule/library.json" ModuleVersion="3.6" />
 </op:define>
 
   <op:define prefix="BI" ModuleType="40"
@@ -82,7 +82,7 @@
   <op:define prefix="SENS" ModuleType="60"
     share="../lib/OFM-SensorModule/src/Sensormodul.share.xml"
     KoSingleOffset="334">
-    <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="3.2" />
+    <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="4.3" />
   </op:define>
 
   <op:define prefix="LOG" ModuleType="10"
