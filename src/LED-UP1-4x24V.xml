@@ -8,14 +8,14 @@
   <op:ETS
     OpenKnxId="0xA1"
     ApplicationNumber="21"
-    ApplicationVersion="0.7"
-    ReplacesVersions="0.6"
+    ApplicationVersion="0.8"
+    ReplacesVersions="0.0"
     ApplicationRevision="0"
-    ProductName="LED-UP1-4x24V"
+    ProductName="LED-Dimmer CV UP 6 Kanäle"
     BusCurrent="10"
     BuildSuffix="-Beta"
     BuildSuffixText=" (Beta)"
-    OrderNumber="LED-UP1-4x24V" />
+    OrderNumber="AB-DIM-CV-UP-6CH" />
 
   <op:define prefix="LEDUP14X24V" ModuleType="99"
     share="LED-UP1-4x24V.share.xml" />
@@ -30,6 +30,7 @@
     share="../lib/OFM-LedModule/src/LEDModule.share.xml"
     template="../lib/OFM-LedModule/src/LEDModule.templ.xml"
     ModuleType="20"
+    KoSingleOffset="0"
     KoOffset="0"
     NumChannels="6">
     <op:verify File="../lib/OFM-LedModule/library.json" ModuleVersion="0.2" />
@@ -39,56 +40,59 @@
     share="../lib/OFM-LedModule/src/Single.share.xml"
     template="../lib/OFM-LedModule/src/Single.templ.xml"
     ModuleType="21"
-    KoOffset="12"
+    KoOffset="30"
     NumChannels="6" />
   
   <op:define prefix="LED_TW" 
     share="../lib/OFM-LedModule/src/TW.share.xml"
     template="../lib/OFM-LedModule/src/TW.templ.xml"
     ModuleType="22"
-    KoOffset="76"
+    KoOffset="200"
     NumChannels="3"/>
 
   <op:define prefix="LED_RGB" 
     share="../lib/OFM-LedModule/src/RGB.share.xml"
     template="../lib/OFM-LedModule/src/RGB.templ.xml"
     ModuleType="23"
-    KoOffset="116"
+    KoOffset="300"
     NumChannels="2"/>
 
-<op:define prefix="PM" ModuleType="30"
-  share="../lib/OFM-PresenceModule/src/PMmodul.share.xml"
-  template="../lib/OFM-PresenceModule/src/PMmodul.templ.xml"
-  NumChannels="5" 
-  KoSingleOffset="130"
-  KoOffset="160">
-  <op:verify File="../lib/OFM-PresenceModule/library.json" ModuleVersion="3.6" />
-</op:define>
+  <!-- <op:define prefix="PM" ModuleType="30"
+    share="../lib/OFM-PresenceModule/src/PMmodul.share.xml"
+    template="../lib/OFM-PresenceModule/src/PMmodul.templ.xml"
+    NumChannels="5" 
+    KoSingleOffset="130"
+    KoOffset="160">
+    <op:verify File="../lib/OFM-PresenceModule/library.json" ModuleVersion="3.6" />
+  </op:define> -->
 
   <op:define prefix="BI" ModuleType="40"
     share="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml"
     template="../lib/OFM-BinaryInput/src/BinaryInputChannel.templ.xml"
-    NumChannels="4" KoOffset="260" >
+    NumChannels="4"
+    KoOffset="390" >
     <op:verify File="../lib/OFM-BinaryInput/library.json" ModuleVersion="0.2" /> 
   </op:define>
 
   <op:define prefix="BTN" ModuleType="50"
     share="../lib/OFM-VirtualButton/src/VirtualButton.share.xml"
     template="../lib/OFM-VirtualButton/src/VirtualButton.templ.xml"
-    NumChannels="10" KoOffset="264">
+    NumChannels="10"
+    KoOffset="400">
     <op:verify File="../lib/OFM-VirtualButton/library.json" ModuleVersion="0.5" /> 
   </op:define>
   
-  <op:define prefix="SENS" ModuleType="60"
+  <!-- <op:define prefix="SENS" ModuleType="60"
     share="../lib/OFM-SensorModule/src/Sensormodul.share.xml"
-    KoSingleOffset="334">
+    KoSingleOffset="520">
     <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="4.3" />
-  </op:define>
+  </op:define> -->
 
   <op:define prefix="LOG" ModuleType="10"
   share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
   template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
-  NumChannels="30" KoOffset="423">
+  NumChannels="99"
+  KoOffset="550">
   <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.5" /> 
 </op:define>
 
@@ -96,10 +100,10 @@
   <Dynamic>
   <op:include href="../lib/OGM-Common/src/Common.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BASE" />
   <op:include href="../lib/OFM-LedModule/src/LEDModule.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="CMN" />
-  <op:include href="../lib/OFM-PresenceModule/src/PMmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="PM" />
+  <!-- <op:include href="../lib/OFM-PresenceModule/src/PMmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="PM" /> -->
   <op:include href="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BI" />
   <op:include href="../lib/OFM-VirtualButton/src/VirtualButton.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BTN" />
-  <op:include href="../lib/OFM-SensorModule/src/Sensormodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SENS" />
+  <!-- <op:include href="../lib/OFM-SensorModule/src/Sensormodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SENS" /> -->
   <op:include href="../lib/OFM-LogicModule/src/Logikmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="LOG" />
   </Dynamic>
   </generate>

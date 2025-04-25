@@ -139,11 +139,12 @@
 
 
 /**
- * @brief  AB-SmartHouse Constant Voltage (CV) UP x6
+ * @brief  AB-SmartHouse Constant Voltage (CV) UP 6CH
  */
-#ifdef BOARD_AB_SMARTHOUSE_CV_UP_x6
-
-    #define HARDWARE_NAME                           "AB-SmartHouse CV UP x6"
+#ifdef BOARD_AB_SMARTHOUSE_CV_UP_6CH
+    #define DEVICE_ID                               "AB-DIM-CV-UP-6CH"
+    #define HARDWARE_NAME                           "AB-DIM-CV-UP-6CH"
+    #define DEVICE_NAME                             "AB-SmartHouse LED-Dimmer CV UP 6CH"
     #define INFO_LED_PIN                            11
     #define INFO_LED_PIN_ACTIVE_ON                  HIGH
     #define PROG_LED_PIN                            10
@@ -177,11 +178,12 @@
 #endif
 
 /**
- * @brief  AB-SmartHouse Constant Voltage (CV) REG x12
+ * @brief  AB-SmartHouse Constant Voltage (CV) REG 12CH
  */
-#ifdef BOARD_AB_SMARTHOUSE_CV_REG_x12
-
-    #define HARDWARE_NAME                           "AB-SmartHouse CV REG x12"
+#ifdef BOARD_AB_SMARTHOUSE_CV_REG_12CH
+    #define DEVICE_ID                               "AB-DIM-CV-REG-12CH"
+    #define HARDWARE_NAME                           "AB-DIM-CV-REG-12CH"
+    #define DEVICE_NAME                             "AB-SmartHouse LED-Dimmer CV REG 12CH"
     #define INFO_LED_PIN                            11
     #define INFO_LED_PIN_ACTIVE_ON                  HIGH
     #define PROG_LED_PIN                            10
@@ -219,11 +221,12 @@
 #endif
 
 /**
- * @brief  AB-SmartHouse Constant Current (CC) UP x8
+ * @brief  AB-SmartHouse Constant Current (CC) UP 8CH
  */
-#ifdef BOARD_AB_SMARTHOUSE_CC_UP_x8
-
-    #define HARDWARE_NAME                           "AB-SmartHouse CC UP x8"
+#ifdef BOARD_AB_SMARTHOUSE_CC_UP_8CH
+    #define DEVICE_ID                               "AB-DIM-CC-UP-8CH"
+    #define HARDWARE_NAME                           "AB-DIM-CC-UP-8CH"
+    #define DEVICE_NAME                             "AB-SmartHouse LED-Dimmer CC UP 8CH"
     #define INFO_LED_PIN                            11
     #define INFO_LED_PIN_ACTIVE_ON                  HIGH
     #define PROG_LED_PIN                            10
@@ -260,11 +263,12 @@
 #endif
 
 /**
- * @brief  AB-SmartHouse Constant Current (CC) UP x16
+ * @brief  AB-SmartHouse Constant Current (CC) UP 16CH
  */
-#ifdef BOARD_AB_SMARTHOUSE_CC_UP_x16
-
-    #define HARDWARE_NAME                           "AB-SmartHouse CC UP x16"
+#ifdef BOARD_AB_SMARTHOUSE_CC_UP_16CH
+    #define DEVICE_ID                               "AB-DIM-CC-UP-16CH"
+    #define HARDWARE_NAME                           "AB-DIM-CC-UP-16CH"
+    #define DEVICE_NAME                             "AB-SmartHouse LED-Dimmer CC UP 16CH"
     #define INFO_LED_PIN                            11
     #define INFO_LED_PIN_ACTIVE_ON                  HIGH
     #define PROG_LED_PIN                            10
@@ -309,11 +313,12 @@
 #endif
 
 /**
- * @brief  AB-SmartHouse Constant Voltage (CC) REG x12
+ * @brief  AB-SmartHouse Constant Voltage (CC) REG 12CH
  */
-#ifdef BOARD_AB_SMARTHOUSE_CC_REG_x12
-
-    #define HARDWARE_NAME                           "AB-SmartHouse CC REG x12"
+#ifdef BOARD_AB_SMARTHOUSE_CC_REG_12CH
+    #define DEVICE_ID                               "AB-DIM-CC-REG-12CH"
+    #define HARDWARE_NAME                           "AB-DIM-CC-REG-12CH"
+    #define DEVICE_NAME                             "AB-SmartHouse LED-Dimmer CC REG 12CH"
     #define INFO_LED_PIN                            11
     #define INFO_LED_PIN_ACTIVE_ON                  HIGH
     #define PROG_LED_PIN                            10

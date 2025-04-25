@@ -1,8 +1,8 @@
 #pragma once
 
-#define MAIN_Version "dec0813"
+#define MAIN_Version "9c3e3f8"
 #define KNX_Version "2.1.2+764900e"
-#define MODULE_Common_Version "1.3.0+84c4db5"
+#define MODULE_Common_Version "1.3.0+786e10a"
 #define MODULE_Common_Version_Major 1
 #define MODULE_Common_Version_Minor 3
 #define MODULE_Common_Version_Revision 0
@@ -27,22 +27,7 @@
 #define MODULE_FileTransferModule_Version_Minor 1
 #define MODULE_FileTransferModule_Version_Revision 0
 #define MODULE_FileTransferModule_ETS 1
-#define MODULE_LedModule_Version "0.2.0-DEV+2b9b11f"
+#define MODULE_LedModule_Version "0.2.0-DEV+838eecf"
 #define MODULE_LedModule_Version_Major 0
 #define MODULE_LedModule_Version_Minor 2
 #define MODULE_LedModule_Version_Revision 0
-#define MODULE_PresenceModule_Version "3.6.3+12359bd"
-#define MODULE_PresenceModule_Version_Major 3
-#define MODULE_PresenceModule_Version_Minor 6
-#define MODULE_PresenceModule_Version_Revision 3
-#define MODULE_PresenceModule_ETS 54
-#define MODULE_SensorDevices_Version "4.0.0+9e48dd8"
-#define MODULE_SensorDevices_Version_Major 4
-#define MODULE_SensorDevices_Version_Minor 0
-#define MODULE_SensorDevices_Version_Revision 0
-#define MODULE_SensorDevices_ETS 64
-#define MODULE_SensorModule_Version "4.3.1+e40fa1c"
-#define MODULE_SensorModule_Version_Major 4
-#define MODULE_SensorModule_Version_Minor 3
-#define MODULE_SensorModule_Version_Revision 1
-#define MODULE_SensorModule_ETS 67
