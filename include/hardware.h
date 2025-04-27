@@ -213,13 +213,21 @@
     #define LEDMODULE_MAX_LIGHT_CHANNELS            12
     #define LEDMODULE_VOLTAGE_MEASURE_PIN           29
     #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        15.2429343
+    #define LEDMODULE_FRONT_PLATE_USED              true
 
     #define OPENKNX_BI_GPIO_COUNT                   0
 
-    #define OPENKNX_LED_TEMPSENS_WIRE               Wire1
+    #define OPENKNX_GPIO_NUM                        2
+    #define OPENKNX_GPIO_TYPES                      OPENKNX_GPIO_T_TCA9555, OPENKNX_GPIO_T_TCA9555
+    #define OPENKNX_GPIO_ADDRS                      0x20, 0x21
+    #define OPENKNX_GPIO_INTS                       0xFF, 0x08
+
+    #define OPENKNX_GPIO_WIRE                       Wire1
+    #define OPENKNX_GPIO_SDA                        6
+    #define OPENKNX_GPIO_SCL                        7
+    #define OPENKNX_GPIO_CLOCK                      400000
+
     #define OPENKNX_LED_TEMPSENS_ADDR               0x48
-    #define OPENKNX_LED_TEMPSENS_PIN_SCL            7
-    #define OPENKNX_LED_TEMPSENS_PIN_SDA            6
 #endif
 
 /**
@@ -352,11 +360,19 @@
     #define LEDMODULE_VOLTAGE_MEASURE_PIN           29
     #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        20.608751
     #define LEDMODULE_DIM_TYPE_PIN                  28
+    #define LEDMODULE_FRONT_PLATE_USED              true
 
     #define OPENKNX_BI_GPIO_COUNT                   0
 
-    #define OPENKNX_LED_TEMPSENS_WIRE               Wire1
+    #define OPENKNX_GPIO_NUM                        2
+    #define OPENKNX_GPIO_TYPES                      OPENKNX_GPIO_T_TCA9555, OPENKNX_GPIO_T_TCA9555
+    #define OPENKNX_GPIO_ADDRS                      0x20, 0x21
+    #define OPENKNX_GPIO_INTS                       0xFF, 0x08
+
+    #define OPENKNX_GPIO_WIRE                       Wire1
+    #define OPENKNX_GPIO_SDA                        6
+    #define OPENKNX_GPIO_SCL                        7
+    #define OPENKNX_GPIO_CLOCK                      400000
+
     #define OPENKNX_LED_TEMPSENS_ADDR               0x48
-    #define OPENKNX_LED_TEMPSENS_PIN_SCL            7
-    #define OPENKNX_LED_TEMPSENS_PIN_SDA            6
 #endif

@@ -8,7 +8,9 @@
 // #include "SensorDevices.h"
 // #include "SensorModule.h"
 
-Generic_LM75_9_to_12Bit_OneShot mytemperature(OPENKNX_LED_TEMPSENS_ADDR);
+#ifdef OPENKNX_GPIO_NUM
+#include "GPIOModule.h"
+#endif
 
 void setup()
 {
@@ -22,10 +24,14 @@ void setup()
     openknx.addModule(3, openknxVirtualButtonModule);
     openknx.addModule(9, openknxFileTransferModule);
     // openknx.addModule(4, openknxPresenceModule);
-    // openknx.addModule(6, openknxSensorDevicesModule);
     // openknx.addModule(5, openknxSensorModule);
+    // openknx.addModule(6, openknxSensorDevicesModule);
     
     openknx.addModule(7, openknxLedModule);
+
+#ifdef OPENKNX_GPIO_NUM
+    openknx.addModule(8, openknxGPIOModule);
+#endif
 
     openknx.setup();
 }
