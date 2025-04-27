@@ -166,6 +166,7 @@
     #define LEDMODULE_PWM_PINS                      LED_PWM_PIN_A, LED_PWM_PIN_B, LED_PWM_PIN_C, LED_PWM_PIN_D, LED_PWM_PIN_E, LED_PWM_PIN_F
     #define LEDMODULE_MAX_LIGHT_CHANNELS            6
     #define LEDMODULE_VOLTAGE_MEASURE_PIN           29
+    #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        15.2429343
     #define LEDMODULE_EXT0_PIN                      23
     #define LEDMODULE_EXT1_PIN                      24
 
@@ -211,6 +212,7 @@
     #define LEDMODULE_PWM_PINS                      LED_PWM_PIN_A, LED_PWM_PIN_B, LED_PWM_PIN_C, LED_PWM_PIN_D, LED_PWM_PIN_E, LED_PWM_PIN_F, LED_PWM_PIN_G, LED_PWM_PIN_H, LED_PWM_PIN_I, LED_PWM_PIN_J, LED_PWM_PIN_K, LED_PWM_PIN_L
     #define LEDMODULE_MAX_LIGHT_CHANNELS            12
     #define LEDMODULE_VOLTAGE_MEASURE_PIN           29
+    #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        15.2429343
 
     #define OPENKNX_BI_GPIO_COUNT                   0
 
@@ -250,6 +252,7 @@
     #define LEDMODULE_PWM_PINS                      LED_PWM_PIN_A, LED_PWM_PIN_B, LED_PWM_PIN_C, LED_PWM_PIN_D, LED_PWM_PIN_E, LED_PWM_PIN_F, LED_PWM_PIN_G, LED_PWM_PIN_H
     #define LEDMODULE_MAX_LIGHT_CHANNELS            8
     #define LEDMODULE_VOLTAGE_MEASURE_PIN           29
+    #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        20.608751
     #define LEDMODULE_EXT0_PIN                      18
     #define LEDMODULE_EXT1_PIN                      19
     #define LEDMODULE_DIM_TYPE_PIN                  24
@@ -300,6 +303,7 @@
     #define LEDMODULE_PWM_PINS                      LED_PWM_PIN_A, LED_PWM_PIN_B, LED_PWM_PIN_C, LED_PWM_PIN_D, LED_PWM_PIN_E, LED_PWM_PIN_F, LED_PWM_PIN_G, LED_PWM_PIN_H, LED_PWM_PIN_I, LED_PWM_PIN_J, LED_PWM_PIN_K, LED_PWM_PIN_L, LED_PWM_PIN_M, LED_PWM_PIN_N, LED_PWM_PIN_O, LED_PWM_PIN_P
     #define LEDMODULE_MAX_LIGHT_CHANNELS            16
     #define LEDMODULE_VOLTAGE_MEASURE_PIN           29
+    #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        20.608751
     #define LEDMODULE_EXT0_PIN                      18
     #define LEDMODULE_EXT1_PIN                      19
     #define LEDMODULE_DIM_TYPE_PIN                  24
@@ -346,6 +350,7 @@
     #define LEDMODULE_PWM_PINS                      LED_PWM_PIN_A, LED_PWM_PIN_B, LED_PWM_PIN_C, LED_PWM_PIN_D, LED_PWM_PIN_E, LED_PWM_PIN_F, LED_PWM_PIN_G, LED_PWM_PIN_H, LED_PWM_PIN_I, LED_PWM_PIN_J, LED_PWM_PIN_K, LED_PWM_PIN_L
     #define LEDMODULE_MAX_LIGHT_CHANNELS            12
     #define LEDMODULE_VOLTAGE_MEASURE_PIN           29
+    #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        20.608751
     #define LEDMODULE_DIM_TYPE_PIN                  28
 
     #define OPENKNX_BI_GPIO_COUNT                   0
