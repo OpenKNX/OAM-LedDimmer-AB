@@ -129,10 +129,12 @@
     #define OPENKNX_BI_GPIO_PINS                    BI_PIN_A, BI_PIN_B, BI_PIN_C, BI_PIN_D
     #define OPENKNX_BI_GPIO_COUNT                   4
 
-    #define OPENKNX_LED_TEMPSENS_WIRE               Wire
+    #define OPENKNX_GPIO_WIRE                       Wire
+    #define OPENKNX_GPIO_SDA                        4
+    #define OPENKNX_GPIO_SCL                        5
+    #define OPENKNX_GPIO_CLOCK                      400000
+
     #define OPENKNX_LED_TEMPSENS_ADDR               0x49
-    #define OPENKNX_LED_TEMPSENS_PIN_SCL            5
-    #define OPENKNX_LED_TEMPSENS_PIN_SDA            4
 #endif
 
 
@@ -172,10 +174,12 @@
 
     #define OPENKNX_BI_GPIO_COUNT                   0
 
-    #define OPENKNX_LED_TEMPSENS_WIRE               Wire
+    #define OPENKNX_GPIO_WIRE                       Wire
+    #define OPENKNX_GPIO_SDA                        20
+    #define OPENKNX_GPIO_SCL                        21
+    #define OPENKNX_GPIO_CLOCK                      400000
+
     #define OPENKNX_LED_TEMPSENS_ADDR               0x48
-    #define OPENKNX_LED_TEMPSENS_PIN_SCL            21
-    #define OPENKNX_LED_TEMPSENS_PIN_SDA            20
 #endif
 
 /**
@@ -213,7 +217,12 @@
     #define LEDMODULE_MAX_LIGHT_CHANNELS            12
     #define LEDMODULE_VOLTAGE_MEASURE_PIN           29
     #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        15.2429343
+
     #define LEDMODULE_FRONT_PLATE_USED              true
+    #define OPENKNX_LED_GPIO_OUTPUT_OFFSET          0x0100
+    #define OPENKNX_LED_GPIO_OUTPUT_ACTIVE_ON       HIGH
+    #define OPENKNX_LED_GPIO_INPUT_OFFSET           0x0200
+    #define OPENKNX_LED_GPIO_INPUT_ACTIVE_ON        LOW
 
     #define OPENKNX_BI_GPIO_COUNT                   0
 
@@ -267,10 +276,12 @@
 
     #define OPENKNX_BI_GPIO_COUNT                   0
 
-    #define OPENKNX_LED_TEMPSENS_WIRE               Wire
+    #define OPENKNX_GPIO_WIRE                       Wire
+    #define OPENKNX_GPIO_SDA                        20
+    #define OPENKNX_GPIO_SCL                        21
+    #define OPENKNX_GPIO_CLOCK                      400000
+
     #define OPENKNX_LED_TEMPSENS_ADDR               0x48
-    #define OPENKNX_LED_TEMPSENS_PIN_SCL            21
-    #define OPENKNX_LED_TEMPSENS_PIN_SDA            20
 #endif
 
 /**
@@ -318,10 +329,12 @@
 
     #define OPENKNX_BI_GPIO_COUNT                   0
 
-    #define OPENKNX_LED_TEMPSENS_WIRE               Wire
+    #define OPENKNX_GPIO_WIRE                       Wire
+    #define OPENKNX_GPIO_SDA                        20
+    #define OPENKNX_GPIO_SCL                        21
+    #define OPENKNX_GPIO_CLOCK                      400000
+
     #define OPENKNX_LED_TEMPSENS_ADDR               0x48
-    #define OPENKNX_LED_TEMPSENS_PIN_SCL            21
-    #define OPENKNX_LED_TEMPSENS_PIN_SDA            20
 #endif
 
 /**
