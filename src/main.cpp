@@ -3,6 +3,7 @@
 #include "GpioBinaryInputModule.h"
 #include "VirtualButtonModule.h"
 #include "FileTransferModule.h"
+#include "SwitchActuatorModule.h"
 #include "LedModule.h"
 // #include "Presence.h"
 // #include "SensorDevices.h"
@@ -18,10 +19,13 @@ void setup()
     openknx.init(firmwareRevision);
 
     openknx.addModule(1, openknxLogic);
-#if defined(OPENKNX_BI_GPIO_PINS) && OPENKNX_BI_GPIO_COUNT > 0 && BI_ChannelCount > 0
+#if OPENKNX_BI_GPIO_COUNT > 0 && BI_ChannelCount > 0
     openknx.addModule(2, openknxGpioBinaryInputModule);
 #endif
     openknx.addModule(3, openknxVirtualButtonModule);
+#if OPENKNX_SWA_CHANNEL_COUNT > 0 && SWA_ChannelCount > 0
+    openknx.addModule(4, openknxSwitchActuatorModule);
+#endif
     openknx.addModule(9, openknxFileTransferModule);
     // openknx.addModule(4, openknxPresenceModule);
     // openknx.addModule(5, openknxSensorModule);

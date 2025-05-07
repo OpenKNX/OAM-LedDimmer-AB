@@ -8,10 +8,10 @@
   <op:ETS
     OpenKnxId="0xA1"
     ApplicationNumber="21"
-    ApplicationVersion="0.8"
-    ReplacesVersions="0.0"
+    ApplicationVersion="0.14"
+    ReplacesVersions="0.13 0.12"
     ApplicationRevision="0"
-    ProductName="LED-Dimmer CV UP 6 Kanäle"
+    ProductName="LED-Dimmer"
     BusCurrent="10"
     BuildSuffix="-Beta"
     BuildSuffixText=" (Beta)"
@@ -30,9 +30,8 @@
     share="../lib/OFM-LedModule/src/LEDModule.share.xml"
     template="../lib/OFM-LedModule/src/LEDModule.templ.xml"
     ModuleType="20"
-    KoSingleOffset="0"
-    KoOffset="0"
-    NumChannels="6">
+    KoSingleOffset="20"
+    NumChannels="16">
     <op:verify File="../lib/OFM-LedModule/library.json" ModuleVersion="0.2" />
   </op:define>
 
@@ -41,30 +40,30 @@
     template="../lib/OFM-LedModule/src/Single.templ.xml"
     ModuleType="21"
     KoOffset="30"
-    NumChannels="6" />
+    NumChannels="16" /> <!-- 9 KOs/Ch = 144 -->
   
   <op:define prefix="LED_TW" 
     share="../lib/OFM-LedModule/src/TW.share.xml"
     template="../lib/OFM-LedModule/src/TW.templ.xml"
     ModuleType="22"
     KoOffset="200"
-    NumChannels="3"/>
+    NumChannels="8"/> <!-- 11 KOs/Ch = 88 -->
 
   <op:define prefix="LED_RGB" 
     share="../lib/OFM-LedModule/src/RGB.share.xml"
     template="../lib/OFM-LedModule/src/RGB.templ.xml"
     ModuleType="23"
     KoOffset="300"
-    NumChannels="2"/>
+    NumChannels="5"/> <!-- 15 KOs/Ch = 75 -->
 
-  <!-- <op:define prefix="PM" ModuleType="30"
-    share="../lib/OFM-PresenceModule/src/PMmodul.share.xml"
-    template="../lib/OFM-PresenceModule/src/PMmodul.templ.xml"
-    NumChannels="5" 
-    KoSingleOffset="130"
-    KoOffset="160">
-    <op:verify File="../lib/OFM-PresenceModule/library.json" ModuleVersion="3.6" />
-  </op:define> -->
+  <op:define prefix="SWA" ModuleType="30"
+    share="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.share.xml"
+    template="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.templ.xml"
+    NumChannels="1"
+    KoSingleOffset="380"
+    KoOffset="381">
+    <op:verify File="../lib/OFM-SwitchActuator/library.json" ModuleVersion="0.1" />
+  </op:define> <!-- 6 KOs/Ch = 6 -->
 
   <op:define prefix="BI" ModuleType="40"
     share="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml"
@@ -72,7 +71,7 @@
     NumChannels="4"
     KoOffset="390" >
     <op:verify File="../lib/OFM-BinaryInput/library.json" ModuleVersion="0.2" /> 
-  </op:define>
+  </op:define> <!-- 1 KO/Ch = 4 -->
 
   <op:define prefix="BTN" ModuleType="50"
     share="../lib/OFM-VirtualButton/src/VirtualButton.share.xml"
@@ -80,7 +79,7 @@
     NumChannels="10"
     KoOffset="400">
     <op:verify File="../lib/OFM-VirtualButton/library.json" ModuleVersion="0.5" /> 
-  </op:define>
+  </op:define> <!-- 12 KOs/Ch = 120 -->
   
   <!-- <op:define prefix="SENS" ModuleType="60"
     share="../lib/OFM-SensorModule/src/Sensormodul.share.xml"
@@ -94,7 +93,7 @@
   NumChannels="99"
   KoOffset="550">
   <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.5" /> 
-</op:define>
+</op:define> <!-- 3 KOs/Ch = 297 -->
 
 <generate>
   <Dynamic>

@@ -7,19 +7,22 @@
 			"path": "../knx"
 		},
 		{
+			"path": "../OFM-LedModule"
+		},
+		{
 			"path": "../OFM-BinaryInput"
+		},
+		{
+			"path": "../OFM-GPIOModule"
+		},
+		{
+			"path": "../OFM-SwitchActuator"
 		},
 		{
 			"path": "../OFM-ConfigTransfer"
 		},
 		{
 			"path": "../OFM-FileTransferModule"
-		},
-		{
-			"path": "../OFM-GPIOModule"
-		},
-		{
-			"path": "../OFM-LedModule"
 		},
 		{
 			"path": "../OFM-Logicmodule"
@@ -105,7 +108,12 @@
 			"xhash": "cpp",
 			"xstring": "cpp",
 			"xutility": "cpp",
-			"xlocale": "cpp"
+			"xlocale": "cpp",
+			"compare": "cpp",
+			"charconv": "cpp",
+			"complex": "cpp",
+			"xlocmon": "cpp",
+			"xlocnum": "cpp"
 		}
 	}
 }
