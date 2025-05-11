@@ -33,7 +33,7 @@
     #define LEDMODULE_EXT1_PIN                      24
 
     #define OPENKNX_BI_GPIO_COUNT                   4
-    #define OPENKNX_BI_GPIO_PINS                    0x0108, 0x0109, 0x0110, 0x0111
+    #define OPENKNX_BI_GPIO_PINS                    0x0108, 0x0109, 0x010A, 0x010B
     #define OPENKNX_BI_ONLEVEL                      LOW
 
     #define OPENKNX_SWA_CHANNEL_COUNT               1
@@ -148,8 +148,8 @@
     #define LEDMODULE_EXT1_PIN                      19
     #define LEDMODULE_DIM_TYPE_PIN                  24
 
-    #define OPENKNX_BI_GPIO_COUNT                   0
-    //#define OPENKNX_BI_GPIO_PINS                    0x0108, 0x0109, 0x0110, 0x0111
+    #define OPENKNX_BI_GPIO_COUNT                   4
+    #define OPENKNX_BI_GPIO_PINS                    0x0108, 0x0109, 0x010A, 0x010B
     #define OPENKNX_BI_ONLEVEL                      LOW
 
     #define OPENKNX_SWA_CHANNEL_COUNT               1
@@ -216,7 +216,7 @@
     #define LEDMODULE_DIM_TYPE_PIN                  24
 
     #define OPENKNX_BI_GPIO_COUNT                   4
-    #define OPENKNX_BI_GPIO_PINS                    0x0108, 0x0109, 0x0110, 0x0111
+    #define OPENKNX_BI_GPIO_PINS                    0x0108, 0x0109, 0x010A, 0x010B
     #define OPENKNX_BI_ONLEVEL                      LOW
 
     #define OPENKNX_SWA_CHANNEL_COUNT               1
