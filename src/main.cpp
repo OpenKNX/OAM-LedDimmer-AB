@@ -3,14 +3,18 @@
 #include "GpioBinaryInputModule.h"
 #include "VirtualButtonModule.h"
 #include "FileTransferModule.h"
-#include "SwitchActuatorModule.h"
+
+#if OPENKNX_SWA_CHANNEL_COUNT > 0 && SWA_ChannelCount > 0
+    #include "SwitchActuatorModule.h"
+#endif
+
 #include "LedModule.h"
 // #include "Presence.h"
 // #include "SensorDevices.h"
 // #include "SensorModule.h"
 
 #ifdef OPENKNX_GPIO_NUM
-#include "GPIOModule.h"
+    #include "GPIOModule.h"
 #endif
 
 void setup()

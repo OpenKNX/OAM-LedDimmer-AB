@@ -8,17 +8,17 @@
   <op:ETS
     OpenKnxId="0xA1"
     ApplicationNumber="21"
-    ApplicationVersion="1.2"
-    ReplacesVersions="1.1 1.0 0.13 0.12"
+    ApplicationVersion="1.3"
+    ReplacesVersions="1.2 1.1 1.0 0.13 0.12"
     ApplicationRevision="0"
-    ProductName="LED-Dimmer"
+    ProductName="LED-Dimmer (AB-SmartHouse)"
     BusCurrent="10"
     BuildSuffix="-Beta"
     BuildSuffixText=" (Beta)"
     OrderNumber="AB-DIM-CV-UP-6CH" />
 
-  <op:define prefix="LEDUP14X24V" ModuleType="99"
-    share="LED-UP1-4x24V.share.xml" />
+  <op:define prefix="LED_AB" ModuleType="99"
+    share="LedDimmerAB.share.xml" />
 
   <op:define prefix="BASE" ModuleType="10"
     share="../lib/OGM-Common/src/Common.share.xml">

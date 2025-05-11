@@ -50,7 +50,7 @@
                 "--Debug",
                 "-h",
                 "include/knxprod.h",
-                "src/LED-UP1-4x24V.xml"
+                "src/LedDimmerAB.xml"
             ],
             "problemMatcher": [],
             "group": "test",
@@ -66,7 +66,7 @@
                 "--Debug",
                 "-h",
                 "include/knxprod.h",
-                "src/LED-UP1-4x24V-Release.xml"
+                "src/LedDimmerAB-Release.xml"
             ],
             "problemMatcher": [],
             "group": "test",

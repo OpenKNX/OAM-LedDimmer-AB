@@ -10,7 +10,7 @@
                                              
 #define MAIN_OpenKnxId 0xA1
 #define MAIN_ApplicationNumber 21
-#define MAIN_ApplicationVersion 18
+#define MAIN_ApplicationVersion 19
 #define MAIN_ParameterSize 14129
 #define MAIN_MaxKoNumber 846
 #define MAIN_OrderNumber "AB-DIM-CV-UP-6CH"
