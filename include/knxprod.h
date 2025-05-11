@@ -10,11 +10,12 @@
                                              
 #define MAIN_OpenKnxId 0xA1
 #define MAIN_ApplicationNumber 21
-#define MAIN_ApplicationVersion 20
+#define MAIN_ApplicationVersion 22
 #define MAIN_ParameterSize 14130
 #define MAIN_MaxKoNumber 846
 #define MAIN_OrderNumber "AB-DIM-CV-UP-6CH"
 #define BASE_ModuleVersion 19
+#define UCT_ModuleVersion 2
 #define LED_ModuleVersion 2
 #define SWA_ModuleVersion 1
 #define BI_ModuleVersion 2
@@ -153,6 +154,8 @@
 #define KoBASE_ManualSave                          (knx.getGroupObject(BASE_KoManualSave))
 // Uhrzeit/Datum
 #define KoBASE_DateTime                            (knx.getGroupObject(BASE_KoDateTime))
+
+
 
 #define LED_HardwareVariantAB                   46      // 4 Bits, Bit 7-4
 #define     LED_HardwareVariantABMask 0xF0

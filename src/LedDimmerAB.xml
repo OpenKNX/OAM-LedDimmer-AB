@@ -10,8 +10,8 @@
   <op:ETS
     OpenKnxId="0xA1"
     ApplicationNumber="21"
-    ApplicationVersion="1.5"
-    ReplacesVersions="1.4 0.0"
+    ApplicationVersion="1.6"
+    ReplacesVersions="1.5 1.4 0.0"
     ApplicationRevision="0"
     ProductName="LED-Dimmer (AB-SmartHouse)"
     BusCurrent="10"
@@ -27,6 +27,12 @@
     <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.3" />
   </op:define>
 
+  <op:define prefix="UCT"
+    share="../../OFM-ConfigTransfer/src/ConfigTransfer.share.xml"
+    noConfigTransfer="true"
+    ModuleType="99">
+    <op:verify File="../../OFM-ConfigTransfer/library.json" ModuleVersion="0.2" />
+  </op:define>
 
   <op:define prefix="LED" 
     share="../lib/OFM-LedModule/src/LEDModule.share.xml"
@@ -100,6 +106,7 @@
 <generate>
   <Dynamic>
   <op:include href="../lib/OGM-Common/src/Common.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BASE" />
+  <op:include href="../lib/OFM-ConfigTransfer/src/ConfigTransfer.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="UCT" />
   <op:include href="../lib/OFM-LedModule/src/LEDModule.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="CMN" />
   <op:include href="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SWA" />
   <op:include href="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BI" />
