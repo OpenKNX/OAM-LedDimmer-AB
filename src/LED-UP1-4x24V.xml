@@ -8,8 +8,8 @@
   <op:ETS
     OpenKnxId="0xA1"
     ApplicationNumber="21"
-    ApplicationVersion="0.14"
-    ReplacesVersions="0.13 0.12"
+    ApplicationVersion="1.2"
+    ReplacesVersions="1.1 1.0 0.13 0.12"
     ApplicationRevision="0"
     ProductName="LED-Dimmer"
     BusCurrent="10"
@@ -99,7 +99,7 @@
   <Dynamic>
   <op:include href="../lib/OGM-Common/src/Common.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BASE" />
   <op:include href="../lib/OFM-LedModule/src/LEDModule.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="CMN" />
-  <!-- <op:include href="../lib/OFM-PresenceModule/src/PMmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="PM" /> -->
+  <op:include href="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SWA" />
   <op:include href="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BI" />
   <op:include href="../lib/OFM-VirtualButton/src/VirtualButton.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BTN" />
   <!-- <op:include href="../lib/OFM-SensorModule/src/Sensormodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SENS" /> -->

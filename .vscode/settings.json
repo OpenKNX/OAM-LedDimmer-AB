@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "cstdint": "cpp",
+        "ostream": "cpp",
+        "cmath": "cpp",
+        "*.tcc": "cpp",
+        "compare": "cpp",
+        "random": "cpp",
+        "format": "cpp",
+        "mutex": "cpp",
+        "numeric": "cpp",
+        "ratio": "cpp",
+        "array": "cpp",
+        "type_traits": "cpp",
+        "variant": "cpp"
+    }
+}
