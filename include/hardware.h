@@ -1,8 +1,5 @@
 #pragma once
 
-// Common values:
-#define LEDMODULE_PWM_FREQ 1000
-
 /**
  * @brief  AB-SmartHouse Constant Voltage (CV) UP 6CH
  */
