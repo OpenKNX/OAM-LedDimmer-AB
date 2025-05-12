@@ -13,7 +13,7 @@
 #define MAIN_ApplicationVersion 22
 #define MAIN_ParameterSize 14130
 #define MAIN_MaxKoNumber 846
-#define MAIN_OrderNumber "AB-DIM-CV-UP-6CH"
+#define MAIN_OrderNumber "OpenKnxLedDimmerAB"
 #define BASE_ModuleVersion 19
 #define UCT_ModuleVersion 2
 #define LED_ModuleVersion 2

@@ -2,11 +2,11 @@
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
 
+  <op:config href="LedDimmerAB.conf.xml" />
   <op:config name="%HardwareAB%" value="1" />
 
-  <op:config name="%LOG_NumChannelsDefault%" value="5" />
-  <op:config name="%PM_NumChannelsDefault%" value="3" />
-
+  <op:nowarn id="1" regex="LED_ReplacesVersions" />
+  
   <op:ETS
     OpenKnxId="0xA1"
     ApplicationNumber="21"
@@ -17,21 +17,21 @@
     BusCurrent="10"
     BuildSuffix="-Beta"
     BuildSuffixText=" (Beta)"
-    OrderNumber="AB-DIM-CV-UP-6CH" />
+    OrderNumber="OpenKnxLedDimmerAB" />
 
   <op:define prefix="LED_AB" ModuleType="99"
     share="LedDimmerAB.share.xml" />
 
   <op:define prefix="BASE" ModuleType="10"
     share="../lib/OGM-Common/src/Common.share.xml">
-    <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.3" />
+    <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="%BASE_VerifyVersion%" />
   </op:define>
 
   <op:define prefix="UCT"
     share="../../OFM-ConfigTransfer/src/ConfigTransfer.share.xml"
     noConfigTransfer="true"
     ModuleType="99">
-    <op:verify File="../../OFM-ConfigTransfer/library.json" ModuleVersion="0.2" />
+    <op:verify File="../../OFM-ConfigTransfer/library.json" ModuleVersion="%UCT_VerifyVersion%" />
   </op:define>
 
   <op:define prefix="LED" 
@@ -40,7 +40,7 @@
     ModuleType="20"
     KoSingleOffset="20"
     NumChannels="16">
-    <op:verify File="../lib/OFM-LedModule/library.json" ModuleVersion="0.2" />
+    <op:verify File="../lib/OFM-LedModule/library.json" ModuleVersion="%LED_VerifyVersion%" />
   </op:define>
 
   <op:define prefix="LED_SC"
@@ -70,7 +70,7 @@
     NumChannels="1"
     KoSingleOffset="380"
     KoOffset="381">
-    <op:verify File="../lib/OFM-SwitchActuator/library.json" ModuleVersion="0.1" />
+    <op:verify File="../lib/OFM-SwitchActuator/library.json" ModuleVersion="%SWA_VerifyVersion%" />
   </op:define> <!-- 6 KOs/Ch = 6 -->
 
   <op:define prefix="BI" ModuleType="40"
@@ -78,7 +78,7 @@
     template="../lib/OFM-BinaryInput/src/BinaryInputChannel.templ.xml"
     NumChannels="4"
     KoOffset="390" >
-    <op:verify File="../lib/OFM-BinaryInput/library.json" ModuleVersion="0.2" /> 
+    <op:verify File="../lib/OFM-BinaryInput/library.json" ModuleVersion="%BI_VerifyVersion%" /> 
   </op:define> <!-- 1 KO/Ch = 4 -->
 
   <op:define prefix="BTN" ModuleType="50"
@@ -86,13 +86,13 @@
     template="../lib/OFM-VirtualButton/src/VirtualButton.templ.xml"
     NumChannels="10"
     KoOffset="400">
-    <op:verify File="../lib/OFM-VirtualButton/library.json" ModuleVersion="0.5" /> 
+    <op:verify File="../lib/OFM-VirtualButton/library.json" ModuleVersion="%BTN_VerifyVersion%" /> 
   </op:define> <!-- 12 KOs/Ch = 120 -->
   
   <!-- <op:define prefix="SENS" ModuleType="60"
     share="../lib/OFM-SensorModule/src/Sensormodul.share.xml"
     KoSingleOffset="520">
-    <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="4.3" />
+    <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="%SENS_VerifyVersion%" />
   </op:define> -->
 
   <op:define prefix="LOG" ModuleType="10"
@@ -100,7 +100,7 @@
   template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
   NumChannels="99"
   KoOffset="550">
-  <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.5" /> 
+  <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="%LOG_VerifyVersion%" /> 
 </op:define> <!-- 3 KOs/Ch = 297 -->
 
 <generate>
