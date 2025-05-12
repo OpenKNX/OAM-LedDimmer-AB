@@ -8,16 +8,18 @@
   <op:nowarn id="1" regex="LED_ReplacesVersions" />
   
   <op:ETS
-    OpenKnxId="0xA1"
-    ApplicationNumber="21"
-    ApplicationVersion="1.6"
-    ReplacesVersions="1.5 1.4 0.0"
+    OpenKnxId="0xA6"
+    ApplicationNumber="0x07"
+    ApplicationVersion="0.1"
+    ReplacesVersions="0.0"
     ApplicationRevision="0"
     ProductName="LED-Dimmer (AB-SmartHouse)"
     BusCurrent="10"
-    BuildSuffix="-Beta"
-    BuildSuffixText=" (Beta)"
-    OrderNumber="OpenKnxLedDimmerAB" />
+    BuildSuffix="-dev"
+    BuildSuffixText=" (dev)"
+    OrderNumber="OpenKnxLedDimmerAB"
+    BaggagesRootDir="A6/07"
+  />
 
   <op:define prefix="LED_AB" ModuleType="99"
     share="LedDimmerAB.share.xml" />
@@ -98,7 +100,7 @@
   <op:define prefix="LOG" ModuleType="10"
   share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
   template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
-  NumChannels="99"
+  NumChannels="3"
   KoOffset="550">
   <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="%LOG_VerifyVersion%" /> 
 </op:define> <!-- 3 KOs/Ch = 297 -->

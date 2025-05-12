@@ -1,10 +1,7 @@
-
 # set product names, allows mapping of (devel) name in Project to a more consistent name in release
-$settings = lib/OGM-Common/scripts/build/OpenKNX-Build-Settings.ps1 $args[0] "LED-UP1-4x24V" "LED-UP1-4x24V"
+$settings = lib/OGM-Common/scripts/build/OpenKNX-Build-Settings.ps1 $args[0] "LedDimmerAB" "LedDimmerAB"
 
-# $settings.sourceName="PMmodul"  
-# $settings.targetName="PresenceModule" 
-# $settings.knxprod="src/{0}.h" -f $settings.sourceName
-# $settings.hardware="src/{0}Hardware.h" -f $settings.sourceName
+$settings.sourceName="LedDimmerAB"  
+$settings.targetName="LedDimmerAB"
 
 Return $settings

@@ -35,9 +35,20 @@ if (!$?) { exit 1 }
 # see comment in Build-Step.ps1 for argument description
 
 # Example call, the following 2 lines might be there multiple times for each firmware which should be built
- ../OGM-Common/scripts/setup/reusable/Build-Step.ps1 release_UP1 firmware uf2
+../OGM-Common/scripts/setup/reusable/Build-Step.ps1 release_ABSmartHouse_CV_UP_6CH AB-SmartHouse_CV_UP_6CH uf2
  if (!$?) { exit 1 }
 
+../OGM-Common/scripts/setup/reusable/Build-Step.ps1 release_ABSmartHouse_CV_REG_12CH AB-SmartHouse_CV_REG_12CH uf2
+ if (!$?) { exit 1 }
+
+../OGM-Common/scripts/setup/reusable/Build-Step.ps1 release_ABSmartHouse_CC_UP_8CH AB-SmartHouse_CC_UP_8CH uf2
+ if (!$?) { exit 1 }
+
+../OGM-Common/scripts/setup/reusable/Build-Step.ps1 release_ABSmartHouse_CC_UP_16CH AB-SmartHouse_CC_UP_16CH uf2
+ if (!$?) { exit 1 }
+
+../OGM-Common/scripts/setup/reusable/Build-Step.ps1 release_ABSmartHouse_CC_REG_12CH AB-SmartHouse_CC_REG_12CH uf2
+ if (!$?) { exit 1 }
 
 # execute generic post-build steps
 lib/OGM-Common/scripts/setup/reusable/Build-Release-Postprocess.ps1 $args[0]

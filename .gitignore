@@ -8,3 +8,4 @@ LED-UP1-4x24V.baggages
 *.knxprod
 /include/versions.h
 /src/LedDimmerAB.baggages
+/src/LedDimmerAB-Release.baggages

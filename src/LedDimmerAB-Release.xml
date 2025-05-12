@@ -1,46 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-model href="../../Organization/knxprod-support/knx_project_20/knx-editor.xsd" type="application/xml" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
-  <op:ETS
-    OpenKnxId="0xA1"
-    ApplicationNumber="20"
-    ApplicationVersion="0.1"
-    ReplacesVersions="0.0"
-    ApplicationRevision="0"
-    ProductName="LED-UP1-4x24V"
-    BusCurrent="10"
-    BuildSuffix=""
-    BuildSuffixText=""
-    OrderNumber="LED-UP1-4x24V" />
 
-  <op:define prefix="SENUP18XTH" ModuleType="99"
-    share="SEN-UP1-8xTH.share.xml" />
+  <op:config href="LedDimmerAB.conf.xml" />
+  <op:config name="%HardwareAB%" value="1" />
+  
+  <op:ETS
+    OpenKnxId="0xA6"
+    ApplicationNumber="0x07"
+    ApplicationVersion="%LED_ApplicationVersion%"
+    ReplacesVersions="%LED_ReplacesVersions%"
+    ApplicationRevision="0"
+    ProductName="LED-Dimmer (AB-SmartHouse)"
+    BusCurrent="10"
+    OrderNumber="OpenKnxLedDimmerAB"
+  />
+
+  <op:define prefix="LED_AB" ModuleType="99"
+    share="LedDimmerAB.share.xml" />
 
   <op:define prefix="BASE" ModuleType="10"
     share="../lib/OGM-Common/src/Common.share.xml">
-    <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="1.1" />
-  </op:define>
-  
-  <op:define prefix="THP" ModuleType="20"
-    share="../lib/OFM-THPSensorModule/src/THPSensor.share.xml"
-    template="../lib/OFM-THPSensorModule/src/THPSensor.templ.xml"
-    NumChannels="8" KoOffset="20">
-    <op:verify File="../lib/OFM-THPSensorModule/library.json" ModuleVersion="0.2" />
+    <op:verify File="../lib/OGM-Common/library.json" ModuleVersion="%BASE_VerifyVersion%" />
   </op:define>
 
-  <op:define prefix="BTN" ModuleType="30"
+  <op:define prefix="UCT"
+    share="../../OFM-ConfigTransfer/src/ConfigTransfer.share.xml"
+    noConfigTransfer="true"
+    ModuleType="99">
+    <op:verify File="../../OFM-ConfigTransfer/library.json" ModuleVersion="%UCT_VerifyVersion%" />
+  </op:define>
+
+  <op:define prefix="LED" 
+    share="../lib/OFM-LedModule/src/LEDModule.share.xml"
+    template="../lib/OFM-LedModule/src/LEDModule.templ.xml"
+    ModuleType="20"
+    KoSingleOffset="20"
+    NumChannels="16">
+    <op:verify File="../lib/OFM-LedModule/library.json" ModuleVersion="%LED_VerifyVersion%" />
+  </op:define>
+
+  <op:define prefix="LED_SC"
+    share="../lib/OFM-LedModule/src/Single.share.xml"
+    template="../lib/OFM-LedModule/src/Single.templ.xml"
+    ModuleType="21"
+    KoOffset="30"
+    NumChannels="16" /> <!-- 9 KOs/Ch = 144 -->
+  
+  <op:define prefix="LED_TW" 
+    share="../lib/OFM-LedModule/src/TW.share.xml"
+    template="../lib/OFM-LedModule/src/TW.templ.xml"
+    ModuleType="22"
+    KoOffset="200"
+    NumChannels="8"/> <!-- 11 KOs/Ch = 88 -->
+
+  <op:define prefix="LED_RGB" 
+    share="../lib/OFM-LedModule/src/RGB.share.xml"
+    template="../lib/OFM-LedModule/src/RGB.templ.xml"
+    ModuleType="23"
+    KoOffset="300"
+    NumChannels="5"/> <!-- 15 KOs/Ch = 75 -->
+
+  <op:define prefix="SWA" ModuleType="30"
+    share="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.share.xml"
+    template="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.templ.xml"
+    NumChannels="1"
+    KoSingleOffset="380"
+    KoOffset="381">
+    <op:verify File="../lib/OFM-SwitchActuator/library.json" ModuleVersion="%SWA_VerifyVersion%" />
+  </op:define> <!-- 6 KOs/Ch = 6 -->
+
+  <op:define prefix="BI" ModuleType="40"
+    share="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml"
+    template="../lib/OFM-BinaryInput/src/BinaryInputChannel.templ.xml"
+    NumChannels="4"
+    KoOffset="390" >
+    <op:verify File="../lib/OFM-BinaryInput/library.json" ModuleVersion="%BI_VerifyVersion%" /> 
+  </op:define> <!-- 1 KO/Ch = 4 -->
+
+  <op:define prefix="BTN" ModuleType="50"
     share="../lib/OFM-VirtualButton/src/VirtualButton.share.xml"
     template="../lib/OFM-VirtualButton/src/VirtualButton.templ.xml"
-    NumChannels="16" KoOffset="380">
-    <op:verify File="../lib/OFM-VirtualButton/library.json" ModuleVersion="0.3" /> 
-  </op:define>
+    NumChannels="10"
+    KoOffset="400">
+    <op:verify File="../lib/OFM-VirtualButton/library.json" ModuleVersion="%BTN_VerifyVersion%" /> 
+  </op:define> <!-- 12 KOs/Ch = 120 -->
+  
+  <!-- <op:define prefix="SENS" ModuleType="60"
+    share="../lib/OFM-SensorModule/src/Sensormodul.share.xml"
+    KoSingleOffset="520">
+    <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="%SENS_VerifyVersion%" />
+  </op:define> -->
 
   <op:define prefix="LOG" ModuleType="10"
-    share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
-    template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
-    NumChannels="30" KoOffset="280">
-    <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="3.1" /> 
-  </op:define>
+  share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
+  template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
+  NumChannels="99"
+  KoOffset="550">
+  <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="%LOG_VerifyVersion%" /> 
+</op:define> <!-- 3 KOs/Ch = 297 -->
 
-  <generate />
+<generate>
+  <Dynamic>
+  <op:include href="../lib/OGM-Common/src/Common.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BASE" />
+  <op:include href="../lib/OFM-ConfigTransfer/src/ConfigTransfer.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="UCT" />
+  <op:include href="../lib/OFM-LedModule/src/LEDModule.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="CMN" />
+  <op:include href="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SWA" />
+  <op:include href="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BI" />
+  <op:include href="../lib/OFM-VirtualButton/src/VirtualButton.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BTN" />
+  <!-- <op:include href="../lib/OFM-SensorModule/src/Sensormodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SENS" /> -->
+  <op:include href="../lib/OFM-LogicModule/src/Logikmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="LOG" />
+  </Dynamic>
+  </generate>
 </KNX>

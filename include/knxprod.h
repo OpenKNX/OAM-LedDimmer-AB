@@ -8,9 +8,9 @@
             (time & 0xC000) == 0x8000 ? ((time & 0x3FFF) > 1000 ? 3600000 : \
                                          (time & 0x3FFF) * 3600000 ) : 0 )
                                              
-#define MAIN_OpenKnxId 0xA1
-#define MAIN_ApplicationNumber 21
-#define MAIN_ApplicationVersion 22
+#define MAIN_OpenKnxId 0xA6
+#define MAIN_ApplicationNumber 7
+#define MAIN_ApplicationVersion 1
 #define MAIN_ParameterSize 14130
 #define MAIN_MaxKoNumber 846
 #define MAIN_OrderNumber "OpenKnxLedDimmerAB"
