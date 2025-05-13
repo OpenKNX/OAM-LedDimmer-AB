@@ -17,6 +17,7 @@
   />
 
   <op:define prefix="LED_AB" ModuleType="99"
+    noConfigTransfer="true"
     share="LedDimmerAB.share.xml" />
 
   <op:define prefix="BASE" ModuleType="10"
@@ -40,21 +41,24 @@
     <op:verify File="../lib/OFM-LedModule/library.json" ModuleVersion="%LED_VerifyVersion%" />
   </op:define>
 
-  <op:define prefix="LED_SC"
+  <op:define prefix="LED_SC" prefixDoc="LED"
+    configTransferName="  EK - Einzelkanal"
     share="../lib/OFM-LedModule/src/Single.share.xml"
     template="../lib/OFM-LedModule/src/Single.templ.xml"
     ModuleType="21"
     KoOffset="30"
     NumChannels="16" /> <!-- 9 KOs/Ch = 144 -->
   
-  <op:define prefix="LED_TW" 
+  <op:define prefix="LED_TW" prefixDoc="LED" 
+    configTransferName="  TW - Tunable White"
     share="../lib/OFM-LedModule/src/TW.share.xml"
     template="../lib/OFM-LedModule/src/TW.templ.xml"
     ModuleType="22"
     KoOffset="200"
     NumChannels="8"/> <!-- 11 KOs/Ch = 88 -->
 
-  <op:define prefix="LED_RGB" 
+  <op:define prefix="LED_RGB" prefixDoc="LED" 
+    configTransferName="  RGB - Rot/Grün/Blau"
     share="../lib/OFM-LedModule/src/RGB.share.xml"
     template="../lib/OFM-LedModule/src/RGB.templ.xml"
     ModuleType="23"
