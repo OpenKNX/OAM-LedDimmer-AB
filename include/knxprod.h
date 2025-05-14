@@ -11,8 +11,8 @@
 #define MAIN_OpenKnxId 0xA6
 #define MAIN_ApplicationNumber 7
 #define MAIN_ApplicationVersion 1
-#define MAIN_ParameterSize 14130
-#define MAIN_MaxKoNumber 846
+#define MAIN_ParameterSize 5970
+#define MAIN_MaxKoNumber 558
 #define MAIN_OrderNumber "OpenKnxLedDimmerAB"
 #define BASE_ModuleVersion 19
 #define UCT_ModuleVersion 2
@@ -157,9 +157,9 @@
 
 
 
-#define LED_HardwareVariantAB                   46      // 4 Bits, Bit 7-4
-#define     LED_HardwareVariantABMask 0xF0
-#define     LED_HardwareVariantABShift 4
+#define LED_HardwareVariant                     46      // 4 Bits, Bit 7-4
+#define     LED_HardwareVariantMask 0xF0
+#define     LED_HardwareVariantShift 4
 #define LED_DimmerCcType                        46      // 1 Bit, Bit 1
 #define     LED_DimmerCcTypeMask 0x02
 #define     LED_DimmerCcTypeShift 1
@@ -178,7 +178,7 @@
 #define     LED_PowerSupplyRelayOffDelayTimeShift 0
 
 // Hardware-Variante
-#define ParamLED_HardwareVariantAB                   ((knx.paramByte(LED_HardwareVariantAB) & LED_HardwareVariantABMask) >> LED_HardwareVariantABShift)
+#define ParamLED_HardwareVariant                     ((knx.paramByte(LED_HardwareVariant) & LED_HardwareVariantMask) >> LED_HardwareVariantShift)
 // Dimmart Constant Current
 #define ParamLED_DimmerCcType                        ((bool)(knx.paramByte(LED_DimmerCcType) & LED_DimmerCcTypeMask))
 // PWM-Frequenz
@@ -3094,7 +3094,7 @@
 // Buzzer sperren
 #define KoLOG_BuzzerLock                          (knx.getGroupObject(LOG_KoBuzzerLock))
 
-#define LOG_ChannelCount 99
+#define LOG_ChannelCount 3
 
 // Parameter per channel
 #define LOG_ParamBlockOffset 5715
@@ -4842,7 +4842,7 @@
 #define BASE_KommentarModuleModuleParamSize 0
 #define BASE_KommentarModuleSubmodulesParamSize 0
 #define BASE_KommentarModuleParamSize 0
-#define BASE_KommentarModuleParamOffset 14130
+#define BASE_KommentarModuleParamOffset 5970
 #define BASE_KommentarModuleCalcIndex(index, m1) (index + BASE_KommentarModuleParamOffset + _channelIndex * BASE_KommentarModuleCount * BASE_KommentarModuleParamSize + m1 * BASE_KommentarModuleParamSize)
 
 

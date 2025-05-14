@@ -7,6 +7,16 @@
         <ApplicationProgram>
           <Static>
             <ParameterTypes>
+              <ParameterType Id="%AID%_PT-HardwareVariant" Name="HardwareVariant">
+                <TypeRestriction Base="Value" SizeInBit="4">
+                  <Enumeration Text="Constant Voltage, Unterputz, 6-fach" Value="0" Id="%ENID%" />
+                  <Enumeration Text="Constant Voltage, REG, 12-fach" Value="1" Id="%ENID%" />
+                  <Enumeration Text="Constant Current, Unterputz, 8-fach" Value="2" Id="%ENID%" />
+                  <Enumeration Text="Constant Current, Unterputz, 16-fach" Value="3" Id="%ENID%" />
+                  <Enumeration Text="Constant Current, REG, 12-fach" Value="4" Id="%ENID%" />
+                  <!-- 1 bit left -->
+                </TypeRestriction>
+              </ParameterType>
               <ParameterType Id="%AID%_PT-BTNInputs" Name="BTNInputs">
                 <TypeRestriction Base="Value" SizeInBit="16">
                   <Enumeration Text="Externes KO" Value="0" Id="%ENID%" />
