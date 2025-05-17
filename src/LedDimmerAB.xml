@@ -5,6 +5,7 @@
   <op:config href="LedDimmerAB.conf.xml" />
   <op:config name="%HardwareAB%" value="1" />
 
+  <op:nowarn id="1" regex="LED_ApplicationVersion" />
   <op:nowarn id="1" regex="LED_ReplacesVersions" />
   
   <op:ETS
@@ -42,7 +43,7 @@
     template="../lib/OFM-LedModule/src/LEDModule.templ.xml"
     ModuleType="20"
     KoSingleOffset="20"
-    NumChannels="16">
+    NumChannels="%LED_SC_NumChannels%">
     <op:verify File="../lib/OFM-LedModule/library.json" ModuleVersion="%LED_VerifyVersion%" />
   </op:define>
 
@@ -52,7 +53,7 @@
     template="../lib/OFM-LedModule/src/Single.templ.xml"
     ModuleType="21"
     KoOffset="30"
-    NumChannels="16" /> <!-- 9 KOs/Ch = 144 -->
+    NumChannels="%LED_SC_NumChannels%" /> <!-- 9 KOs/Ch = 144 -->
   
   <op:define prefix="LED_TW" prefixDoc="LED" 
     configTransferName="  TW - Tunable White"
@@ -60,7 +61,7 @@
     template="../lib/OFM-LedModule/src/TW.templ.xml"
     ModuleType="22"
     KoOffset="200"
-    NumChannels="8"/> <!-- 11 KOs/Ch = 88 -->
+    NumChannels="%LED_TW_NumChannels%"/> <!-- 11 KOs/Ch = 88 -->
 
   <op:define prefix="LED_RGB" prefixDoc="LED" 
     configTransferName="  RGB - Rot/Grün/Blau"
@@ -68,7 +69,7 @@
     template="../lib/OFM-LedModule/src/RGB.templ.xml"
     ModuleType="23"
     KoOffset="300"
-    NumChannels="5"/> <!-- 15 KOs/Ch = 75 -->
+    NumChannels="%LED_RGB_NumChannels%"/> <!-- 15 KOs/Ch = 75 -->
 
   <op:define prefix="SWA" ModuleType="30"
     share="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.share.xml"
