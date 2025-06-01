@@ -113,7 +113,9 @@
 			"charconv": "cpp",
 			"complex": "cpp",
 			"xlocmon": "cpp",
-			"xlocnum": "cpp"
+			"xlocnum": "cpp",
+			"xtr1common": "cpp",
+			"ratio": "cpp"
 		}
 	}
 }

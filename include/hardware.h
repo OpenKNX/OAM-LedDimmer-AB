@@ -32,6 +32,11 @@
     #define LEDMODULE_EXT0_PIN                      23
     #define LEDMODULE_EXT1_PIN                      24
 
+    #define LED_MPX_PIN_0                           17
+    #define LED_MPX_PIN_1                           18
+    #define LED_MPX_PIN_2                           19
+    #define LED_MPX_OUT_PIN                         28
+
     #define OPENKNX_BI_GPIO_COUNT                   4
     #define OPENKNX_BI_GPIO_PINS                    0x0108, 0x0109, 0x010A, 0x010B
     #define OPENKNX_BI_ONLEVEL                      LOW
