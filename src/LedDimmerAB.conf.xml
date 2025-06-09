@@ -19,6 +19,6 @@
   <op:config name="%BTN_VerifyVersion%" value="0.5" />
   <op:config name="%LOG_VerifyVersion%" value="3.5" />
 
-  <op:config name="%LED_ApplicationVersion%" value="0.1" />
-  <op:config name="%LED_ReplacesVersions%" value="0.0" />
+  <op:config name="%LED_ApplicationVersion%" value="0.2" />
+  <op:config name="%LED_ReplacesVersions%" value="0.1 0.0" />
 </KNX>
