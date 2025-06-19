@@ -10,13 +10,13 @@
                                              
 #define MAIN_OpenKnxId 0xA6
 #define MAIN_ApplicationNumber 7
-#define MAIN_ApplicationVersion 2
+#define MAIN_ApplicationVersion 3
 #define MAIN_ParameterSize 14130
 #define MAIN_MaxKoNumber 846
 #define MAIN_OrderNumber "OpenKnxLedDimmerAB"
 #define BASE_ModuleVersion 19
 #define UCT_ModuleVersion 2
-#define LED_ModuleVersion 2
+#define LED_ModuleVersion 3
 #define SWA_ModuleVersion 1
 #define BI_ModuleVersion 2
 #define BTN_ModuleVersion 5
@@ -642,11 +642,11 @@
 #define LED_SC_KoSwitch_ 0
 #define LED_SC_KoStateOnOff_ 1
 #define LED_SC_KoLocking_ 2
-#define LED_SC_KoBrightness_ 3
-#define LED_SC_KoBrightnessStatus_ 4
-#define LED_SC_KoDimRel_ 5
-#define LED_SC_KoScene_ 6
-#define LED_SC_KoSceneStatus_ 7
+#define LED_SC_KoStateLocking_ 3
+#define LED_SC_KoBrightness_ 4
+#define LED_SC_KoBrightnessStatus_ 5
+#define LED_SC_KoDimRel_ 6
+#define LED_SC_KoScene_ 7
 #define LED_SC_KoNight_ 8
 
 // Schalten
@@ -655,6 +655,8 @@
 #define KoLED_SC_StateOnOff_                         (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoStateOnOff_)))
 // Sperren
 #define KoLED_SC_Locking_                            (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoLocking_)))
+// Sperren Status
+#define KoLED_SC_StateLocking_                       (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoStateLocking_)))
 // Helligkeit
 #define KoLED_SC_Brightness_                         (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoBrightness_)))
 // Helligkeit Status
@@ -663,8 +665,6 @@
 #define KoLED_SC_DimRel_                             (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoDimRel_)))
 // Szene
 #define KoLED_SC_Scene_                              (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoScene_)))
-// Szene Status
-#define KoLED_SC_SceneStatus_                        (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoSceneStatus_)))
 // Nacht
 #define KoLED_SC_Night_                              (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoNight_)))
 
@@ -1116,11 +1116,11 @@
 #define LED_TW_KoSwitch_ 0
 #define LED_TW_KoStateOnOff_ 1
 #define LED_TW_KoLocking_ 2
-#define LED_TW_KoBrightness_ 3
-#define LED_TW_KoBrightnessStatus_ 4
-#define LED_TW_KoDimRel_ 5
-#define LED_TW_KoScene_ 6
-#define LED_TW_KoSceneStatus_ 7
+#define LED_TW_KoStateLocking_ 3
+#define LED_TW_KoBrightness_ 4
+#define LED_TW_KoBrightnessStatus_ 5
+#define LED_TW_KoDimRel_ 6
+#define LED_TW_KoScene_ 7
 #define LED_TW_KoNight_ 8
 #define LED_TW_KoColorTemperature_ 9
 #define LED_TW_KoColorTemperatureStatus_ 10
@@ -1131,6 +1131,8 @@
 #define KoLED_TW_StateOnOff_                         (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoStateOnOff_)))
 // Sperren
 #define KoLED_TW_Locking_                            (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoLocking_)))
+// Sperren Status
+#define KoLED_TW_StateLocking_                       (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoStateLocking_)))
 // Helligkeit
 #define KoLED_TW_Brightness_                         (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoBrightness_)))
 // Helligkeit Status
@@ -1139,8 +1141,6 @@
 #define KoLED_TW_DimRel_                             (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoDimRel_)))
 // Szene
 #define KoLED_TW_Scene_                              (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoScene_)))
-// Szene Status
-#define KoLED_TW_SceneStatus_                        (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoSceneStatus_)))
 // Nacht
 #define KoLED_TW_Night_                              (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoNight_)))
 // Farbtemperatur
@@ -1690,11 +1690,11 @@
 #define LED_RGB_KoSwitch_ 0
 #define LED_RGB_KoStateOnOff_ 1
 #define LED_RGB_KoLocking_ 2
-#define LED_RGB_KoBrightness_ 3
-#define LED_RGB_KoBrightnessStatus_ 4
-#define LED_RGB_KoDimRel_ 5
-#define LED_RGB_KoScene_ 6
-#define LED_RGB_KoSceneStatus_ 7
+#define LED_RGB_KoStateLocking_ 3
+#define LED_RGB_KoBrightness_ 4
+#define LED_RGB_KoBrightnessStatus_ 5
+#define LED_RGB_KoDimRel_ 6
+#define LED_RGB_KoScene_ 7
 #define LED_RGB_KoNight_ 8
 #define LED_RGB_KoColorTemperature_ 9
 #define LED_RGB_KoColorTemperatureStatus_ 10
@@ -1709,6 +1709,8 @@
 #define KoLED_RGB_StateOnOff_                         (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoStateOnOff_)))
 // Sperren
 #define KoLED_RGB_Locking_                            (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoLocking_)))
+// Sperren Status
+#define KoLED_RGB_StateLocking_                       (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoStateLocking_)))
 // Helligkeit
 #define KoLED_RGB_Brightness_                         (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoBrightness_)))
 // Helligkeit Status
@@ -1717,8 +1719,6 @@
 #define KoLED_RGB_DimRel_                             (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoDimRel_)))
 // Szene
 #define KoLED_RGB_Scene_                              (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoScene_)))
-// Szene Status
-#define KoLED_RGB_SceneStatus_                        (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoSceneStatus_)))
 // Nacht
 #define KoLED_RGB_Night_                              (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoNight_)))
 // Farbtemperatur

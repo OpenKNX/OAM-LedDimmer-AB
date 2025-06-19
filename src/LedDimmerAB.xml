@@ -9,7 +9,7 @@
   <op:nowarn id="1" regex="LED_ReplacesVersions" />
   
   <op:ETS
-    OpenKnxId="0xA6"
+    OpenKnxId="0xAF"
     ApplicationNumber="0x07"
     ApplicationVersion="0.1"
     ReplacesVersions="0.0"
@@ -19,7 +19,7 @@
     BuildSuffix="-dev"
     BuildSuffixText=" (dev)"
     OrderNumber="OpenKnxLedDimmerAB"
-    BaggagesRootDir="A6/07"
+    BaggagesRootDir="AF/07"
   />
 
   <op:define prefix="LED_AB" ModuleType="99"
