@@ -10,13 +10,13 @@
                                              
 #define MAIN_OpenKnxId 0xA6
 #define MAIN_ApplicationNumber 7
-#define MAIN_ApplicationVersion 3
+#define MAIN_ApplicationVersion 4
 #define MAIN_ParameterSize 14130
 #define MAIN_MaxKoNumber 846
 #define MAIN_OrderNumber "OpenKnxLedDimmerAB"
 #define BASE_ModuleVersion 19
 #define UCT_ModuleVersion 2
-#define LED_ModuleVersion 3
+#define LED_ModuleVersion 4
 #define SWA_ModuleVersion 1
 #define BI_ModuleVersion 2
 #define BTN_ModuleVersion 5
@@ -471,7 +471,7 @@
 #define ParamLED_SC_DimCurve_                           ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_DimCurve_)) & LED_SC_DimCurve_Mask) >> LED_SC_DimCurve_Shift)
 // Treppenlichtfunktion
 #define ParamLED_SC_StairCaseActive_                    ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_StairCaseActive_)) & LED_SC_StairCaseActive_Mask))
-// Nachlaufzeit [15s]
+// Nachlaufzeit
 #define ParamLED_SC_StairCaseTimer_                     (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_StairCaseTimer_)))
 // Treppenlicht Trigger
 #define ParamLED_SC_StaicCaseTrigger_                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_StaicCaseTrigger_)) & LED_SC_StaicCaseTrigger_Mask) >> LED_SC_StaicCaseTrigger_Shift)
@@ -919,7 +919,7 @@
 #define ParamLED_TW_DimCurve_                           ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_DimCurve_)) & LED_TW_DimCurve_Mask) >> LED_TW_DimCurve_Shift)
 // Treppenlichtfunktion
 #define ParamLED_TW_StairCaseActive_                    ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_StairCaseActive_)) & LED_TW_StairCaseActive_Mask))
-// Nachlaufzeit [15s]
+// Nachlaufzeit
 #define ParamLED_TW_StairCaseTimer_                     (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_StairCaseTimer_)))
 // Treppenlicht Trigger
 #define ParamLED_TW_StaicCaseTrigger_                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_StaicCaseTrigger_)) & LED_TW_StaicCaseTrigger_Mask) >> LED_TW_StaicCaseTrigger_Shift)
