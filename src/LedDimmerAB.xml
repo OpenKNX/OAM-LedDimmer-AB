@@ -11,7 +11,7 @@
   <op:ETS
     OpenKnxId="0xAF"
     ApplicationNumber="0x07"
-    ApplicationVersion="0.1"
+    ApplicationVersion="0.2"
     ReplacesVersions="0.0"
     ApplicationRevision="0"
     ProductName="LED-Dimmer (AB-SmartHouse)"

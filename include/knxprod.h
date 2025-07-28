@@ -10,13 +10,13 @@
                                              
 #define MAIN_OpenKnxId 0xA6
 #define MAIN_ApplicationNumber 7
-#define MAIN_ApplicationVersion 5
+#define MAIN_ApplicationVersion 6
 #define MAIN_ParameterSize 14130
 #define MAIN_MaxKoNumber 846
 #define MAIN_OrderNumber "OpenKnxLedDimmerAB"
 #define BASE_ModuleVersion 19
 #define UCT_ModuleVersion 2
-#define LED_ModuleVersion 5
+#define LED_ModuleVersion 6
 #define SWA_ModuleVersion 1
 #define BI_ModuleVersion 2
 #define BTN_ModuleVersion 5
