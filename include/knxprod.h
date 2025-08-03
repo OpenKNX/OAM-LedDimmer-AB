@@ -10,13 +10,13 @@
                                              
 #define MAIN_OpenKnxId 0xA6
 #define MAIN_ApplicationNumber 7
-#define MAIN_ApplicationVersion 7
+#define MAIN_ApplicationVersion 8
 #define MAIN_ParameterSize 14130
 #define MAIN_MaxKoNumber 846
 #define MAIN_OrderNumber "OpenKnxLedDimmerAB"
 #define BASE_ModuleVersion 19
 #define UCT_ModuleVersion 2
-#define LED_ModuleVersion 7
+#define LED_ModuleVersion 8
 #define SWA_ModuleVersion 1
 #define BI_ModuleVersion 2
 #define BTN_ModuleVersion 5
@@ -679,30 +679,30 @@
 #define LED_TW_LightDimmTimeNightON_                3      // uint16_t
 #define LED_TW_LightDimmTimeRel_                    5      // uint16_t
 #define LED_TW_LightDimmTimeDayOFF_                 7      // uint16_t
-#define LED_TW_LightDimmTimeNightOFF_               7      // uint16_t
-#define LED_TW_BrighnessMin_                       10      // uint8_t
-#define LED_TW_BrighnessMaxDay_                    11      // uint8_t
-#define LED_TW_BrighnessMaxNight_                  12      // uint8_t
-#define LED_TW_DimCurve_                           13      // 3 Bits, Bit 7-5
+#define LED_TW_LightDimmTimeNightOFF_               9      // uint16_t
+#define LED_TW_BrighnessMin_                       11      // uint8_t
+#define LED_TW_BrighnessMaxDay_                    12      // uint8_t
+#define LED_TW_BrighnessMaxNight_                  13      // uint8_t
+#define LED_TW_DimCurve_                           14      // 3 Bits, Bit 7-5
 #define     LED_TW_DimCurve_Mask 0xE0
 #define     LED_TW_DimCurve_Shift 5
-#define LED_TW_StairCaseActive_                    13      // 1 Bit, Bit 4
+#define LED_TW_StairCaseActive_                    14      // 1 Bit, Bit 4
 #define     LED_TW_StairCaseActive_Mask 0x10
 #define     LED_TW_StairCaseActive_Shift 4
-#define LED_TW_StairCaseTimer_                     14      // uint8_t
-#define LED_TW_StaicCaseTrigger_                   13      // 2 Bits, Bit 3-2
+#define LED_TW_StairCaseTimer_                     15      // uint8_t
+#define LED_TW_StaicCaseTrigger_                   14      // 2 Bits, Bit 3-2
 #define     LED_TW_StaicCaseTrigger_Mask 0x0C
 #define     LED_TW_StaicCaseTrigger_Shift 2
-#define LED_TW_StartupBehavior_                    15      // 8 Bits, Bit 7-0
-#define LED_TW_ColorTempCW_                        16      // uint16_t
-#define LED_TW_ColorTempWW_                        18      // uint16_t
-#define LED_TW_ColorTempDay_                       20      // uint16_t
-#define LED_TW_ColorTempNight_                     22      // uint16_t
-#define LED_TW_FrontControl_                       24      // 1 Bit, Bit 7
+#define LED_TW_StartupBehavior_                    16      // 8 Bits, Bit 7-0
+#define LED_TW_ColorTempCW_                        17      // uint16_t
+#define LED_TW_ColorTempWW_                        19      // uint16_t
+#define LED_TW_ColorTempDay_                       21      // uint16_t
+#define LED_TW_ColorTempNight_                     23      // uint16_t
+#define LED_TW_FrontControl_                       25      // 1 Bit, Bit 7
 #define     LED_TW_FrontControl_Mask 0x80
 #define     LED_TW_FrontControl_Shift 7
-#define LED_TW_FrontControlBrightness_             25      // uint8_t
-#define LED_TW_FrontControlColorTemp_              26      // uint16_t
+#define LED_TW_FrontControlBrightness_             26      // uint8_t
+#define LED_TW_FrontControlColorTemp_              27      // uint16_t
 #define LED_TW_ScenesActive_                       28      // 1 Bit, Bit 7
 #define     LED_TW_ScenesActive_Mask 0x80
 #define     LED_TW_ScenesActive_Shift 7
