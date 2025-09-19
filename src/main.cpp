@@ -13,10 +13,6 @@
 // #include "SensorDevices.h"
 // #include "SensorModule.h"
 
-#ifdef OPENKNX_GPIO_NUM
-    #include "GPIOModule.h"
-#endif
-
 void setup()
 {
     const uint8_t firmwareRevision = 0;
@@ -36,10 +32,6 @@ void setup()
     // openknx.addModule(6, openknxSensorDevicesModule);
     
     openknx.addModule(7, openknxLedModule);
-
-#ifdef OPENKNX_GPIO_NUM
-    openknx.addModule(8, openknxGPIOModule);
-#endif
 
     openknx.setup();
 }
