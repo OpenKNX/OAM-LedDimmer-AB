@@ -92,7 +92,7 @@
     #define LEDMODULE_VOLTAGE_MEASURE_PIN           29
     #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        15.2429343
 
-    #define LEDMODULE_FRONT_PLATE_USED              true
+    #define LEDMODULE_FRONT_PLATE_USED
     #define OPENKNX_LED_GPIO_OUTPUT_OFFSET          0x0100
     #define OPENKNX_LED_GPIO_OUTPUT_ACTIVE_ON       HIGH
     #define OPENKNX_LED_GPIO_INPUT_OFFSET           0x0200
@@ -276,7 +276,7 @@
     #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        20.608751
     #define LEDMODULE_DIM_TYPE_PIN                  28
 
-    #define LEDMODULE_FRONT_PLATE_USED              true
+    #define LEDMODULE_FRONT_PLATE_USED
     #define OPENKNX_LED_GPIO_OUTPUT_OFFSET          0x0100
     #define OPENKNX_LED_GPIO_OUTPUT_ACTIVE_ON       HIGH
     #define OPENKNX_LED_GPIO_INPUT_OFFSET           0x0200
