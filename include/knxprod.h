@@ -750,7 +750,7 @@
 
 // Communication objects per channel (multiple occurrence)
 #define LED_SC_KoBlockOffset 30
-#define LED_SC_KoBlockSize 9
+#define LED_SC_KoBlockSize 10
 
 #define LED_SC_KoCalcNumber(index) (index + LED_SC_KoBlockOffset + _channelIndex * LED_SC_KoBlockSize)
 #define LED_SC_KoCalcIndex(number) ((number >= LED_SC_KoCalcNumber(0) && number < LED_SC_KoCalcNumber(LED_SC_KoBlockSize)) ? (number - LED_SC_KoBlockOffset) % LED_SC_KoBlockSize : -1)
@@ -765,6 +765,7 @@
 #define LED_SC_KoChDimRel 6
 #define LED_SC_KoChScene 7
 #define LED_SC_KoChNight 8
+#define LED_SC_KoChSwitchNoDim 9
 
 // Schalten
 #define KoLED_SC_ChSwitch                            (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChSwitch)))
@@ -784,6 +785,8 @@
 #define KoLED_SC_ChScene                             (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChScene)))
 // Nacht
 #define KoLED_SC_ChNight                             (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChNight)))
+// Schalten NoDim
+#define KoLED_SC_ChSwitchNoDim                       (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChSwitchNoDim)))
 
 #define LED_TW_ChannelCount 8
 
@@ -1213,7 +1216,7 @@
 
 // Communication objects per channel (multiple occurrence)
 #define LED_TW_KoBlockOffset 200
-#define LED_TW_KoBlockSize 11
+#define LED_TW_KoBlockSize 13
 
 #define LED_TW_KoCalcNumber(index) (index + LED_TW_KoBlockOffset + _channelIndex * LED_TW_KoBlockSize)
 #define LED_TW_KoCalcIndex(number) ((number >= LED_TW_KoCalcNumber(0) && number < LED_TW_KoCalcNumber(LED_TW_KoBlockSize)) ? (number - LED_TW_KoBlockOffset) % LED_TW_KoBlockSize : -1)
@@ -1230,6 +1233,8 @@
 #define LED_TW_KoChNight 8
 #define LED_TW_KoChColorTemperature 9
 #define LED_TW_KoChColorTemperatureStatus 10
+#define LED_TW_KoChSwitchNoDim 11
+#define LED_TW_KoChSwitchBoost 12
 
 // Schalten
 #define KoLED_TW_ChSwitch                            (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChSwitch)))
@@ -1253,6 +1258,10 @@
 #define KoLED_TW_ChColorTemperature                  (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChColorTemperature)))
 // Farbtemperatur Status
 #define KoLED_TW_ChColorTemperatureStatus            (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChColorTemperatureStatus)))
+// Schalten NoDim
+#define KoLED_TW_ChSwitchNoDim                       (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChSwitchNoDim)))
+// Schalten Boost
+#define KoLED_TW_ChSwitchBoost                       (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChSwitchBoost)))
 
 #define LED_RGB_ChannelCount 5
 
@@ -1762,11 +1771,11 @@
 #define ParamLED_RGB_ChSceneH_Sat                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_Sat)))
 
 // deprecated
-#define LED_RGB_KoOffset 300
+#define LED_RGB_KoOffset 305
 
 // Communication objects per channel (multiple occurrence)
-#define LED_RGB_KoBlockOffset 300
-#define LED_RGB_KoBlockSize 15
+#define LED_RGB_KoBlockOffset 305
+#define LED_RGB_KoBlockSize 16
 
 #define LED_RGB_KoCalcNumber(index) (index + LED_RGB_KoBlockOffset + _channelIndex * LED_RGB_KoBlockSize)
 #define LED_RGB_KoCalcIndex(number) ((number >= LED_RGB_KoCalcNumber(0) && number < LED_RGB_KoCalcNumber(LED_RGB_KoBlockSize)) ? (number - LED_RGB_KoBlockOffset) % LED_RGB_KoBlockSize : -1)
@@ -1787,6 +1796,7 @@
 #define LED_RGB_KoChRGBStatus 12
 #define LED_RGB_KoChHSV 13
 #define LED_RGB_KoChHSVStatus 14
+#define LED_RGB_KoChSwitchNoDim 15
 
 // Schalten
 #define KoLED_RGB_ChSwitch                            (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChSwitch)))
@@ -1818,13 +1828,15 @@
 #define KoLED_RGB_ChHSV                               (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChHSV)))
 // HSV Status
 #define KoLED_RGB_ChHSVStatus                         (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChHSVStatus)))
+// Schalten NoDim
+#define KoLED_RGB_ChSwitchNoDim                       (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChSwitchNoDim)))
 
 #define SWA_VisibleChannels                     2151      // uint8_t
 
 // Verfügbare Kanäle
 #define ParamSWA_VisibleChannels                     (knx.paramByte(SWA_VisibleChannels))
 
-#define SWA_KoCentralFunction 380
+#define SWA_KoCentralFunction 385
 
 // Zentralfunktion
 #define KoSWA_CentralFunction                     (knx.getGroupObject(SWA_KoCentralFunction))
@@ -2078,10 +2090,10 @@
 #define ParamSWA_ChSceneHNumber                      (knx.paramByte(SWA_ParamCalcIndex(SWA_ChSceneHNumber)))
 
 // deprecated
-#define SWA_KoOffset 381
+#define SWA_KoOffset 386
 
 // Communication objects per channel (multiple occurrence)
-#define SWA_KoBlockOffset 381
+#define SWA_KoBlockOffset 386
 #define SWA_KoBlockSize 6
 
 #define SWA_KoCalcNumber(index) (index + SWA_KoBlockOffset + _channelIndex * SWA_KoBlockSize)
@@ -2155,10 +2167,10 @@
 #define ParamBI_ChannelPeriodicTimeMS               (paramDelay(knx.paramWord(BI_ParamCalcIndex(BI_ChannelPeriodicTime))))
 
 // deprecated
-#define BI_KoOffset 390
+#define BI_KoOffset 395
 
 // Communication objects per channel (multiple occurrence)
-#define BI_KoBlockOffset 390
+#define BI_KoBlockOffset 395
 #define BI_KoBlockSize 1
 
 #define BI_KoCalcNumber(index) (index + BI_KoBlockOffset + _channelIndex * BI_KoBlockSize)

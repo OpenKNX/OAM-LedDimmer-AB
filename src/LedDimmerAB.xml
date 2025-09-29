@@ -47,13 +47,13 @@
     <op:verify File="../lib/OFM-LedModule/library.json" ModuleVersion="%LED_VerifyVersion%" />
   </op:define>
 
-  <op:define prefix="LED_SC" prefixDoc="LED" 
+  <op:define prefix="LED_SC" prefixDoc="LED"
     configTransferName="  EK - Einzelkanal"
     share="../lib/OFM-LedModule/src/Single.share.xml"
     template="../lib/OFM-LedModule/src/Single.templ.xml"
     ModuleType="21"
     KoOffset="30"
-    NumChannels="%LED_SC_NumChannels%" /> <!-- 9 KOs/Ch = 144 -->
+    NumChannels="16" /> <!-- 10 KOs/Ch = 160 -->
   
   <op:define prefix="LED_TW" prefixDoc="LED" 
     configTransferName="  TW - Tunable White"
@@ -61,32 +61,30 @@
     template="../lib/OFM-LedModule/src/TW.templ.xml"
     ModuleType="22"
     KoOffset="200"
-    NumChannels="%LED_TW_NumChannels%"/> <!-- 11 KOs/Ch = 88 -->
+    NumChannels="8"/> <!-- 13 KOs/Ch = 104 -->
 
   <op:define prefix="LED_RGB" prefixDoc="LED" 
     configTransferName="  RGB - Rot/Grün/Blau"
     share="../lib/OFM-LedModule/src/RGB.share.xml"
     template="../lib/OFM-LedModule/src/RGB.templ.xml"
     ModuleType="23"
-    KoOffset="300"
-    NumChannels="%LED_RGB_NumChannels%"/> <!-- 15 KOs/Ch = 75 -->
+    KoOffset="305"
+    NumChannels="5"/> <!-- 16 KOs/Ch = 80 -->
 
-  <op:define prefix="SWA"
-    ModuleType="30"
+  <op:define prefix="SWA" ModuleType="30"
     share="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.share.xml"
     template="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.templ.xml"
     NumChannels="1"
-    KoSingleOffset="380"
-    KoOffset="381">
+    KoSingleOffset="385"
+    KoOffset="386">
     <op:verify File="../lib/OFM-SwitchActuator/library.json" ModuleVersion="%SWA_VerifyVersion%" />
   </op:define> <!-- 6 KOs/Ch = 6 -->
 
-  <op:define prefix="BI"
-    ModuleType="40"
+  <op:define prefix="BI" ModuleType="40"
     share="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml"
     template="../lib/OFM-BinaryInput/src/BinaryInputChannel.templ.xml"
     NumChannels="4"
-    KoOffset="390" >
+    KoOffset="395" >
     <op:verify File="../lib/OFM-BinaryInput/library.json" ModuleVersion="%BI_VerifyVersion%" /> 
   </op:define> <!-- 1 KO/Ch = 4 -->
 
