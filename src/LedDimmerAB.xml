@@ -11,8 +11,8 @@
   <op:ETS
     OpenKnxId="0xAF"
     ApplicationNumber="0x07"
-    ApplicationVersion="0.6"
-    ReplacesVersions="0.5 0.4 0.3"
+    ApplicationVersion="0.7"
+    ReplacesVersions="0.6 0.5 0.4 0.3"
     ApplicationRevision="0"
     ProductName="LED-Dimmer (AB-SmartHouse)"
     BusCurrent="10"
@@ -71,7 +71,8 @@
     KoOffset="300"
     NumChannels="%LED_RGB_NumChannels%"/> <!-- 15 KOs/Ch = 75 -->
 
-  <op:define prefix="SWA" ModuleType="30"
+  <op:define prefix="SWA"
+    ModuleType="30"
     share="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.share.xml"
     template="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.templ.xml"
     NumChannels="1"
@@ -80,7 +81,8 @@
     <op:verify File="../lib/OFM-SwitchActuator/library.json" ModuleVersion="%SWA_VerifyVersion%" />
   </op:define> <!-- 6 KOs/Ch = 6 -->
 
-  <op:define prefix="BI" ModuleType="40"
+  <op:define prefix="BI"
+    ModuleType="40"
     share="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml"
     template="../lib/OFM-BinaryInput/src/BinaryInputChannel.templ.xml"
     NumChannels="4"
@@ -88,7 +90,8 @@
     <op:verify File="../lib/OFM-BinaryInput/library.json" ModuleVersion="%BI_VerifyVersion%" /> 
   </op:define> <!-- 1 KO/Ch = 4 -->
 
-  <op:define prefix="BTN" ModuleType="50"
+  <op:define prefix="BTN"
+    ModuleType="50"
     share="../lib/OFM-VirtualButton/src/VirtualButton.share.xml"
     template="../lib/OFM-VirtualButton/src/VirtualButton.templ.xml"
     NumChannels="10"
@@ -96,19 +99,30 @@
     <op:verify File="../lib/OFM-VirtualButton/library.json" ModuleVersion="%BTN_VerifyVersion%" /> 
   </op:define> <!-- 12 KOs/Ch = 120 -->
   
-  <!-- <op:define prefix="SENS" ModuleType="60"
+  <op:define prefix="SENS"
+    ModuleType="60"
     share="../lib/OFM-SensorModule/src/Sensormodul.share.xml"
     KoSingleOffset="520">
     <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="%SENS_VerifyVersion%" />
-  </op:define> -->
+  </op:define> <!-- 29 KOs -->
 
-  <op:define prefix="LOG" ModuleType="10"
-  share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
-  template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
-  NumChannels="3"
-  KoOffset="550">
-  <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="%LOG_VerifyVersion%" /> 
-</op:define> <!-- 3 KOs/Ch = 297 -->
+  <op:define prefix="LOG"
+    ModuleType="10"
+    share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
+    template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
+    NumChannels="3"
+    KoOffset="550">
+    <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="%LOG_VerifyVersion%" /> 
+  </op:define> <!-- 3 KOs/Ch = 297 -->
+
+  <op:define prefix="FCB"
+    ModuleType="70"
+    share="../lib/OFM-FunctionBlocks/src/FunctionBlocks.share.xml"
+    template="../lib/OFM-FunctionBlocks/src/FunctionBlocks.templ.xml"
+    NumChannels="1"
+    KoOffset="850">
+    <op:verify File="../lib/OFM-FunctionBlocks/library.json" ModuleVersion="%FCB_VerifyVersion%" /> 
+  </op:define> <!-- 10 KOs/Ch = 100 -->
 
 <generate>
   <Dynamic>
@@ -118,8 +132,9 @@
   <op:include href="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SWA" />
   <op:include href="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BI" />
   <op:include href="../lib/OFM-VirtualButton/src/VirtualButton.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="BTN" />
-  <!-- <op:include href="../lib/OFM-SensorModule/src/Sensormodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SENS" /> -->
+  <op:include href="../lib/OFM-SensorModule/src/Sensormodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="SENS" />
   <op:include href="../lib/OFM-LogicModule/src/Logikmodul.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="LOG" />
+  <op:include href="../lib/OFM-FunctionBlocks/src/FunctionBlocks.share.xml" xpath="//ApplicationProgram/Dynamic/*" prefix="FCB" />
   </Dynamic>
-  </generate>
+</generate>
 </KNX>

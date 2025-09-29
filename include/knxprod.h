@@ -8,23 +8,38 @@
             (time & 0xC000) == 0x8000 ? ((time & 0x3FFF) > 1000 ? 3600000 : \
                                          (time & 0x3FFF) * 3600000 ) : 0 )
                                              
+#define ETS_ModuleId_NONE 0
+#define ETS_ModuleId_BASE 1
+#define ETS_ModuleId_UCT 2
+#define ETS_ModuleId_LED 3
+#define ETS_ModuleId_LED_SC 4
+#define ETS_ModuleId_LED_TW 5
+#define ETS_ModuleId_LED_RGB 6
+#define ETS_ModuleId_SWA 7
+#define ETS_ModuleId_BI 8
+#define ETS_ModuleId_BTN 9
+#define ETS_ModuleId_SENS 10
+#define ETS_ModuleId_LOG 11
+#define ETS_ModuleId_FCB 12
 #ifndef FIRMWARE_NAME
-    #define FIRMWARE_NAME "LED-Dimmer (AB-SmartHouse)"
+    #define FIRMWARE_NAME "LED-Dimmer (AB-SmartHouse) (dev)"
 #endif
-#define MAIN_OpenKnxId 0xA6
+#define MAIN_OpenKnxId 0xAF
 #define MAIN_ApplicationNumber 7
-#define MAIN_ApplicationVersion 10
+#define MAIN_ApplicationVersion 7
 #define MAIN_ApplicationEncoding iso-8859-15
-#define MAIN_ParameterSize 14201
-#define MAIN_MaxKoNumber 846
+#define MAIN_ParameterSize 6209
+#define MAIN_MaxKoNumber 859
 #define MAIN_OrderNumber "OpenKnxLedDimmerAB"
-#define BASE_ModuleVersion 20
-#define UCT_ModuleVersion 2
+#define BASE_ModuleVersion 21
+#define UCT_ModuleVersion 4
 #define LED_ModuleVersion 10
 #define SWA_ModuleVersion 1
 #define BI_ModuleVersion 2
 #define BTN_ModuleVersion 5
+#define SENS_ModuleVersion 67
 #define LOG_ModuleVersion 55
+#define FCB_ModuleVersion 6
 // Parameter with single occurrence
 
 
@@ -81,6 +96,39 @@
 #define     BASE_ManualSaveShift 0
 #define BASE_PeriodicSave                        79      // 8 Bits, Bit 7-0
 #define BASE_Dummy                               109      // uint8_t
+#define BASE_ModuleEnabled_UCT                   110      // 1 Bit, Bit 6
+#define     BASE_ModuleEnabled_UCTMask 0x40
+#define     BASE_ModuleEnabled_UCTShift 6
+#define BASE_ModuleEnabled_LED                   110      // 1 Bit, Bit 5
+#define     BASE_ModuleEnabled_LEDMask 0x20
+#define     BASE_ModuleEnabled_LEDShift 5
+#define BASE_ModuleEnabled_LED_SC                110      // 1 Bit, Bit 4
+#define     BASE_ModuleEnabled_LED_SCMask 0x10
+#define     BASE_ModuleEnabled_LED_SCShift 4
+#define BASE_ModuleEnabled_LED_TW                110      // 1 Bit, Bit 3
+#define     BASE_ModuleEnabled_LED_TWMask 0x08
+#define     BASE_ModuleEnabled_LED_TWShift 3
+#define BASE_ModuleEnabled_LED_RGB               110      // 1 Bit, Bit 2
+#define     BASE_ModuleEnabled_LED_RGBMask 0x04
+#define     BASE_ModuleEnabled_LED_RGBShift 2
+#define BASE_ModuleEnabled_SWA                   110      // 1 Bit, Bit 1
+#define     BASE_ModuleEnabled_SWAMask 0x02
+#define     BASE_ModuleEnabled_SWAShift 1
+#define BASE_ModuleEnabled_BI                    110      // 1 Bit, Bit 0
+#define     BASE_ModuleEnabled_BIMask 0x01
+#define     BASE_ModuleEnabled_BIShift 0
+#define BASE_ModuleEnabled_BTN                   111      // 1 Bit, Bit 7
+#define     BASE_ModuleEnabled_BTNMask 0x80
+#define     BASE_ModuleEnabled_BTNShift 7
+#define BASE_ModuleEnabled_SENS                  111      // 1 Bit, Bit 6
+#define     BASE_ModuleEnabled_SENSMask 0x40
+#define     BASE_ModuleEnabled_SENSShift 6
+#define BASE_ModuleEnabled_LOG                   111      // 1 Bit, Bit 5
+#define     BASE_ModuleEnabled_LOGMask 0x20
+#define     BASE_ModuleEnabled_LOGShift 5
+#define BASE_ModuleEnabled_FCB                   111      // 1 Bit, Bit 4
+#define     BASE_ModuleEnabled_FCBMask 0x10
+#define     BASE_ModuleEnabled_FCBShift 4
 
 // Zeitbasis
 #define ParamBASE_StartupDelayBase                    ((knx.paramByte(BASE_StartupDelayBase) & BASE_StartupDelayBaseMask) >> BASE_StartupDelayBaseShift)
@@ -128,6 +176,28 @@
 #define ParamBASE_PeriodicSave                        (knx.paramByte(BASE_PeriodicSave))
 // 
 #define ParamBASE_Dummy                               (knx.paramByte(BASE_Dummy))
+// UCT
+#define ParamBASE_ModuleEnabled_UCT                   ((bool)(knx.paramByte(BASE_ModuleEnabled_UCT) & BASE_ModuleEnabled_UCTMask))
+// LED
+#define ParamBASE_ModuleEnabled_LED                   ((bool)(knx.paramByte(BASE_ModuleEnabled_LED) & BASE_ModuleEnabled_LEDMask))
+// LED_SC
+#define ParamBASE_ModuleEnabled_LED_SC                ((bool)(knx.paramByte(BASE_ModuleEnabled_LED_SC) & BASE_ModuleEnabled_LED_SCMask))
+// LED_TW
+#define ParamBASE_ModuleEnabled_LED_TW                ((bool)(knx.paramByte(BASE_ModuleEnabled_LED_TW) & BASE_ModuleEnabled_LED_TWMask))
+// LED_RGB
+#define ParamBASE_ModuleEnabled_LED_RGB               ((bool)(knx.paramByte(BASE_ModuleEnabled_LED_RGB) & BASE_ModuleEnabled_LED_RGBMask))
+// SWA
+#define ParamBASE_ModuleEnabled_SWA                   ((bool)(knx.paramByte(BASE_ModuleEnabled_SWA) & BASE_ModuleEnabled_SWAMask))
+// BI
+#define ParamBASE_ModuleEnabled_BI                    ((bool)(knx.paramByte(BASE_ModuleEnabled_BI) & BASE_ModuleEnabled_BIMask))
+// BTN
+#define ParamBASE_ModuleEnabled_BTN                   ((bool)(knx.paramByte(BASE_ModuleEnabled_BTN) & BASE_ModuleEnabled_BTNMask))
+// SENS
+#define ParamBASE_ModuleEnabled_SENS                  ((bool)(knx.paramByte(BASE_ModuleEnabled_SENS) & BASE_ModuleEnabled_SENSMask))
+// LOG
+#define ParamBASE_ModuleEnabled_LOG                   ((bool)(knx.paramByte(BASE_ModuleEnabled_LOG) & BASE_ModuleEnabled_LOGMask))
+// FCB
+#define ParamBASE_ModuleEnabled_FCB                   ((bool)(knx.paramByte(BASE_ModuleEnabled_FCB) & BASE_ModuleEnabled_FCBMask))
 
 #define BASE_KoHeartbeat 1
 #define BASE_KoTime 2
@@ -154,50 +224,50 @@
 
 
 
-#define LED_HardwareVariant                     110      // 4 Bits, Bit 7-4
+#define LED_HardwareVariant                     114      // 4 Bits, Bit 7-4
 #define     LED_HardwareVariantMask 0xF0
 #define     LED_HardwareVariantShift 4
-#define LED_DimmerCcType                        110      // 1 Bit, Bit 1
+#define LED_DimmerCcType                        114      // 1 Bit, Bit 1
 #define     LED_DimmerCcTypeMask 0x02
 #define     LED_DimmerCcTypeShift 1
-#define LED_PwmFrequency                        111      // 4 Bits, Bit 7-4
+#define LED_PwmFrequency                        115      // 4 Bits, Bit 7-4
 #define     LED_PwmFrequencyMask 0xF0
 #define     LED_PwmFrequencyShift 4
-#define LED_PowerSupplyRelay                    112      // 1 Bit, Bit 0
+#define LED_PowerSupplyRelay                    116      // 1 Bit, Bit 0
 #define     LED_PowerSupplyRelayMask 0x01
 #define     LED_PowerSupplyRelayShift 0
-#define LED_PowerSupplyRelayMinVoltage          113      // uint8_t
-#define LED_PowerSupplyRelayOffDelayBase        114      // 2 Bits, Bit 7-6
+#define LED_PowerSupplyRelayMinVoltage          117      // uint8_t
+#define LED_PowerSupplyRelayOffDelayBase        118      // 2 Bits, Bit 7-6
 #define     LED_PowerSupplyRelayOffDelayBaseMask 0xC0
 #define     LED_PowerSupplyRelayOffDelayBaseShift 6
-#define LED_PowerSupplyRelayOffDelayTime        114      // 14 Bits, Bit 13-0
+#define LED_PowerSupplyRelayOffDelayTime        118      // 14 Bits, Bit 13-0
 #define     LED_PowerSupplyRelayOffDelayTimeMask 0x3FFF
 #define     LED_PowerSupplyRelayOffDelayTimeShift 0
-#define LED_PowerSupplyVoltageChangeSend        116      // 1 Bit, Bit 7
+#define LED_PowerSupplyVoltageChangeSend        120      // 1 Bit, Bit 7
 #define     LED_PowerSupplyVoltageChangeSendMask 0x80
 #define     LED_PowerSupplyVoltageChangeSendShift 7
-#define LED_TemperatureChangeSend               116      // 1 Bit, Bit 6
+#define LED_TemperatureChangeSend               120      // 1 Bit, Bit 6
 #define     LED_TemperatureChangeSendMask 0x40
 #define     LED_TemperatureChangeSendShift 6
-#define LED_PowerSupplyVoltageCyclicBase        117      // 2 Bits, Bit 7-6
+#define LED_PowerSupplyVoltageCyclicBase        121      // 2 Bits, Bit 7-6
 #define     LED_PowerSupplyVoltageCyclicBaseMask 0xC0
 #define     LED_PowerSupplyVoltageCyclicBaseShift 6
-#define LED_PowerSupplyVoltageCyclicTime        117      // 14 Bits, Bit 13-0
+#define LED_PowerSupplyVoltageCyclicTime        121      // 14 Bits, Bit 13-0
 #define     LED_PowerSupplyVoltageCyclicTimeMask 0x3FFF
 #define     LED_PowerSupplyVoltageCyclicTimeShift 0
-#define LED_TemperatureCyclicBase               119      // 2 Bits, Bit 7-6
+#define LED_TemperatureCyclicBase               123      // 2 Bits, Bit 7-6
 #define     LED_TemperatureCyclicBaseMask 0xC0
 #define     LED_TemperatureCyclicBaseShift 6
-#define LED_TemperatureCyclicTime               119      // 14 Bits, Bit 13-0
+#define LED_TemperatureCyclicTime               123      // 14 Bits, Bit 13-0
 #define     LED_TemperatureCyclicTimeMask 0x3FFF
 #define     LED_TemperatureCyclicTimeShift 0
-#define LED_FrontControlOutput                  121      // 1 Bit, Bit 7
+#define LED_FrontControlOutput                  125      // 1 Bit, Bit 7
 #define     LED_FrontControlOutputMask 0x80
 #define     LED_FrontControlOutputShift 7
-#define LED_FrontControlInput                   121      // 1 Bit, Bit 6
+#define LED_FrontControlInput                   125      // 1 Bit, Bit 6
 #define     LED_FrontControlInputMask 0x40
 #define     LED_FrontControlInputShift 6
-#define LED_FrontControlManualBrightness_       122      // uint8_t
+#define LED_FrontControlManualBrightness_       126      // uint8_t
 
 // Hardware-Variante
 #define ParamLED_HardwareVariant                     ((knx.paramByte(LED_HardwareVariant) & LED_HardwareVariantMask) >> LED_HardwareVariantShift)
@@ -255,7 +325,7 @@
 #define LED_ChannelCount 16
 
 // Parameter per channel
-#define LED_ParamBlockOffset 123
+#define LED_ParamBlockOffset 127
 #define LED_ParamBlockSize 7
 #define LED_ParamCalcIndex(index) (index + LED_ParamBlockOffset + _channelIndex * LED_ParamBlockSize)
 
@@ -286,389 +356,394 @@
 #define LED_SC_ChannelCount 16
 
 // Parameter per channel
-#define LED_SC_ParamBlockOffset 235
+#define LED_SC_ParamBlockOffset 239
 #define LED_SC_ParamBlockSize 60
 #define LED_SC_ParamCalcIndex(index) (index + LED_SC_ParamBlockOffset + _channelIndex * LED_SC_ParamBlockSize)
 
-#define LED_SC_LightDimmTimeDayON_                  1      // uint16_t
-#define LED_SC_LightDimmTimeNightON_                3      // uint16_t
-#define LED_SC_LightDimmTimeRel_                    5      // uint16_t
-#define LED_SC_LightDimmTimeDayOFF_                 7      // uint16_t
-#define LED_SC_LightDimmTimeNightOFF_               9      // uint16_t
-#define LED_SC_BrighnessMin_                       11      // uint8_t
-#define LED_SC_BrighnessMaxDay_                    12      // uint8_t
-#define LED_SC_BrighnessMaxNight_                  13      // uint8_t
-#define LED_SC_DimCurve_                           14      // 3 Bits, Bit 7-5
-#define     LED_SC_DimCurve_Mask 0xE0
-#define     LED_SC_DimCurve_Shift 5
-#define LED_SC_StairCaseActive_                    14      // 1 Bit, Bit 4
-#define     LED_SC_StairCaseActive_Mask 0x10
-#define     LED_SC_StairCaseActive_Shift 4
-#define LED_SC_StairCaseTimer_                     15      // uint8_t
-#define LED_SC_StaicCaseTrigger_                   14      // 2 Bits, Bit 3-2
-#define     LED_SC_StaicCaseTrigger_Mask 0x0C
-#define     LED_SC_StaicCaseTrigger_Shift 2
-#define LED_SC_StartupBehavior_                    16      // 8 Bits, Bit 7-0
-#define LED_SC_ScenesActive_                       19      // 1 Bit, Bit 7
-#define     LED_SC_ScenesActive_Mask 0x80
-#define     LED_SC_ScenesActive_Shift 7
-#define LED_SC_SceneA_Type_                        20      // 3 Bits, Bit 7-5
-#define     LED_SC_SceneA_Type_Mask 0xE0
-#define     LED_SC_SceneA_Type_Shift 5
-#define LED_SC_SceneA_ValueType_                   20      // 3 Bits, Bit 4-2
-#define     LED_SC_SceneA_ValueType_Mask 0x1C
-#define     LED_SC_SceneA_ValueType_Shift 2
-#define LED_SC_SceneA_Lockobject_                  20      // 1 Bit, Bit 1
-#define     LED_SC_SceneA_Lockobject_Mask 0x02
-#define     LED_SC_SceneA_Lockobject_Shift 1
-#define LED_SC_SceneA_LockobjectFunc_              20      // 2 Bits, Bit 0--1
-#define LED_SC_SceneA_AllowSave                    21      // 1 Bit, Bit 7
-#define     LED_SC_SceneA_AllowSaveMask 0x80
-#define     LED_SC_SceneA_AllowSaveShift 7
-#define LED_SC_SceneA_Number_                      21      // 7 Bits, Bit 6-0
-#define     LED_SC_SceneA_Number_Mask 0x7F
-#define     LED_SC_SceneA_Number_Shift 0
-#define LED_SC_SceneA_Function_                    22      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneA_Function_Mask 0xC0
-#define     LED_SC_SceneA_Function_Shift 6
-#define LED_SC_SceneA_Sequence_                    22      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneA_Sequence_Mask 0xC0
-#define     LED_SC_SceneA_Sequence_Shift 6
-#define LED_SC_SceneA_Brightness_                  22      // uint8_t
-#define LED_SC_SceneB_Type_                        25      // 3 Bits, Bit 7-5
-#define     LED_SC_SceneB_Type_Mask 0xE0
-#define     LED_SC_SceneB_Type_Shift 5
-#define LED_SC_SceneB_ValueType_                   25      // 3 Bits, Bit 4-2
-#define     LED_SC_SceneB_ValueType_Mask 0x1C
-#define     LED_SC_SceneB_ValueType_Shift 2
-#define LED_SC_SceneB_Lockobject_                  25      // 1 Bit, Bit 1
-#define     LED_SC_SceneB_Lockobject_Mask 0x02
-#define     LED_SC_SceneB_Lockobject_Shift 1
-#define LED_SC_SceneB_LockobjectFunc_              25      // 2 Bits, Bit 0--1
-#define LED_SC_SceneB_AllowSave                    26      // 1 Bit, Bit 7
-#define     LED_SC_SceneB_AllowSaveMask 0x80
-#define     LED_SC_SceneB_AllowSaveShift 7
-#define LED_SC_SceneB_Number_                      26      // 7 Bits, Bit 6-0
-#define     LED_SC_SceneB_Number_Mask 0x7F
-#define     LED_SC_SceneB_Number_Shift 0
-#define LED_SC_SceneB_Function_                    27      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneB_Function_Mask 0xC0
-#define     LED_SC_SceneB_Function_Shift 6
-#define LED_SC_SceneB_Sequence_                    27      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneB_Sequence_Mask 0xC0
-#define     LED_SC_SceneB_Sequence_Shift 6
-#define LED_SC_SceneB_Brightness_                  27      // uint8_t
-#define LED_SC_SceneC_Type_                        30      // 3 Bits, Bit 7-5
-#define     LED_SC_SceneC_Type_Mask 0xE0
-#define     LED_SC_SceneC_Type_Shift 5
-#define LED_SC_SceneC_ValueType_                   30      // 3 Bits, Bit 4-2
-#define     LED_SC_SceneC_ValueType_Mask 0x1C
-#define     LED_SC_SceneC_ValueType_Shift 2
-#define LED_SC_SceneC_Lockobject_                  30      // 1 Bit, Bit 1
-#define     LED_SC_SceneC_Lockobject_Mask 0x02
-#define     LED_SC_SceneC_Lockobject_Shift 1
-#define LED_SC_SceneC_LockobjectFunc_              30      // 2 Bits, Bit 0--1
-#define LED_SC_SceneC_AllowSave                    31      // 1 Bit, Bit 7
-#define     LED_SC_SceneC_AllowSaveMask 0x80
-#define     LED_SC_SceneC_AllowSaveShift 7
-#define LED_SC_SceneC_Number_                      31      // 7 Bits, Bit 6-0
-#define     LED_SC_SceneC_Number_Mask 0x7F
-#define     LED_SC_SceneC_Number_Shift 0
-#define LED_SC_SceneC_Function_                    32      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneC_Function_Mask 0xC0
-#define     LED_SC_SceneC_Function_Shift 6
-#define LED_SC_SceneC_Sequence_                    32      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneC_Sequence_Mask 0xC0
-#define     LED_SC_SceneC_Sequence_Shift 6
-#define LED_SC_SceneC_Brightness_                  32      // uint8_t
-#define LED_SC_SceneD_Type_                        35      // 3 Bits, Bit 7-5
-#define     LED_SC_SceneD_Type_Mask 0xE0
-#define     LED_SC_SceneD_Type_Shift 5
-#define LED_SC_SceneD_ValueType_                   35      // 3 Bits, Bit 4-2
-#define     LED_SC_SceneD_ValueType_Mask 0x1C
-#define     LED_SC_SceneD_ValueType_Shift 2
-#define LED_SC_SceneD_Lockobject_                  35      // 1 Bit, Bit 1
-#define     LED_SC_SceneD_Lockobject_Mask 0x02
-#define     LED_SC_SceneD_Lockobject_Shift 1
-#define LED_SC_SceneD_LockobjectFunc_              35      // 2 Bits, Bit 0--1
-#define LED_SC_SceneD_AllowSave                    36      // 1 Bit, Bit 7
-#define     LED_SC_SceneD_AllowSaveMask 0x80
-#define     LED_SC_SceneD_AllowSaveShift 7
-#define LED_SC_SceneD_Number_                      36      // 7 Bits, Bit 6-0
-#define     LED_SC_SceneD_Number_Mask 0x7F
-#define     LED_SC_SceneD_Number_Shift 0
-#define LED_SC_SceneD_Function_                    37      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneD_Function_Mask 0xC0
-#define     LED_SC_SceneD_Function_Shift 6
-#define LED_SC_SceneD_Sequence_                    37      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneD_Sequence_Mask 0xC0
-#define     LED_SC_SceneD_Sequence_Shift 6
-#define LED_SC_SceneD_Brightness_                  37      // uint8_t
-#define LED_SC_SceneE_Type_                        40      // 3 Bits, Bit 7-5
-#define     LED_SC_SceneE_Type_Mask 0xE0
-#define     LED_SC_SceneE_Type_Shift 5
-#define LED_SC_SceneE_ValueType_                   40      // 3 Bits, Bit 4-2
-#define     LED_SC_SceneE_ValueType_Mask 0x1C
-#define     LED_SC_SceneE_ValueType_Shift 2
-#define LED_SC_SceneE_Lockobject_                  40      // 1 Bit, Bit 1
-#define     LED_SC_SceneE_Lockobject_Mask 0x02
-#define     LED_SC_SceneE_Lockobject_Shift 1
-#define LED_SC_SceneE_LockobjectFunc_              40      // 2 Bits, Bit 0--1
-#define LED_SC_SceneE_AllowSave                    41      // 1 Bit, Bit 7
-#define     LED_SC_SceneE_AllowSaveMask 0x80
-#define     LED_SC_SceneE_AllowSaveShift 7
-#define LED_SC_SceneE_Number_                      41      // 7 Bits, Bit 6-0
-#define     LED_SC_SceneE_Number_Mask 0x7F
-#define     LED_SC_SceneE_Number_Shift 0
-#define LED_SC_SceneE_Function_                    42      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneE_Function_Mask 0xC0
-#define     LED_SC_SceneE_Function_Shift 6
-#define LED_SC_SceneE_Sequence_                    42      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneE_Sequence_Mask 0xC0
-#define     LED_SC_SceneE_Sequence_Shift 6
-#define LED_SC_SceneE_Brightness_                  42      // uint8_t
-#define LED_SC_SceneF_Type_                        45      // 3 Bits, Bit 7-5
-#define     LED_SC_SceneF_Type_Mask 0xE0
-#define     LED_SC_SceneF_Type_Shift 5
-#define LED_SC_SceneF_ValueType_                   45      // 3 Bits, Bit 4-2
-#define     LED_SC_SceneF_ValueType_Mask 0x1C
-#define     LED_SC_SceneF_ValueType_Shift 2
-#define LED_SC_SceneF_Lockobject_                  45      // 1 Bit, Bit 1
-#define     LED_SC_SceneF_Lockobject_Mask 0x02
-#define     LED_SC_SceneF_Lockobject_Shift 1
-#define LED_SC_SceneF_LockobjectFunc_              45      // 2 Bits, Bit 0--1
-#define LED_SC_SceneF_AllowSave                    46      // 1 Bit, Bit 7
-#define     LED_SC_SceneF_AllowSaveMask 0x80
-#define     LED_SC_SceneF_AllowSaveShift 7
-#define LED_SC_SceneF_Number_                      46      // 7 Bits, Bit 6-0
-#define     LED_SC_SceneF_Number_Mask 0x7F
-#define     LED_SC_SceneF_Number_Shift 0
-#define LED_SC_SceneF_Function_                    47      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneF_Function_Mask 0xC0
-#define     LED_SC_SceneF_Function_Shift 6
-#define LED_SC_SceneF_Sequence_                    47      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneF_Sequence_Mask 0xC0
-#define     LED_SC_SceneF_Sequence_Shift 6
-#define LED_SC_SceneF_Brightness_                  47      // uint8_t
-#define LED_SC_SceneG_Type_                        50      // 3 Bits, Bit 7-5
-#define     LED_SC_SceneG_Type_Mask 0xE0
-#define     LED_SC_SceneG_Type_Shift 5
-#define LED_SC_SceneG_ValueType_                   50      // 3 Bits, Bit 4-2
-#define     LED_SC_SceneG_ValueType_Mask 0x1C
-#define     LED_SC_SceneG_ValueType_Shift 2
-#define LED_SC_SceneG_Lockobject_                  50      // 1 Bit, Bit 1
-#define     LED_SC_SceneG_Lockobject_Mask 0x02
-#define     LED_SC_SceneG_Lockobject_Shift 1
-#define LED_SC_SceneG_LockobjectFunc_              50      // 2 Bits, Bit 0--1
-#define LED_SC_SceneG_AllowSave                    51      // 1 Bit, Bit 7
-#define     LED_SC_SceneG_AllowSaveMask 0x80
-#define     LED_SC_SceneG_AllowSaveShift 7
-#define LED_SC_SceneG_Number_                      51      // 7 Bits, Bit 6-0
-#define     LED_SC_SceneG_Number_Mask 0x7F
-#define     LED_SC_SceneG_Number_Shift 0
-#define LED_SC_SceneG_Function_                    52      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneG_Function_Mask 0xC0
-#define     LED_SC_SceneG_Function_Shift 6
-#define LED_SC_SceneG_Sequence_                    52      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneG_Sequence_Mask 0xC0
-#define     LED_SC_SceneG_Sequence_Shift 6
-#define LED_SC_SceneG_Brightness_                  52      // uint8_t
-#define LED_SC_SceneH_Type_                        55      // 3 Bits, Bit 7-5
-#define     LED_SC_SceneH_Type_Mask 0xE0
-#define     LED_SC_SceneH_Type_Shift 5
-#define LED_SC_SceneH_ValueType_                   55      // 3 Bits, Bit 4-2
-#define     LED_SC_SceneH_ValueType_Mask 0x1C
-#define     LED_SC_SceneH_ValueType_Shift 2
-#define LED_SC_SceneH_Lockobject_                  55      // 1 Bit, Bit 1
-#define     LED_SC_SceneH_Lockobject_Mask 0x02
-#define     LED_SC_SceneH_Lockobject_Shift 1
-#define LED_SC_SceneH_LockobjectFunc_              55      // 2 Bits, Bit 0--1
-#define LED_SC_SceneH_AllowSave                    56      // 1 Bit, Bit 7
-#define     LED_SC_SceneH_AllowSaveMask 0x80
-#define     LED_SC_SceneH_AllowSaveShift 7
-#define LED_SC_SceneH_Number_                      56      // 7 Bits, Bit 6-0
-#define     LED_SC_SceneH_Number_Mask 0x7F
-#define     LED_SC_SceneH_Number_Shift 0
-#define LED_SC_SceneH_Function_                    57      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneH_Function_Mask 0xC0
-#define     LED_SC_SceneH_Function_Shift 6
-#define LED_SC_SceneH_Sequence_                    57      // 2 Bits, Bit 7-6
-#define     LED_SC_SceneH_Sequence_Mask 0xC0
-#define     LED_SC_SceneH_Sequence_Shift 6
-#define LED_SC_SceneH_Brightness_                  57      // uint8_t
+#define LED_SC_ChLightDimmTimeDayON                 1      // uint16_t
+#define LED_SC_ChLightDimmTimeNightON               3      // uint16_t
+#define LED_SC_ChLightDimmTimeRel                   5      // uint16_t
+#define LED_SC_ChLightDimmTimeDayOFF                7      // uint16_t
+#define LED_SC_ChLightDimmTimeNightOFF              9      // uint16_t
+#define LED_SC_ChBrighnessMin                      11      // uint8_t
+#define LED_SC_ChBrighnessMaxDay                   12      // uint8_t
+#define LED_SC_ChBrighnessMaxNight                 13      // uint8_t
+#define LED_SC_ChDimCurve                          14      // 3 Bits, Bit 7-5
+#define     LED_SC_ChDimCurveMask 0xE0
+#define     LED_SC_ChDimCurveShift 5
+#define LED_SC_ChStairCaseActive                   14      // 1 Bit, Bit 4
+#define     LED_SC_ChStairCaseActiveMask 0x10
+#define     LED_SC_ChStairCaseActiveShift 4
+#define LED_SC_ChStairCaseTimer                    15      // uint8_t
+#define LED_SC_ChStaicCaseTrigger                  14      // 2 Bits, Bit 3-2
+#define     LED_SC_ChStaicCaseTriggerMask 0x0C
+#define     LED_SC_ChStaicCaseTriggerShift 2
+#define LED_SC_ChStartupBehavior                   16      // 8 Bits, Bit 7-0
+#define LED_SC_ChNightSwitchScene                  20      // 1 Bit, Bit 7
+#define     LED_SC_ChNightSwitchSceneMask 0x80
+#define     LED_SC_ChNightSwitchSceneShift 7
+#define LED_SC_ChScenesActive                      19      // 1 Bit, Bit 7
+#define     LED_SC_ChScenesActiveMask 0x80
+#define     LED_SC_ChScenesActiveShift 7
+#define LED_SC_ChSceneA_Type                       20      // 3 Bits, Bit 7-5
+#define     LED_SC_ChSceneA_TypeMask 0xE0
+#define     LED_SC_ChSceneA_TypeShift 5
+#define LED_SC_ChSceneA_ValueType                  20      // 3 Bits, Bit 4-2
+#define     LED_SC_ChSceneA_ValueTypeMask 0x1C
+#define     LED_SC_ChSceneA_ValueTypeShift 2
+#define LED_SC_ChSceneA_Lockobject                 20      // 1 Bit, Bit 1
+#define     LED_SC_ChSceneA_LockobjectMask 0x02
+#define     LED_SC_ChSceneA_LockobjectShift 1
+#define LED_SC_ChSceneA_LockobjectFunc             20      // 2 Bits, Bit 0--1
+#define LED_SC_ChSceneA_AllowSave                  21      // 1 Bit, Bit 7
+#define     LED_SC_ChSceneA_AllowSaveMask 0x80
+#define     LED_SC_ChSceneA_AllowSaveShift 7
+#define LED_SC_ChSceneA_Number                     21      // 7 Bits, Bit 6-0
+#define     LED_SC_ChSceneA_NumberMask 0x7F
+#define     LED_SC_ChSceneA_NumberShift 0
+#define LED_SC_ChSceneA_Function                   22      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneA_FunctionMask 0xC0
+#define     LED_SC_ChSceneA_FunctionShift 6
+#define LED_SC_ChSceneA_Sequence                   22      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneA_SequenceMask 0xC0
+#define     LED_SC_ChSceneA_SequenceShift 6
+#define LED_SC_ChSceneA_Brightness                 22      // uint8_t
+#define LED_SC_ChSceneB_Type                       25      // 3 Bits, Bit 7-5
+#define     LED_SC_ChSceneB_TypeMask 0xE0
+#define     LED_SC_ChSceneB_TypeShift 5
+#define LED_SC_ChSceneB_ValueType                  25      // 3 Bits, Bit 4-2
+#define     LED_SC_ChSceneB_ValueTypeMask 0x1C
+#define     LED_SC_ChSceneB_ValueTypeShift 2
+#define LED_SC_ChSceneB_Lockobject                 25      // 1 Bit, Bit 1
+#define     LED_SC_ChSceneB_LockobjectMask 0x02
+#define     LED_SC_ChSceneB_LockobjectShift 1
+#define LED_SC_ChSceneB_LockobjectFunc             25      // 2 Bits, Bit 0--1
+#define LED_SC_ChSceneB_AllowSave                  26      // 1 Bit, Bit 7
+#define     LED_SC_ChSceneB_AllowSaveMask 0x80
+#define     LED_SC_ChSceneB_AllowSaveShift 7
+#define LED_SC_ChSceneB_Number                     26      // 7 Bits, Bit 6-0
+#define     LED_SC_ChSceneB_NumberMask 0x7F
+#define     LED_SC_ChSceneB_NumberShift 0
+#define LED_SC_ChSceneB_Function                   27      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneB_FunctionMask 0xC0
+#define     LED_SC_ChSceneB_FunctionShift 6
+#define LED_SC_ChSceneB_Sequence                   27      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneB_SequenceMask 0xC0
+#define     LED_SC_ChSceneB_SequenceShift 6
+#define LED_SC_ChSceneB_Brightness                 27      // uint8_t
+#define LED_SC_ChSceneC_Type                       30      // 3 Bits, Bit 7-5
+#define     LED_SC_ChSceneC_TypeMask 0xE0
+#define     LED_SC_ChSceneC_TypeShift 5
+#define LED_SC_ChSceneC_ValueType                  30      // 3 Bits, Bit 4-2
+#define     LED_SC_ChSceneC_ValueTypeMask 0x1C
+#define     LED_SC_ChSceneC_ValueTypeShift 2
+#define LED_SC_ChSceneC_Lockobject                 30      // 1 Bit, Bit 1
+#define     LED_SC_ChSceneC_LockobjectMask 0x02
+#define     LED_SC_ChSceneC_LockobjectShift 1
+#define LED_SC_ChSceneC_LockobjectFunc             30      // 2 Bits, Bit 0--1
+#define LED_SC_ChSceneC_AllowSave                  31      // 1 Bit, Bit 7
+#define     LED_SC_ChSceneC_AllowSaveMask 0x80
+#define     LED_SC_ChSceneC_AllowSaveShift 7
+#define LED_SC_ChSceneC_Number                     31      // 7 Bits, Bit 6-0
+#define     LED_SC_ChSceneC_NumberMask 0x7F
+#define     LED_SC_ChSceneC_NumberShift 0
+#define LED_SC_ChSceneC_Function                   32      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneC_FunctionMask 0xC0
+#define     LED_SC_ChSceneC_FunctionShift 6
+#define LED_SC_ChSceneC_Sequence                   32      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneC_SequenceMask 0xC0
+#define     LED_SC_ChSceneC_SequenceShift 6
+#define LED_SC_ChSceneC_Brightness                 32      // uint8_t
+#define LED_SC_ChSceneD_Type                       35      // 3 Bits, Bit 7-5
+#define     LED_SC_ChSceneD_TypeMask 0xE0
+#define     LED_SC_ChSceneD_TypeShift 5
+#define LED_SC_ChSceneD_ValueType                  35      // 3 Bits, Bit 4-2
+#define     LED_SC_ChSceneD_ValueTypeMask 0x1C
+#define     LED_SC_ChSceneD_ValueTypeShift 2
+#define LED_SC_ChSceneD_Lockobject                 35      // 1 Bit, Bit 1
+#define     LED_SC_ChSceneD_LockobjectMask 0x02
+#define     LED_SC_ChSceneD_LockobjectShift 1
+#define LED_SC_ChSceneD_LockobjectFunc             35      // 2 Bits, Bit 0--1
+#define LED_SC_ChSceneD_AllowSave                  36      // 1 Bit, Bit 7
+#define     LED_SC_ChSceneD_AllowSaveMask 0x80
+#define     LED_SC_ChSceneD_AllowSaveShift 7
+#define LED_SC_ChSceneD_Number                     36      // 7 Bits, Bit 6-0
+#define     LED_SC_ChSceneD_NumberMask 0x7F
+#define     LED_SC_ChSceneD_NumberShift 0
+#define LED_SC_ChSceneD_Function                   37      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneD_FunctionMask 0xC0
+#define     LED_SC_ChSceneD_FunctionShift 6
+#define LED_SC_ChSceneD_Sequence                   37      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneD_SequenceMask 0xC0
+#define     LED_SC_ChSceneD_SequenceShift 6
+#define LED_SC_ChSceneD_Brightness                 37      // uint8_t
+#define LED_SC_ChSceneE_Type                       40      // 3 Bits, Bit 7-5
+#define     LED_SC_ChSceneE_TypeMask 0xE0
+#define     LED_SC_ChSceneE_TypeShift 5
+#define LED_SC_ChSceneE_ValueType                  40      // 3 Bits, Bit 4-2
+#define     LED_SC_ChSceneE_ValueTypeMask 0x1C
+#define     LED_SC_ChSceneE_ValueTypeShift 2
+#define LED_SC_ChSceneE_Lockobject                 40      // 1 Bit, Bit 1
+#define     LED_SC_ChSceneE_LockobjectMask 0x02
+#define     LED_SC_ChSceneE_LockobjectShift 1
+#define LED_SC_ChSceneE_LockobjectFunc             40      // 2 Bits, Bit 0--1
+#define LED_SC_ChSceneE_AllowSave                  41      // 1 Bit, Bit 7
+#define     LED_SC_ChSceneE_AllowSaveMask 0x80
+#define     LED_SC_ChSceneE_AllowSaveShift 7
+#define LED_SC_ChSceneE_Number                     41      // 7 Bits, Bit 6-0
+#define     LED_SC_ChSceneE_NumberMask 0x7F
+#define     LED_SC_ChSceneE_NumberShift 0
+#define LED_SC_ChSceneE_Function                   42      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneE_FunctionMask 0xC0
+#define     LED_SC_ChSceneE_FunctionShift 6
+#define LED_SC_ChSceneE_Sequence                   42      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneE_SequenceMask 0xC0
+#define     LED_SC_ChSceneE_SequenceShift 6
+#define LED_SC_ChSceneE_Brightness                 42      // uint8_t
+#define LED_SC_ChSceneF_Type                       45      // 3 Bits, Bit 7-5
+#define     LED_SC_ChSceneF_TypeMask 0xE0
+#define     LED_SC_ChSceneF_TypeShift 5
+#define LED_SC_ChSceneF_ValueType                  45      // 3 Bits, Bit 4-2
+#define     LED_SC_ChSceneF_ValueTypeMask 0x1C
+#define     LED_SC_ChSceneF_ValueTypeShift 2
+#define LED_SC_ChSceneF_Lockobject                 45      // 1 Bit, Bit 1
+#define     LED_SC_ChSceneF_LockobjectMask 0x02
+#define     LED_SC_ChSceneF_LockobjectShift 1
+#define LED_SC_ChSceneF_LockobjectFunc             45      // 2 Bits, Bit 0--1
+#define LED_SC_ChSceneF_AllowSave                  46      // 1 Bit, Bit 7
+#define     LED_SC_ChSceneF_AllowSaveMask 0x80
+#define     LED_SC_ChSceneF_AllowSaveShift 7
+#define LED_SC_ChSceneF_Number                     46      // 7 Bits, Bit 6-0
+#define     LED_SC_ChSceneF_NumberMask 0x7F
+#define     LED_SC_ChSceneF_NumberShift 0
+#define LED_SC_ChSceneF_Function                   47      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneF_FunctionMask 0xC0
+#define     LED_SC_ChSceneF_FunctionShift 6
+#define LED_SC_ChSceneF_Sequence                   47      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneF_SequenceMask 0xC0
+#define     LED_SC_ChSceneF_SequenceShift 6
+#define LED_SC_ChSceneF_Brightness                 47      // uint8_t
+#define LED_SC_ChSceneG_Type                       50      // 3 Bits, Bit 7-5
+#define     LED_SC_ChSceneG_TypeMask 0xE0
+#define     LED_SC_ChSceneG_TypeShift 5
+#define LED_SC_ChSceneG_ValueType                  50      // 3 Bits, Bit 4-2
+#define     LED_SC_ChSceneG_ValueTypeMask 0x1C
+#define     LED_SC_ChSceneG_ValueTypeShift 2
+#define LED_SC_ChSceneG_Lockobject                 50      // 1 Bit, Bit 1
+#define     LED_SC_ChSceneG_LockobjectMask 0x02
+#define     LED_SC_ChSceneG_LockobjectShift 1
+#define LED_SC_ChSceneG_LockobjectFunc             50      // 2 Bits, Bit 0--1
+#define LED_SC_ChSceneG_AllowSave                  51      // 1 Bit, Bit 7
+#define     LED_SC_ChSceneG_AllowSaveMask 0x80
+#define     LED_SC_ChSceneG_AllowSaveShift 7
+#define LED_SC_ChSceneG_Number                     51      // 7 Bits, Bit 6-0
+#define     LED_SC_ChSceneG_NumberMask 0x7F
+#define     LED_SC_ChSceneG_NumberShift 0
+#define LED_SC_ChSceneG_Function                   52      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneG_FunctionMask 0xC0
+#define     LED_SC_ChSceneG_FunctionShift 6
+#define LED_SC_ChSceneG_Sequence                   52      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneG_SequenceMask 0xC0
+#define     LED_SC_ChSceneG_SequenceShift 6
+#define LED_SC_ChSceneG_Brightness                 52      // uint8_t
+#define LED_SC_ChSceneH_Type                       55      // 3 Bits, Bit 7-5
+#define     LED_SC_ChSceneH_TypeMask 0xE0
+#define     LED_SC_ChSceneH_TypeShift 5
+#define LED_SC_ChSceneH_ValueType                  55      // 3 Bits, Bit 4-2
+#define     LED_SC_ChSceneH_ValueTypeMask 0x1C
+#define     LED_SC_ChSceneH_ValueTypeShift 2
+#define LED_SC_ChSceneH_Lockobject                 55      // 1 Bit, Bit 1
+#define     LED_SC_ChSceneH_LockobjectMask 0x02
+#define     LED_SC_ChSceneH_LockobjectShift 1
+#define LED_SC_ChSceneH_LockobjectFunc             55      // 2 Bits, Bit 0--1
+#define LED_SC_ChSceneH_AllowSave                  56      // 1 Bit, Bit 7
+#define     LED_SC_ChSceneH_AllowSaveMask 0x80
+#define     LED_SC_ChSceneH_AllowSaveShift 7
+#define LED_SC_ChSceneH_Number                     56      // 7 Bits, Bit 6-0
+#define     LED_SC_ChSceneH_NumberMask 0x7F
+#define     LED_SC_ChSceneH_NumberShift 0
+#define LED_SC_ChSceneH_Function                   57      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneH_FunctionMask 0xC0
+#define     LED_SC_ChSceneH_FunctionShift 6
+#define LED_SC_ChSceneH_Sequence                   57      // 2 Bits, Bit 7-6
+#define     LED_SC_ChSceneH_SequenceMask 0xC0
+#define     LED_SC_ChSceneH_SequenceShift 6
+#define LED_SC_ChSceneH_Brightness                 57      // uint8_t
 
 // Dimmzeit Tag On
-#define ParamLED_SC_LightDimmTimeDayON_                 (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_LightDimmTimeDayON_)))
+#define ParamLED_SC_ChLightDimmTimeDayON                (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_ChLightDimmTimeDayON)))
 // Dimmzeit Nacht On
-#define ParamLED_SC_LightDimmTimeNightON_               (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_LightDimmTimeNightON_)))
+#define ParamLED_SC_ChLightDimmTimeNightON              (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_ChLightDimmTimeNightON)))
 // Dimmzeit Relativ
-#define ParamLED_SC_LightDimmTimeRel_                   (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_LightDimmTimeRel_)))
+#define ParamLED_SC_ChLightDimmTimeRel                  (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_ChLightDimmTimeRel)))
 // Dimmzeit Tag Off
-#define ParamLED_SC_LightDimmTimeDayOFF_                (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_LightDimmTimeDayOFF_)))
+#define ParamLED_SC_ChLightDimmTimeDayOFF               (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_ChLightDimmTimeDayOFF)))
 // Dimmzeit Nacht Off
-#define ParamLED_SC_LightDimmTimeNightOFF_              (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_LightDimmTimeNightOFF_)))
+#define ParamLED_SC_ChLightDimmTimeNightOFF             (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_ChLightDimmTimeNightOFF)))
 // Helligkeit min.
-#define ParamLED_SC_BrighnessMin_                       (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_BrighnessMin_)))
+#define ParamLED_SC_ChBrighnessMin                      (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChBrighnessMin)))
 // Helligkeit max. (Tag)
-#define ParamLED_SC_BrighnessMaxDay_                    (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_BrighnessMaxDay_)))
+#define ParamLED_SC_ChBrighnessMaxDay                   (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChBrighnessMaxDay)))
 // Helligkeit max. (Nacht)
-#define ParamLED_SC_BrighnessMaxNight_                  (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_BrighnessMaxNight_)))
+#define ParamLED_SC_ChBrighnessMaxNight                 (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChBrighnessMaxNight)))
 // Dimmkurve
-#define ParamLED_SC_DimCurve_                           ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_DimCurve_)) & LED_SC_DimCurve_Mask) >> LED_SC_DimCurve_Shift)
+#define ParamLED_SC_ChDimCurve                          ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChDimCurve)) & LED_SC_ChDimCurveMask) >> LED_SC_ChDimCurveShift)
 // Treppenlichtfunktion
-#define ParamLED_SC_StairCaseActive_                    ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_StairCaseActive_)) & LED_SC_StairCaseActive_Mask))
+#define ParamLED_SC_ChStairCaseActive                   ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChStairCaseActive)) & LED_SC_ChStairCaseActiveMask))
 // Nachlaufzeit
-#define ParamLED_SC_StairCaseTimer_                     (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_StairCaseTimer_)))
+#define ParamLED_SC_ChStairCaseTimer                    (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChStairCaseTimer)))
 // Treppenlicht Trigger
-#define ParamLED_SC_StaicCaseTrigger_                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_StaicCaseTrigger_)) & LED_SC_StaicCaseTrigger_Mask) >> LED_SC_StaicCaseTrigger_Shift)
+#define ParamLED_SC_ChStaicCaseTrigger                  ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChStaicCaseTrigger)) & LED_SC_ChStaicCaseTriggerMask) >> LED_SC_ChStaicCaseTriggerShift)
 // Einschaltverhalten
-#define ParamLED_SC_StartupBehavior_                    (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_StartupBehavior_)))
+#define ParamLED_SC_ChStartupBehavior                   (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChStartupBehavior)))
+// Nacht Umschaltung Szenendeaktivierung
+#define ParamLED_SC_ChNightSwitchScene                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChNightSwitchScene)) & LED_SC_ChNightSwitchSceneMask))
 // Szenen
-#define ParamLED_SC_ScenesActive_                       ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ScenesActive_)) & LED_SC_ScenesActive_Mask))
+#define ParamLED_SC_ChScenesActive                      ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChScenesActive)) & LED_SC_ChScenesActiveMask))
 // Typ
-#define ParamLED_SC_SceneA_Type_                        ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneA_Type_)) & LED_SC_SceneA_Type_Mask) >> LED_SC_SceneA_Type_Shift)
+#define ParamLED_SC_ChSceneA_Type                       ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneA_Type)) & LED_SC_ChSceneA_TypeMask) >> LED_SC_ChSceneA_TypeShift)
 // Typ
-#define ParamLED_SC_SceneA_ValueType_                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneA_ValueType_)) & LED_SC_SceneA_ValueType_Mask) >> LED_SC_SceneA_ValueType_Shift)
+#define ParamLED_SC_ChSceneA_ValueType                  ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneA_ValueType)) & LED_SC_ChSceneA_ValueTypeMask) >> LED_SC_ChSceneA_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_SC_SceneA_Lockobject_                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneA_Lockobject_)) & LED_SC_SceneA_Lockobject_Mask))
+#define ParamLED_SC_ChSceneA_Lockobject                 ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneA_Lockobject)) & LED_SC_ChSceneA_LockobjectMask))
 // Sperren
-#define ParamLED_SC_SceneA_LockobjectFunc_              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneA_LockobjectFunc_)))
+#define ParamLED_SC_ChSceneA_LockobjectFunc             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneA_LockobjectFunc)))
 // Speichern
-#define ParamLED_SC_SceneA_AllowSave                    ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneA_AllowSave)) & LED_SC_SceneA_AllowSaveMask))
+#define ParamLED_SC_ChSceneA_AllowSave                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneA_AllowSave)) & LED_SC_ChSceneA_AllowSaveMask))
 // Typ
-#define ParamLED_SC_SceneA_Number_                      (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneA_Number_)) & LED_SC_SceneA_Number_Mask)
+#define ParamLED_SC_ChSceneA_Number                     (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneA_Number)) & LED_SC_ChSceneA_NumberMask)
 // Funktion
-#define ParamLED_SC_SceneA_Function_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneA_Function_)) & LED_SC_SceneA_Function_Mask) >> LED_SC_SceneA_Function_Shift)
+#define ParamLED_SC_ChSceneA_Function                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneA_Function)) & LED_SC_ChSceneA_FunctionMask) >> LED_SC_ChSceneA_FunctionShift)
 // Ablauf
-#define ParamLED_SC_SceneA_Sequence_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneA_Sequence_)) & LED_SC_SceneA_Sequence_Mask) >> LED_SC_SceneA_Sequence_Shift)
+#define ParamLED_SC_ChSceneA_Sequence                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneA_Sequence)) & LED_SC_ChSceneA_SequenceMask) >> LED_SC_ChSceneA_SequenceShift)
 // Helligkeit
-#define ParamLED_SC_SceneA_Brightness_                  (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneA_Brightness_)))
+#define ParamLED_SC_ChSceneA_Brightness                 (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneA_Brightness)))
 // Typ
-#define ParamLED_SC_SceneB_Type_                        ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneB_Type_)) & LED_SC_SceneB_Type_Mask) >> LED_SC_SceneB_Type_Shift)
+#define ParamLED_SC_ChSceneB_Type                       ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneB_Type)) & LED_SC_ChSceneB_TypeMask) >> LED_SC_ChSceneB_TypeShift)
 // Typ
-#define ParamLED_SC_SceneB_ValueType_                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneB_ValueType_)) & LED_SC_SceneB_ValueType_Mask) >> LED_SC_SceneB_ValueType_Shift)
+#define ParamLED_SC_ChSceneB_ValueType                  ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneB_ValueType)) & LED_SC_ChSceneB_ValueTypeMask) >> LED_SC_ChSceneB_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_SC_SceneB_Lockobject_                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneB_Lockobject_)) & LED_SC_SceneB_Lockobject_Mask))
+#define ParamLED_SC_ChSceneB_Lockobject                 ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneB_Lockobject)) & LED_SC_ChSceneB_LockobjectMask))
 // Sperren
-#define ParamLED_SC_SceneB_LockobjectFunc_              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneB_LockobjectFunc_)))
+#define ParamLED_SC_ChSceneB_LockobjectFunc             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneB_LockobjectFunc)))
 // Speichern
-#define ParamLED_SC_SceneB_AllowSave                    ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneB_AllowSave)) & LED_SC_SceneB_AllowSaveMask))
+#define ParamLED_SC_ChSceneB_AllowSave                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneB_AllowSave)) & LED_SC_ChSceneB_AllowSaveMask))
 // Typ
-#define ParamLED_SC_SceneB_Number_                      (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneB_Number_)) & LED_SC_SceneB_Number_Mask)
+#define ParamLED_SC_ChSceneB_Number                     (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneB_Number)) & LED_SC_ChSceneB_NumberMask)
 // Funktion
-#define ParamLED_SC_SceneB_Function_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneB_Function_)) & LED_SC_SceneB_Function_Mask) >> LED_SC_SceneB_Function_Shift)
+#define ParamLED_SC_ChSceneB_Function                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneB_Function)) & LED_SC_ChSceneB_FunctionMask) >> LED_SC_ChSceneB_FunctionShift)
 // Ablauf
-#define ParamLED_SC_SceneB_Sequence_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneB_Sequence_)) & LED_SC_SceneB_Sequence_Mask) >> LED_SC_SceneB_Sequence_Shift)
+#define ParamLED_SC_ChSceneB_Sequence                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneB_Sequence)) & LED_SC_ChSceneB_SequenceMask) >> LED_SC_ChSceneB_SequenceShift)
 // Helligkeit
-#define ParamLED_SC_SceneB_Brightness_                  (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneB_Brightness_)))
+#define ParamLED_SC_ChSceneB_Brightness                 (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneB_Brightness)))
 // Typ
-#define ParamLED_SC_SceneC_Type_                        ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneC_Type_)) & LED_SC_SceneC_Type_Mask) >> LED_SC_SceneC_Type_Shift)
+#define ParamLED_SC_ChSceneC_Type                       ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneC_Type)) & LED_SC_ChSceneC_TypeMask) >> LED_SC_ChSceneC_TypeShift)
 // Typ
-#define ParamLED_SC_SceneC_ValueType_                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneC_ValueType_)) & LED_SC_SceneC_ValueType_Mask) >> LED_SC_SceneC_ValueType_Shift)
+#define ParamLED_SC_ChSceneC_ValueType                  ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneC_ValueType)) & LED_SC_ChSceneC_ValueTypeMask) >> LED_SC_ChSceneC_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_SC_SceneC_Lockobject_                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneC_Lockobject_)) & LED_SC_SceneC_Lockobject_Mask))
+#define ParamLED_SC_ChSceneC_Lockobject                 ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneC_Lockobject)) & LED_SC_ChSceneC_LockobjectMask))
 // Sperren
-#define ParamLED_SC_SceneC_LockobjectFunc_              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneC_LockobjectFunc_)))
+#define ParamLED_SC_ChSceneC_LockobjectFunc             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneC_LockobjectFunc)))
 // Speichern
-#define ParamLED_SC_SceneC_AllowSave                    ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneC_AllowSave)) & LED_SC_SceneC_AllowSaveMask))
+#define ParamLED_SC_ChSceneC_AllowSave                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneC_AllowSave)) & LED_SC_ChSceneC_AllowSaveMask))
 // Typ
-#define ParamLED_SC_SceneC_Number_                      (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneC_Number_)) & LED_SC_SceneC_Number_Mask)
+#define ParamLED_SC_ChSceneC_Number                     (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneC_Number)) & LED_SC_ChSceneC_NumberMask)
 // Funktion
-#define ParamLED_SC_SceneC_Function_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneC_Function_)) & LED_SC_SceneC_Function_Mask) >> LED_SC_SceneC_Function_Shift)
+#define ParamLED_SC_ChSceneC_Function                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneC_Function)) & LED_SC_ChSceneC_FunctionMask) >> LED_SC_ChSceneC_FunctionShift)
 // Ablauf
-#define ParamLED_SC_SceneC_Sequence_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneC_Sequence_)) & LED_SC_SceneC_Sequence_Mask) >> LED_SC_SceneC_Sequence_Shift)
+#define ParamLED_SC_ChSceneC_Sequence                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneC_Sequence)) & LED_SC_ChSceneC_SequenceMask) >> LED_SC_ChSceneC_SequenceShift)
 // Helligkeit
-#define ParamLED_SC_SceneC_Brightness_                  (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneC_Brightness_)))
+#define ParamLED_SC_ChSceneC_Brightness                 (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneC_Brightness)))
 // Typ
-#define ParamLED_SC_SceneD_Type_                        ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneD_Type_)) & LED_SC_SceneD_Type_Mask) >> LED_SC_SceneD_Type_Shift)
+#define ParamLED_SC_ChSceneD_Type                       ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneD_Type)) & LED_SC_ChSceneD_TypeMask) >> LED_SC_ChSceneD_TypeShift)
 // Typ
-#define ParamLED_SC_SceneD_ValueType_                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneD_ValueType_)) & LED_SC_SceneD_ValueType_Mask) >> LED_SC_SceneD_ValueType_Shift)
+#define ParamLED_SC_ChSceneD_ValueType                  ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneD_ValueType)) & LED_SC_ChSceneD_ValueTypeMask) >> LED_SC_ChSceneD_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_SC_SceneD_Lockobject_                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneD_Lockobject_)) & LED_SC_SceneD_Lockobject_Mask))
+#define ParamLED_SC_ChSceneD_Lockobject                 ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneD_Lockobject)) & LED_SC_ChSceneD_LockobjectMask))
 // Sperren
-#define ParamLED_SC_SceneD_LockobjectFunc_              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneD_LockobjectFunc_)))
+#define ParamLED_SC_ChSceneD_LockobjectFunc             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneD_LockobjectFunc)))
 // Speichern
-#define ParamLED_SC_SceneD_AllowSave                    ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneD_AllowSave)) & LED_SC_SceneD_AllowSaveMask))
+#define ParamLED_SC_ChSceneD_AllowSave                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneD_AllowSave)) & LED_SC_ChSceneD_AllowSaveMask))
 // Typ
-#define ParamLED_SC_SceneD_Number_                      (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneD_Number_)) & LED_SC_SceneD_Number_Mask)
+#define ParamLED_SC_ChSceneD_Number                     (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneD_Number)) & LED_SC_ChSceneD_NumberMask)
 // Funktion
-#define ParamLED_SC_SceneD_Function_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneD_Function_)) & LED_SC_SceneD_Function_Mask) >> LED_SC_SceneD_Function_Shift)
+#define ParamLED_SC_ChSceneD_Function                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneD_Function)) & LED_SC_ChSceneD_FunctionMask) >> LED_SC_ChSceneD_FunctionShift)
 // Ablauf
-#define ParamLED_SC_SceneD_Sequence_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneD_Sequence_)) & LED_SC_SceneD_Sequence_Mask) >> LED_SC_SceneD_Sequence_Shift)
+#define ParamLED_SC_ChSceneD_Sequence                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneD_Sequence)) & LED_SC_ChSceneD_SequenceMask) >> LED_SC_ChSceneD_SequenceShift)
 // Helligkeit
-#define ParamLED_SC_SceneD_Brightness_                  (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneD_Brightness_)))
+#define ParamLED_SC_ChSceneD_Brightness                 (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneD_Brightness)))
 // Typ
-#define ParamLED_SC_SceneE_Type_                        ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneE_Type_)) & LED_SC_SceneE_Type_Mask) >> LED_SC_SceneE_Type_Shift)
+#define ParamLED_SC_ChSceneE_Type                       ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneE_Type)) & LED_SC_ChSceneE_TypeMask) >> LED_SC_ChSceneE_TypeShift)
 // Typ
-#define ParamLED_SC_SceneE_ValueType_                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneE_ValueType_)) & LED_SC_SceneE_ValueType_Mask) >> LED_SC_SceneE_ValueType_Shift)
+#define ParamLED_SC_ChSceneE_ValueType                  ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneE_ValueType)) & LED_SC_ChSceneE_ValueTypeMask) >> LED_SC_ChSceneE_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_SC_SceneE_Lockobject_                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneE_Lockobject_)) & LED_SC_SceneE_Lockobject_Mask))
+#define ParamLED_SC_ChSceneE_Lockobject                 ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneE_Lockobject)) & LED_SC_ChSceneE_LockobjectMask))
 // Sperren
-#define ParamLED_SC_SceneE_LockobjectFunc_              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneE_LockobjectFunc_)))
+#define ParamLED_SC_ChSceneE_LockobjectFunc             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneE_LockobjectFunc)))
 // Speichern
-#define ParamLED_SC_SceneE_AllowSave                    ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneE_AllowSave)) & LED_SC_SceneE_AllowSaveMask))
+#define ParamLED_SC_ChSceneE_AllowSave                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneE_AllowSave)) & LED_SC_ChSceneE_AllowSaveMask))
 // Typ
-#define ParamLED_SC_SceneE_Number_                      (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneE_Number_)) & LED_SC_SceneE_Number_Mask)
+#define ParamLED_SC_ChSceneE_Number                     (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneE_Number)) & LED_SC_ChSceneE_NumberMask)
 // Funktion
-#define ParamLED_SC_SceneE_Function_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneE_Function_)) & LED_SC_SceneE_Function_Mask) >> LED_SC_SceneE_Function_Shift)
+#define ParamLED_SC_ChSceneE_Function                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneE_Function)) & LED_SC_ChSceneE_FunctionMask) >> LED_SC_ChSceneE_FunctionShift)
 // Ablauf
-#define ParamLED_SC_SceneE_Sequence_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneE_Sequence_)) & LED_SC_SceneE_Sequence_Mask) >> LED_SC_SceneE_Sequence_Shift)
+#define ParamLED_SC_ChSceneE_Sequence                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneE_Sequence)) & LED_SC_ChSceneE_SequenceMask) >> LED_SC_ChSceneE_SequenceShift)
 // Helligkeit
-#define ParamLED_SC_SceneE_Brightness_                  (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneE_Brightness_)))
+#define ParamLED_SC_ChSceneE_Brightness                 (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneE_Brightness)))
 // Typ
-#define ParamLED_SC_SceneF_Type_                        ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneF_Type_)) & LED_SC_SceneF_Type_Mask) >> LED_SC_SceneF_Type_Shift)
+#define ParamLED_SC_ChSceneF_Type                       ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneF_Type)) & LED_SC_ChSceneF_TypeMask) >> LED_SC_ChSceneF_TypeShift)
 // Typ
-#define ParamLED_SC_SceneF_ValueType_                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneF_ValueType_)) & LED_SC_SceneF_ValueType_Mask) >> LED_SC_SceneF_ValueType_Shift)
+#define ParamLED_SC_ChSceneF_ValueType                  ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneF_ValueType)) & LED_SC_ChSceneF_ValueTypeMask) >> LED_SC_ChSceneF_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_SC_SceneF_Lockobject_                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneF_Lockobject_)) & LED_SC_SceneF_Lockobject_Mask))
+#define ParamLED_SC_ChSceneF_Lockobject                 ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneF_Lockobject)) & LED_SC_ChSceneF_LockobjectMask))
 // Sperren
-#define ParamLED_SC_SceneF_LockobjectFunc_              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneF_LockobjectFunc_)))
+#define ParamLED_SC_ChSceneF_LockobjectFunc             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneF_LockobjectFunc)))
 // Speichern
-#define ParamLED_SC_SceneF_AllowSave                    ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneF_AllowSave)) & LED_SC_SceneF_AllowSaveMask))
+#define ParamLED_SC_ChSceneF_AllowSave                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneF_AllowSave)) & LED_SC_ChSceneF_AllowSaveMask))
 // Typ
-#define ParamLED_SC_SceneF_Number_                      (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneF_Number_)) & LED_SC_SceneF_Number_Mask)
+#define ParamLED_SC_ChSceneF_Number                     (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneF_Number)) & LED_SC_ChSceneF_NumberMask)
 // Funktion
-#define ParamLED_SC_SceneF_Function_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneF_Function_)) & LED_SC_SceneF_Function_Mask) >> LED_SC_SceneF_Function_Shift)
+#define ParamLED_SC_ChSceneF_Function                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneF_Function)) & LED_SC_ChSceneF_FunctionMask) >> LED_SC_ChSceneF_FunctionShift)
 // Ablauf
-#define ParamLED_SC_SceneF_Sequence_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneF_Sequence_)) & LED_SC_SceneF_Sequence_Mask) >> LED_SC_SceneF_Sequence_Shift)
+#define ParamLED_SC_ChSceneF_Sequence                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneF_Sequence)) & LED_SC_ChSceneF_SequenceMask) >> LED_SC_ChSceneF_SequenceShift)
 // Helligkeit
-#define ParamLED_SC_SceneF_Brightness_                  (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneF_Brightness_)))
+#define ParamLED_SC_ChSceneF_Brightness                 (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneF_Brightness)))
 // Typ
-#define ParamLED_SC_SceneG_Type_                        ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneG_Type_)) & LED_SC_SceneG_Type_Mask) >> LED_SC_SceneG_Type_Shift)
+#define ParamLED_SC_ChSceneG_Type                       ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneG_Type)) & LED_SC_ChSceneG_TypeMask) >> LED_SC_ChSceneG_TypeShift)
 // Typ
-#define ParamLED_SC_SceneG_ValueType_                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneG_ValueType_)) & LED_SC_SceneG_ValueType_Mask) >> LED_SC_SceneG_ValueType_Shift)
+#define ParamLED_SC_ChSceneG_ValueType                  ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneG_ValueType)) & LED_SC_ChSceneG_ValueTypeMask) >> LED_SC_ChSceneG_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_SC_SceneG_Lockobject_                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneG_Lockobject_)) & LED_SC_SceneG_Lockobject_Mask))
+#define ParamLED_SC_ChSceneG_Lockobject                 ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneG_Lockobject)) & LED_SC_ChSceneG_LockobjectMask))
 // Sperren
-#define ParamLED_SC_SceneG_LockobjectFunc_              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneG_LockobjectFunc_)))
+#define ParamLED_SC_ChSceneG_LockobjectFunc             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneG_LockobjectFunc)))
 // Speichern
-#define ParamLED_SC_SceneG_AllowSave                    ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneG_AllowSave)) & LED_SC_SceneG_AllowSaveMask))
+#define ParamLED_SC_ChSceneG_AllowSave                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneG_AllowSave)) & LED_SC_ChSceneG_AllowSaveMask))
 // Typ
-#define ParamLED_SC_SceneG_Number_                      (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneG_Number_)) & LED_SC_SceneG_Number_Mask)
+#define ParamLED_SC_ChSceneG_Number                     (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneG_Number)) & LED_SC_ChSceneG_NumberMask)
 // Funktion
-#define ParamLED_SC_SceneG_Function_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneG_Function_)) & LED_SC_SceneG_Function_Mask) >> LED_SC_SceneG_Function_Shift)
+#define ParamLED_SC_ChSceneG_Function                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneG_Function)) & LED_SC_ChSceneG_FunctionMask) >> LED_SC_ChSceneG_FunctionShift)
 // Ablauf
-#define ParamLED_SC_SceneG_Sequence_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneG_Sequence_)) & LED_SC_SceneG_Sequence_Mask) >> LED_SC_SceneG_Sequence_Shift)
+#define ParamLED_SC_ChSceneG_Sequence                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneG_Sequence)) & LED_SC_ChSceneG_SequenceMask) >> LED_SC_ChSceneG_SequenceShift)
 // Helligkeit
-#define ParamLED_SC_SceneG_Brightness_                  (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneG_Brightness_)))
+#define ParamLED_SC_ChSceneG_Brightness                 (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneG_Brightness)))
 // Typ
-#define ParamLED_SC_SceneH_Type_                        ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneH_Type_)) & LED_SC_SceneH_Type_Mask) >> LED_SC_SceneH_Type_Shift)
+#define ParamLED_SC_ChSceneH_Type                       ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneH_Type)) & LED_SC_ChSceneH_TypeMask) >> LED_SC_ChSceneH_TypeShift)
 // Typ
-#define ParamLED_SC_SceneH_ValueType_                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneH_ValueType_)) & LED_SC_SceneH_ValueType_Mask) >> LED_SC_SceneH_ValueType_Shift)
+#define ParamLED_SC_ChSceneH_ValueType                  ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneH_ValueType)) & LED_SC_ChSceneH_ValueTypeMask) >> LED_SC_ChSceneH_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_SC_SceneH_Lockobject_                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneH_Lockobject_)) & LED_SC_SceneH_Lockobject_Mask))
+#define ParamLED_SC_ChSceneH_Lockobject                 ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneH_Lockobject)) & LED_SC_ChSceneH_LockobjectMask))
 // Sperren
-#define ParamLED_SC_SceneH_LockobjectFunc_              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneH_LockobjectFunc_)))
+#define ParamLED_SC_ChSceneH_LockobjectFunc             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneH_LockobjectFunc)))
 // Speichern
-#define ParamLED_SC_SceneH_AllowSave                    ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneH_AllowSave)) & LED_SC_SceneH_AllowSaveMask))
+#define ParamLED_SC_ChSceneH_AllowSave                  ((bool)(knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneH_AllowSave)) & LED_SC_ChSceneH_AllowSaveMask))
 // Typ
-#define ParamLED_SC_SceneH_Number_                      (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneH_Number_)) & LED_SC_SceneH_Number_Mask)
+#define ParamLED_SC_ChSceneH_Number                     (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneH_Number)) & LED_SC_ChSceneH_NumberMask)
 // Funktion
-#define ParamLED_SC_SceneH_Function_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneH_Function_)) & LED_SC_SceneH_Function_Mask) >> LED_SC_SceneH_Function_Shift)
+#define ParamLED_SC_ChSceneH_Function                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneH_Function)) & LED_SC_ChSceneH_FunctionMask) >> LED_SC_ChSceneH_FunctionShift)
 // Ablauf
-#define ParamLED_SC_SceneH_Sequence_                    ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneH_Sequence_)) & LED_SC_SceneH_Sequence_Mask) >> LED_SC_SceneH_Sequence_Shift)
+#define ParamLED_SC_ChSceneH_Sequence                   ((knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneH_Sequence)) & LED_SC_ChSceneH_SequenceMask) >> LED_SC_ChSceneH_SequenceShift)
 // Helligkeit
-#define ParamLED_SC_SceneH_Brightness_                  (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_SceneH_Brightness_)))
+#define ParamLED_SC_ChSceneH_Brightness                 (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSceneH_Brightness)))
 
 // deprecated
 #define LED_SC_KoOffset 30
@@ -681,457 +756,457 @@
 #define LED_SC_KoCalcIndex(number) ((number >= LED_SC_KoCalcNumber(0) && number < LED_SC_KoCalcNumber(LED_SC_KoBlockSize)) ? (number - LED_SC_KoBlockOffset) % LED_SC_KoBlockSize : -1)
 #define LED_SC_KoCalcChannel(number) ((number >= LED_SC_KoBlockOffset && number < LED_SC_KoBlockOffset + LED_SC_ChannelCount * LED_SC_KoBlockSize) ? (number - LED_SC_KoBlockOffset) / LED_SC_KoBlockSize : -1)
 
-#define LED_SC_KoSwitch_ 0
-#define LED_SC_KoStateOnOff_ 1
-#define LED_SC_KoLocking_ 2
-#define LED_SC_KoStateLocking_ 3
-#define LED_SC_KoBrightness_ 4
-#define LED_SC_KoBrightnessStatus_ 5
-#define LED_SC_KoDimRel_ 6
-#define LED_SC_KoScene_ 7
-#define LED_SC_KoNight_ 8
+#define LED_SC_KoChSwitch 0
+#define LED_SC_KoChStateOnOff 1
+#define LED_SC_KoChLocking 2
+#define LED_SC_KoChStateLocking 3
+#define LED_SC_KoChBrightness 4
+#define LED_SC_KoChBrightnessStatus 5
+#define LED_SC_KoChDimRel 6
+#define LED_SC_KoChScene 7
+#define LED_SC_KoChNight 8
 
 // Schalten
-#define KoLED_SC_Switch_                             (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoSwitch_)))
+#define KoLED_SC_ChSwitch                            (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChSwitch)))
 // Status Ein/Aus
-#define KoLED_SC_StateOnOff_                         (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoStateOnOff_)))
+#define KoLED_SC_ChStateOnOff                        (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChStateOnOff)))
 // Sperren
-#define KoLED_SC_Locking_                            (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoLocking_)))
+#define KoLED_SC_ChLocking                           (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChLocking)))
 // Sperren Status
-#define KoLED_SC_StateLocking_                       (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoStateLocking_)))
+#define KoLED_SC_ChStateLocking                      (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChStateLocking)))
 // Helligkeit
-#define KoLED_SC_Brightness_                         (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoBrightness_)))
+#define KoLED_SC_ChBrightness                        (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChBrightness)))
 // Helligkeit Status
-#define KoLED_SC_BrightnessStatus_                   (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoBrightnessStatus_)))
+#define KoLED_SC_ChBrightnessStatus                  (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChBrightnessStatus)))
 // Dimmen Relativ
-#define KoLED_SC_DimRel_                             (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoDimRel_)))
+#define KoLED_SC_ChDimRel                            (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChDimRel)))
 // Szene
-#define KoLED_SC_Scene_                              (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoScene_)))
+#define KoLED_SC_ChScene                             (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChScene)))
 // Nacht
-#define KoLED_SC_Night_                              (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoNight_)))
+#define KoLED_SC_ChNight                             (knx.getGroupObject(LED_SC_KoCalcNumber(LED_SC_KoChNight)))
 
 #define LED_TW_ChannelCount 8
 
 // Parameter per channel
-#define LED_TW_ParamBlockOffset 1195
+#define LED_TW_ParamBlockOffset 1199
 #define LED_TW_ParamBlockSize 69
 #define LED_TW_ParamCalcIndex(index) (index + LED_TW_ParamBlockOffset + _channelIndex * LED_TW_ParamBlockSize)
 
-#define LED_TW_LightDimmTimeDayON_                  1      // uint16_t
-#define LED_TW_LightDimmTimeNightON_                3      // uint16_t
-#define LED_TW_LightDimmTimeRel_                    5      // uint16_t
-#define LED_TW_LightDimmTimeDayOFF_                 7      // uint16_t
-#define LED_TW_LightDimmTimeNightOFF_               9      // uint16_t
-#define LED_TW_BrighnessMin_                       11      // uint8_t
-#define LED_TW_BrighnessMaxDay_                    12      // uint8_t
-#define LED_TW_BrighnessMaxNight_                  13      // uint8_t
-#define LED_TW_DimCurve_                           14      // 3 Bits, Bit 7-5
-#define     LED_TW_DimCurve_Mask 0xE0
-#define     LED_TW_DimCurve_Shift 5
-#define LED_TW_StairCaseActive_                    14      // 1 Bit, Bit 4
-#define     LED_TW_StairCaseActive_Mask 0x10
-#define     LED_TW_StairCaseActive_Shift 4
-#define LED_TW_StairCaseTimer_                     15      // uint8_t
-#define LED_TW_StaicCaseTrigger_                   14      // 2 Bits, Bit 3-2
-#define     LED_TW_StaicCaseTrigger_Mask 0x0C
-#define     LED_TW_StaicCaseTrigger_Shift 2
-#define LED_TW_StartupBehavior_                    16      // 8 Bits, Bit 7-0
-#define LED_TW_ColorTempCW_                        17      // uint16_t
-#define LED_TW_ColorTempWW_                        19      // uint16_t
-#define LED_TW_ColorTempDay_                       21      // uint16_t
-#define LED_TW_ColorTempNight_                     23      // uint16_t
-#define LED_TW_ScenesActive_                       28      // 1 Bit, Bit 7
-#define     LED_TW_ScenesActive_Mask 0x80
-#define     LED_TW_ScenesActive_Shift 7
-#define LED_TW_SceneA_Type_                        29      // 3 Bits, Bit 7-5
-#define     LED_TW_SceneA_Type_Mask 0xE0
-#define     LED_TW_SceneA_Type_Shift 5
-#define LED_TW_SceneA_ValueType_                   29      // 3 Bits, Bit 4-2
-#define     LED_TW_SceneA_ValueType_Mask 0x1C
-#define     LED_TW_SceneA_ValueType_Shift 2
-#define LED_TW_SceneA_Lockobject_                  29      // 1 Bit, Bit 1
-#define     LED_TW_SceneA_Lockobject_Mask 0x02
-#define     LED_TW_SceneA_Lockobject_Shift 1
-#define LED_TW_SceneA_LockobjectFunc_              29      // 2 Bits, Bit 0--1
-#define LED_TW_SceneA_AllowSave                    30      // 1 Bit, Bit 7
-#define     LED_TW_SceneA_AllowSaveMask 0x80
-#define     LED_TW_SceneA_AllowSaveShift 7
-#define LED_TW_SceneA_Number_                      30      // 7 Bits, Bit 6-0
-#define     LED_TW_SceneA_Number_Mask 0x7F
-#define     LED_TW_SceneA_Number_Shift 0
-#define LED_TW_SceneA_Function                     31      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneA_FunctionMask 0xC0
-#define     LED_TW_SceneA_FunctionShift 6
-#define LED_TW_SceneA_Sequence                     31      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneA_SequenceMask 0xC0
-#define     LED_TW_SceneA_SequenceShift 6
-#define LED_TW_SceneA_Brightness                   31      // uint8_t
-#define LED_TW_SceneA_TW_                          32      // uint16_t
-#define LED_TW_SceneB_Type_                        34      // 3 Bits, Bit 7-5
-#define     LED_TW_SceneB_Type_Mask 0xE0
-#define     LED_TW_SceneB_Type_Shift 5
-#define LED_TW_SceneB_ValueType_                   34      // 3 Bits, Bit 4-2
-#define     LED_TW_SceneB_ValueType_Mask 0x1C
-#define     LED_TW_SceneB_ValueType_Shift 2
-#define LED_TW_SceneB_Lockobject_                  34      // 1 Bit, Bit 1
-#define     LED_TW_SceneB_Lockobject_Mask 0x02
-#define     LED_TW_SceneB_Lockobject_Shift 1
-#define LED_TW_SceneB_LockobjectFunc_              34      // 2 Bits, Bit 0--1
-#define LED_TW_SceneB_AllowSave                    35      // 1 Bit, Bit 7
-#define     LED_TW_SceneB_AllowSaveMask 0x80
-#define     LED_TW_SceneB_AllowSaveShift 7
-#define LED_TW_SceneB_Number_                      35      // 7 Bits, Bit 6-0
-#define     LED_TW_SceneB_Number_Mask 0x7F
-#define     LED_TW_SceneB_Number_Shift 0
-#define LED_TW_SceneB_Function                     36      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneB_FunctionMask 0xC0
-#define     LED_TW_SceneB_FunctionShift 6
-#define LED_TW_SceneB_Sequence                     36      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneB_SequenceMask 0xC0
-#define     LED_TW_SceneB_SequenceShift 6
-#define LED_TW_SceneB_Brightness                   36      // uint8_t
-#define LED_TW_SceneB_TW_                          37      // uint16_t
-#define LED_TW_SceneC_Type_                        39      // 3 Bits, Bit 7-5
-#define     LED_TW_SceneC_Type_Mask 0xE0
-#define     LED_TW_SceneC_Type_Shift 5
-#define LED_TW_SceneC_ValueType_                   39      // 3 Bits, Bit 4-2
-#define     LED_TW_SceneC_ValueType_Mask 0x1C
-#define     LED_TW_SceneC_ValueType_Shift 2
-#define LED_TW_SceneC_Lockobject_                  39      // 1 Bit, Bit 1
-#define     LED_TW_SceneC_Lockobject_Mask 0x02
-#define     LED_TW_SceneC_Lockobject_Shift 1
-#define LED_TW_SceneC_LockobjectFunc_              39      // 2 Bits, Bit 0--1
-#define LED_TW_SceneC_AllowSave                    40      // 1 Bit, Bit 7
-#define     LED_TW_SceneC_AllowSaveMask 0x80
-#define     LED_TW_SceneC_AllowSaveShift 7
-#define LED_TW_SceneC_Number_                      40      // 7 Bits, Bit 6-0
-#define     LED_TW_SceneC_Number_Mask 0x7F
-#define     LED_TW_SceneC_Number_Shift 0
-#define LED_TW_SceneC_Function                     41      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneC_FunctionMask 0xC0
-#define     LED_TW_SceneC_FunctionShift 6
-#define LED_TW_SceneC_Sequence                     41      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneC_SequenceMask 0xC0
-#define     LED_TW_SceneC_SequenceShift 6
-#define LED_TW_SceneC_Brightness                   41      // uint8_t
-#define LED_TW_SceneC_TW_                          42      // uint16_t
-#define LED_TW_SceneD_Type_                        44      // 3 Bits, Bit 7-5
-#define     LED_TW_SceneD_Type_Mask 0xE0
-#define     LED_TW_SceneD_Type_Shift 5
-#define LED_TW_SceneD_ValueType_                   44      // 3 Bits, Bit 4-2
-#define     LED_TW_SceneD_ValueType_Mask 0x1C
-#define     LED_TW_SceneD_ValueType_Shift 2
-#define LED_TW_SceneD_Lockobject_                  44      // 1 Bit, Bit 1
-#define     LED_TW_SceneD_Lockobject_Mask 0x02
-#define     LED_TW_SceneD_Lockobject_Shift 1
-#define LED_TW_SceneD_LockobjectFunc_              44      // 2 Bits, Bit 0--1
-#define LED_TW_SceneD_AllowSave                    45      // 1 Bit, Bit 7
-#define     LED_TW_SceneD_AllowSaveMask 0x80
-#define     LED_TW_SceneD_AllowSaveShift 7
-#define LED_TW_SceneD_Number_                      45      // 7 Bits, Bit 6-0
-#define     LED_TW_SceneD_Number_Mask 0x7F
-#define     LED_TW_SceneD_Number_Shift 0
-#define LED_TW_SceneD_Function                     46      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneD_FunctionMask 0xC0
-#define     LED_TW_SceneD_FunctionShift 6
-#define LED_TW_SceneD_Sequence                     46      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneD_SequenceMask 0xC0
-#define     LED_TW_SceneD_SequenceShift 6
-#define LED_TW_SceneD_Brightness                   46      // uint8_t
-#define LED_TW_SceneD_TW_                          47      // uint16_t
-#define LED_TW_SceneE_Type_                        49      // 3 Bits, Bit 7-5
-#define     LED_TW_SceneE_Type_Mask 0xE0
-#define     LED_TW_SceneE_Type_Shift 5
-#define LED_TW_SceneE_ValueType_                   49      // 3 Bits, Bit 4-2
-#define     LED_TW_SceneE_ValueType_Mask 0x1C
-#define     LED_TW_SceneE_ValueType_Shift 2
-#define LED_TW_SceneE_Lockobject_                  49      // 1 Bit, Bit 1
-#define     LED_TW_SceneE_Lockobject_Mask 0x02
-#define     LED_TW_SceneE_Lockobject_Shift 1
-#define LED_TW_SceneE_LockobjectFunc_              49      // 2 Bits, Bit 0--1
-#define LED_TW_SceneE_AllowSave                    50      // 1 Bit, Bit 7
-#define     LED_TW_SceneE_AllowSaveMask 0x80
-#define     LED_TW_SceneE_AllowSaveShift 7
-#define LED_TW_SceneE_Number_                      50      // 7 Bits, Bit 6-0
-#define     LED_TW_SceneE_Number_Mask 0x7F
-#define     LED_TW_SceneE_Number_Shift 0
-#define LED_TW_SceneE_Function                     51      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneE_FunctionMask 0xC0
-#define     LED_TW_SceneE_FunctionShift 6
-#define LED_TW_SceneE_Sequence                     51      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneE_SequenceMask 0xC0
-#define     LED_TW_SceneE_SequenceShift 6
-#define LED_TW_SceneE_Brightness                   51      // uint8_t
-#define LED_TW_SceneE_TW_                          52      // uint16_t
-#define LED_TW_SceneF_Type_                        54      // 3 Bits, Bit 7-5
-#define     LED_TW_SceneF_Type_Mask 0xE0
-#define     LED_TW_SceneF_Type_Shift 5
-#define LED_TW_SceneF_ValueType_                   54      // 3 Bits, Bit 4-2
-#define     LED_TW_SceneF_ValueType_Mask 0x1C
-#define     LED_TW_SceneF_ValueType_Shift 2
-#define LED_TW_SceneF_Lockobject_                  54      // 1 Bit, Bit 1
-#define     LED_TW_SceneF_Lockobject_Mask 0x02
-#define     LED_TW_SceneF_Lockobject_Shift 1
-#define LED_TW_SceneF_LockobjectFunc_              54      // 2 Bits, Bit 0--1
-#define LED_TW_SceneF_AllowSave                    55      // 1 Bit, Bit 7
-#define     LED_TW_SceneF_AllowSaveMask 0x80
-#define     LED_TW_SceneF_AllowSaveShift 7
-#define LED_TW_SceneF_Number_                      55      // 7 Bits, Bit 6-0
-#define     LED_TW_SceneF_Number_Mask 0x7F
-#define     LED_TW_SceneF_Number_Shift 0
-#define LED_TW_SceneF_Function                     56      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneF_FunctionMask 0xC0
-#define     LED_TW_SceneF_FunctionShift 6
-#define LED_TW_SceneF_Sequence                     56      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneF_SequenceMask 0xC0
-#define     LED_TW_SceneF_SequenceShift 6
-#define LED_TW_SceneF_Brightness                   56      // uint8_t
-#define LED_TW_SceneF_TW_                          57      // uint16_t
-#define LED_TW_SceneG_Type_                        59      // 3 Bits, Bit 7-5
-#define     LED_TW_SceneG_Type_Mask 0xE0
-#define     LED_TW_SceneG_Type_Shift 5
-#define LED_TW_SceneG_ValueType_                   59      // 3 Bits, Bit 4-2
-#define     LED_TW_SceneG_ValueType_Mask 0x1C
-#define     LED_TW_SceneG_ValueType_Shift 2
-#define LED_TW_SceneG_Lockobject_                  59      // 1 Bit, Bit 1
-#define     LED_TW_SceneG_Lockobject_Mask 0x02
-#define     LED_TW_SceneG_Lockobject_Shift 1
-#define LED_TW_SceneG_LockobjectFunc_              59      // 2 Bits, Bit 0--1
-#define LED_TW_SceneG_AllowSave                    60      // 1 Bit, Bit 7
-#define     LED_TW_SceneG_AllowSaveMask 0x80
-#define     LED_TW_SceneG_AllowSaveShift 7
-#define LED_TW_SceneG_Number_                      60      // 7 Bits, Bit 6-0
-#define     LED_TW_SceneG_Number_Mask 0x7F
-#define     LED_TW_SceneG_Number_Shift 0
-#define LED_TW_SceneG_Function                     61      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneG_FunctionMask 0xC0
-#define     LED_TW_SceneG_FunctionShift 6
-#define LED_TW_SceneG_Sequence                     61      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneG_SequenceMask 0xC0
-#define     LED_TW_SceneG_SequenceShift 6
-#define LED_TW_SceneG_Brightness                   61      // uint8_t
-#define LED_TW_SceneG_TW_                          62      // uint16_t
-#define LED_TW_SceneH_Type_                        64      // 3 Bits, Bit 7-5
-#define     LED_TW_SceneH_Type_Mask 0xE0
-#define     LED_TW_SceneH_Type_Shift 5
-#define LED_TW_SceneH_ValueType_                   64      // 3 Bits, Bit 4-2
-#define     LED_TW_SceneH_ValueType_Mask 0x1C
-#define     LED_TW_SceneH_ValueType_Shift 2
-#define LED_TW_SceneH_Lockobject_                  64      // 1 Bit, Bit 1
-#define     LED_TW_SceneH_Lockobject_Mask 0x02
-#define     LED_TW_SceneH_Lockobject_Shift 1
-#define LED_TW_SceneH_LockobjectFunc_              64      // 2 Bits, Bit 0--1
-#define LED_TW_SceneH_AllowSave                    65      // 1 Bit, Bit 7
-#define     LED_TW_SceneH_AllowSaveMask 0x80
-#define     LED_TW_SceneH_AllowSaveShift 7
-#define LED_TW_SceneH_Number_                      65      // 7 Bits, Bit 6-0
-#define     LED_TW_SceneH_Number_Mask 0x7F
-#define     LED_TW_SceneH_Number_Shift 0
-#define LED_TW_SceneH_Function                     66      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneH_FunctionMask 0xC0
-#define     LED_TW_SceneH_FunctionShift 6
-#define LED_TW_SceneH_Sequence                     66      // 2 Bits, Bit 7-6
-#define     LED_TW_SceneH_SequenceMask 0xC0
-#define     LED_TW_SceneH_SequenceShift 6
-#define LED_TW_SceneH_Brightness                   66      // uint8_t
-#define LED_TW_SceneH_TW_                          67      // uint16_t
+#define LED_TW_ChLightDimmTimeDayON                 1      // uint16_t
+#define LED_TW_ChLightDimmTimeNightON               3      // uint16_t
+#define LED_TW_ChLightDimmTimeRel                   5      // uint16_t
+#define LED_TW_ChLightDimmTimeDayOFF                7      // uint16_t
+#define LED_TW_ChLightDimmTimeNightOFF              9      // uint16_t
+#define LED_TW_ChBrighnessMin                      11      // uint8_t
+#define LED_TW_ChBrighnessMaxDay                   12      // uint8_t
+#define LED_TW_ChBrighnessMaxNight                 13      // uint8_t
+#define LED_TW_ChDimCurve                          14      // 3 Bits, Bit 7-5
+#define     LED_TW_ChDimCurveMask 0xE0
+#define     LED_TW_ChDimCurveShift 5
+#define LED_TW_ChStairCaseActive                   14      // 1 Bit, Bit 4
+#define     LED_TW_ChStairCaseActiveMask 0x10
+#define     LED_TW_ChStairCaseActiveShift 4
+#define LED_TW_ChStairCaseTimer                    15      // uint8_t
+#define LED_TW_ChStaicCaseTrigger                  14      // 2 Bits, Bit 3-2
+#define     LED_TW_ChStaicCaseTriggerMask 0x0C
+#define     LED_TW_ChStaicCaseTriggerShift 2
+#define LED_TW_ChStartupBehavior                   16      // 8 Bits, Bit 7-0
+#define LED_TW_ChColorTempCW                       17      // uint16_t
+#define LED_TW_ChColorTempWW                       19      // uint16_t
+#define LED_TW_ChColorTempDay                      21      // uint16_t
+#define LED_TW_ChColorTempNight                    23      // uint16_t
+#define LED_TW_ChScenesActive                      28      // 1 Bit, Bit 7
+#define     LED_TW_ChScenesActiveMask 0x80
+#define     LED_TW_ChScenesActiveShift 7
+#define LED_TW_ChSceneA_Type                       29      // 3 Bits, Bit 7-5
+#define     LED_TW_ChSceneA_TypeMask 0xE0
+#define     LED_TW_ChSceneA_TypeShift 5
+#define LED_TW_ChSceneA_ValueType                  29      // 3 Bits, Bit 4-2
+#define     LED_TW_ChSceneA_ValueTypeMask 0x1C
+#define     LED_TW_ChSceneA_ValueTypeShift 2
+#define LED_TW_ChSceneA_Lockobject                 29      // 1 Bit, Bit 1
+#define     LED_TW_ChSceneA_LockobjectMask 0x02
+#define     LED_TW_ChSceneA_LockobjectShift 1
+#define LED_TW_ChSceneA_LockobjectFunc             29      // 2 Bits, Bit 0--1
+#define LED_TW_ChSceneA_AllowSave                  30      // 1 Bit, Bit 7
+#define     LED_TW_ChSceneA_AllowSaveMask 0x80
+#define     LED_TW_ChSceneA_AllowSaveShift 7
+#define LED_TW_ChSceneA_Number                     30      // 7 Bits, Bit 6-0
+#define     LED_TW_ChSceneA_NumberMask 0x7F
+#define     LED_TW_ChSceneA_NumberShift 0
+#define LED_TW_ChSceneA_Function                   31      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneA_FunctionMask 0xC0
+#define     LED_TW_ChSceneA_FunctionShift 6
+#define LED_TW_ChSceneA_Sequence                   31      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneA_SequenceMask 0xC0
+#define     LED_TW_ChSceneA_SequenceShift 6
+#define LED_TW_ChSceneA_Brightness                 31      // uint8_t
+#define LED_TW_ChSceneA_TW                         32      // uint16_t
+#define LED_TW_ChSceneB_Type                       34      // 3 Bits, Bit 7-5
+#define     LED_TW_ChSceneB_TypeMask 0xE0
+#define     LED_TW_ChSceneB_TypeShift 5
+#define LED_TW_ChSceneB_ValueType                  34      // 3 Bits, Bit 4-2
+#define     LED_TW_ChSceneB_ValueTypeMask 0x1C
+#define     LED_TW_ChSceneB_ValueTypeShift 2
+#define LED_TW_ChSceneB_Lockobject                 34      // 1 Bit, Bit 1
+#define     LED_TW_ChSceneB_LockobjectMask 0x02
+#define     LED_TW_ChSceneB_LockobjectShift 1
+#define LED_TW_ChSceneB_LockobjectFunc             34      // 2 Bits, Bit 0--1
+#define LED_TW_ChSceneB_AllowSave                  35      // 1 Bit, Bit 7
+#define     LED_TW_ChSceneB_AllowSaveMask 0x80
+#define     LED_TW_ChSceneB_AllowSaveShift 7
+#define LED_TW_ChSceneB_Number                     35      // 7 Bits, Bit 6-0
+#define     LED_TW_ChSceneB_NumberMask 0x7F
+#define     LED_TW_ChSceneB_NumberShift 0
+#define LED_TW_ChSceneB_Function                   36      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneB_FunctionMask 0xC0
+#define     LED_TW_ChSceneB_FunctionShift 6
+#define LED_TW_ChSceneB_Sequence                   36      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneB_SequenceMask 0xC0
+#define     LED_TW_ChSceneB_SequenceShift 6
+#define LED_TW_ChSceneB_Brightness                 36      // uint8_t
+#define LED_TW_ChSceneB_TW                         37      // uint16_t
+#define LED_TW_ChSceneC_Type                       39      // 3 Bits, Bit 7-5
+#define     LED_TW_ChSceneC_TypeMask 0xE0
+#define     LED_TW_ChSceneC_TypeShift 5
+#define LED_TW_ChSceneC_ValueType                  39      // 3 Bits, Bit 4-2
+#define     LED_TW_ChSceneC_ValueTypeMask 0x1C
+#define     LED_TW_ChSceneC_ValueTypeShift 2
+#define LED_TW_ChSceneC_Lockobject                 39      // 1 Bit, Bit 1
+#define     LED_TW_ChSceneC_LockobjectMask 0x02
+#define     LED_TW_ChSceneC_LockobjectShift 1
+#define LED_TW_ChSceneC_LockobjectFunc             39      // 2 Bits, Bit 0--1
+#define LED_TW_ChSceneC_AllowSave                  40      // 1 Bit, Bit 7
+#define     LED_TW_ChSceneC_AllowSaveMask 0x80
+#define     LED_TW_ChSceneC_AllowSaveShift 7
+#define LED_TW_ChSceneC_Number                     40      // 7 Bits, Bit 6-0
+#define     LED_TW_ChSceneC_NumberMask 0x7F
+#define     LED_TW_ChSceneC_NumberShift 0
+#define LED_TW_ChSceneC_Function                   41      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneC_FunctionMask 0xC0
+#define     LED_TW_ChSceneC_FunctionShift 6
+#define LED_TW_ChSceneC_Sequence                   41      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneC_SequenceMask 0xC0
+#define     LED_TW_ChSceneC_SequenceShift 6
+#define LED_TW_ChSceneC_Brightness                 41      // uint8_t
+#define LED_TW_ChSceneC_TW                         42      // uint16_t
+#define LED_TW_ChSceneD_Type                       44      // 3 Bits, Bit 7-5
+#define     LED_TW_ChSceneD_TypeMask 0xE0
+#define     LED_TW_ChSceneD_TypeShift 5
+#define LED_TW_ChSceneD_ValueType                  44      // 3 Bits, Bit 4-2
+#define     LED_TW_ChSceneD_ValueTypeMask 0x1C
+#define     LED_TW_ChSceneD_ValueTypeShift 2
+#define LED_TW_ChSceneD_Lockobject                 44      // 1 Bit, Bit 1
+#define     LED_TW_ChSceneD_LockobjectMask 0x02
+#define     LED_TW_ChSceneD_LockobjectShift 1
+#define LED_TW_ChSceneD_LockobjectFunc             44      // 2 Bits, Bit 0--1
+#define LED_TW_ChSceneD_AllowSave                  45      // 1 Bit, Bit 7
+#define     LED_TW_ChSceneD_AllowSaveMask 0x80
+#define     LED_TW_ChSceneD_AllowSaveShift 7
+#define LED_TW_ChSceneD_Number                     45      // 7 Bits, Bit 6-0
+#define     LED_TW_ChSceneD_NumberMask 0x7F
+#define     LED_TW_ChSceneD_NumberShift 0
+#define LED_TW_ChSceneD_Function                   46      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneD_FunctionMask 0xC0
+#define     LED_TW_ChSceneD_FunctionShift 6
+#define LED_TW_ChSceneD_Sequence                   46      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneD_SequenceMask 0xC0
+#define     LED_TW_ChSceneD_SequenceShift 6
+#define LED_TW_ChSceneD_Brightness                 46      // uint8_t
+#define LED_TW_ChSceneD_TW                         47      // uint16_t
+#define LED_TW_ChSceneE_Type                       49      // 3 Bits, Bit 7-5
+#define     LED_TW_ChSceneE_TypeMask 0xE0
+#define     LED_TW_ChSceneE_TypeShift 5
+#define LED_TW_ChSceneE_ValueType                  49      // 3 Bits, Bit 4-2
+#define     LED_TW_ChSceneE_ValueTypeMask 0x1C
+#define     LED_TW_ChSceneE_ValueTypeShift 2
+#define LED_TW_ChSceneE_Lockobject                 49      // 1 Bit, Bit 1
+#define     LED_TW_ChSceneE_LockobjectMask 0x02
+#define     LED_TW_ChSceneE_LockobjectShift 1
+#define LED_TW_ChSceneE_LockobjectFunc             49      // 2 Bits, Bit 0--1
+#define LED_TW_ChSceneE_AllowSave                  50      // 1 Bit, Bit 7
+#define     LED_TW_ChSceneE_AllowSaveMask 0x80
+#define     LED_TW_ChSceneE_AllowSaveShift 7
+#define LED_TW_ChSceneE_Number                     50      // 7 Bits, Bit 6-0
+#define     LED_TW_ChSceneE_NumberMask 0x7F
+#define     LED_TW_ChSceneE_NumberShift 0
+#define LED_TW_ChSceneE_Function                   51      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneE_FunctionMask 0xC0
+#define     LED_TW_ChSceneE_FunctionShift 6
+#define LED_TW_ChSceneE_Sequence                   51      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneE_SequenceMask 0xC0
+#define     LED_TW_ChSceneE_SequenceShift 6
+#define LED_TW_ChSceneE_Brightness                 51      // uint8_t
+#define LED_TW_ChSceneE_TW                         52      // uint16_t
+#define LED_TW_ChSceneF_Type                       54      // 3 Bits, Bit 7-5
+#define     LED_TW_ChSceneF_TypeMask 0xE0
+#define     LED_TW_ChSceneF_TypeShift 5
+#define LED_TW_ChSceneF_ValueType                  54      // 3 Bits, Bit 4-2
+#define     LED_TW_ChSceneF_ValueTypeMask 0x1C
+#define     LED_TW_ChSceneF_ValueTypeShift 2
+#define LED_TW_ChSceneF_Lockobject                 54      // 1 Bit, Bit 1
+#define     LED_TW_ChSceneF_LockobjectMask 0x02
+#define     LED_TW_ChSceneF_LockobjectShift 1
+#define LED_TW_ChSceneF_LockobjectFunc             54      // 2 Bits, Bit 0--1
+#define LED_TW_ChSceneF_AllowSave                  55      // 1 Bit, Bit 7
+#define     LED_TW_ChSceneF_AllowSaveMask 0x80
+#define     LED_TW_ChSceneF_AllowSaveShift 7
+#define LED_TW_ChSceneF_Number                     55      // 7 Bits, Bit 6-0
+#define     LED_TW_ChSceneF_NumberMask 0x7F
+#define     LED_TW_ChSceneF_NumberShift 0
+#define LED_TW_ChSceneF_Function                   56      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneF_FunctionMask 0xC0
+#define     LED_TW_ChSceneF_FunctionShift 6
+#define LED_TW_ChSceneF_Sequence                   56      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneF_SequenceMask 0xC0
+#define     LED_TW_ChSceneF_SequenceShift 6
+#define LED_TW_ChSceneF_Brightness                 56      // uint8_t
+#define LED_TW_ChSceneF_TW                         57      // uint16_t
+#define LED_TW_ChSceneG_Type                       59      // 3 Bits, Bit 7-5
+#define     LED_TW_ChSceneG_TypeMask 0xE0
+#define     LED_TW_ChSceneG_TypeShift 5
+#define LED_TW_ChSceneG_ValueType                  59      // 3 Bits, Bit 4-2
+#define     LED_TW_ChSceneG_ValueTypeMask 0x1C
+#define     LED_TW_ChSceneG_ValueTypeShift 2
+#define LED_TW_ChSceneG_Lockobject                 59      // 1 Bit, Bit 1
+#define     LED_TW_ChSceneG_LockobjectMask 0x02
+#define     LED_TW_ChSceneG_LockobjectShift 1
+#define LED_TW_ChSceneG_LockobjectFunc             59      // 2 Bits, Bit 0--1
+#define LED_TW_ChSceneG_AllowSave                  60      // 1 Bit, Bit 7
+#define     LED_TW_ChSceneG_AllowSaveMask 0x80
+#define     LED_TW_ChSceneG_AllowSaveShift 7
+#define LED_TW_ChSceneG_Number                     60      // 7 Bits, Bit 6-0
+#define     LED_TW_ChSceneG_NumberMask 0x7F
+#define     LED_TW_ChSceneG_NumberShift 0
+#define LED_TW_ChSceneG_Function                   61      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneG_FunctionMask 0xC0
+#define     LED_TW_ChSceneG_FunctionShift 6
+#define LED_TW_ChSceneG_Sequence                   61      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneG_SequenceMask 0xC0
+#define     LED_TW_ChSceneG_SequenceShift 6
+#define LED_TW_ChSceneG_Brightness                 61      // uint8_t
+#define LED_TW_ChSceneG_TW                         62      // uint16_t
+#define LED_TW_ChSceneH_Type                       64      // 3 Bits, Bit 7-5
+#define     LED_TW_ChSceneH_TypeMask 0xE0
+#define     LED_TW_ChSceneH_TypeShift 5
+#define LED_TW_ChSceneH_ValueType                  64      // 3 Bits, Bit 4-2
+#define     LED_TW_ChSceneH_ValueTypeMask 0x1C
+#define     LED_TW_ChSceneH_ValueTypeShift 2
+#define LED_TW_ChSceneH_Lockobject                 64      // 1 Bit, Bit 1
+#define     LED_TW_ChSceneH_LockobjectMask 0x02
+#define     LED_TW_ChSceneH_LockobjectShift 1
+#define LED_TW_ChSceneH_LockobjectFunc             64      // 2 Bits, Bit 0--1
+#define LED_TW_ChSceneH_AllowSave                  65      // 1 Bit, Bit 7
+#define     LED_TW_ChSceneH_AllowSaveMask 0x80
+#define     LED_TW_ChSceneH_AllowSaveShift 7
+#define LED_TW_ChSceneH_Number                     65      // 7 Bits, Bit 6-0
+#define     LED_TW_ChSceneH_NumberMask 0x7F
+#define     LED_TW_ChSceneH_NumberShift 0
+#define LED_TW_ChSceneH_Function                   66      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneH_FunctionMask 0xC0
+#define     LED_TW_ChSceneH_FunctionShift 6
+#define LED_TW_ChSceneH_Sequence                   66      // 2 Bits, Bit 7-6
+#define     LED_TW_ChSceneH_SequenceMask 0xC0
+#define     LED_TW_ChSceneH_SequenceShift 6
+#define LED_TW_ChSceneH_Brightness                 66      // uint8_t
+#define LED_TW_ChSceneH_TW                         67      // uint16_t
 
 // Dimmzeit Tag On
-#define ParamLED_TW_LightDimmTimeDayON_                 (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_LightDimmTimeDayON_)))
+#define ParamLED_TW_ChLightDimmTimeDayON                (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChLightDimmTimeDayON)))
 // Dimmzeit Nacht ON
-#define ParamLED_TW_LightDimmTimeNightON_               (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_LightDimmTimeNightON_)))
+#define ParamLED_TW_ChLightDimmTimeNightON              (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChLightDimmTimeNightON)))
 // Dimmzeit Relativ
-#define ParamLED_TW_LightDimmTimeRel_                   (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_LightDimmTimeRel_)))
+#define ParamLED_TW_ChLightDimmTimeRel                  (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChLightDimmTimeRel)))
 // Dimmzeit Tag Off
-#define ParamLED_TW_LightDimmTimeDayOFF_                (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_LightDimmTimeDayOFF_)))
+#define ParamLED_TW_ChLightDimmTimeDayOFF               (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChLightDimmTimeDayOFF)))
 // Dimmzeit Nacht Off
-#define ParamLED_TW_LightDimmTimeNightOFF_              (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_LightDimmTimeNightOFF_)))
+#define ParamLED_TW_ChLightDimmTimeNightOFF             (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChLightDimmTimeNightOFF)))
 // Helligkeit min.
-#define ParamLED_TW_BrighnessMin_                       (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_BrighnessMin_)))
+#define ParamLED_TW_ChBrighnessMin                      (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChBrighnessMin)))
 // Helligkeit max. (Tag)
-#define ParamLED_TW_BrighnessMaxDay_                    (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_BrighnessMaxDay_)))
+#define ParamLED_TW_ChBrighnessMaxDay                   (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChBrighnessMaxDay)))
 // Helligkeit max. (Nacht)
-#define ParamLED_TW_BrighnessMaxNight_                  (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_BrighnessMaxNight_)))
+#define ParamLED_TW_ChBrighnessMaxNight                 (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChBrighnessMaxNight)))
 // Dimmkurve
-#define ParamLED_TW_DimCurve_                           ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_DimCurve_)) & LED_TW_DimCurve_Mask) >> LED_TW_DimCurve_Shift)
+#define ParamLED_TW_ChDimCurve                          ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChDimCurve)) & LED_TW_ChDimCurveMask) >> LED_TW_ChDimCurveShift)
 // Treppenlichtfunktion
-#define ParamLED_TW_StairCaseActive_                    ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_StairCaseActive_)) & LED_TW_StairCaseActive_Mask))
+#define ParamLED_TW_ChStairCaseActive                   ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChStairCaseActive)) & LED_TW_ChStairCaseActiveMask))
 // Nachlaufzeit
-#define ParamLED_TW_StairCaseTimer_                     (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_StairCaseTimer_)))
+#define ParamLED_TW_ChStairCaseTimer                    (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChStairCaseTimer)))
 // Treppenlicht Trigger
-#define ParamLED_TW_StaicCaseTrigger_                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_StaicCaseTrigger_)) & LED_TW_StaicCaseTrigger_Mask) >> LED_TW_StaicCaseTrigger_Shift)
+#define ParamLED_TW_ChStaicCaseTrigger                  ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChStaicCaseTrigger)) & LED_TW_ChStaicCaseTriggerMask) >> LED_TW_ChStaicCaseTriggerShift)
 // Einschaltverhalten
-#define ParamLED_TW_StartupBehavior_                    (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_StartupBehavior_)))
+#define ParamLED_TW_ChStartupBehavior                   (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChStartupBehavior)))
 // Farbtemperatur Kaltweiss
-#define ParamLED_TW_ColorTempCW_                        (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ColorTempCW_)))
+#define ParamLED_TW_ChColorTempCW                       (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChColorTempCW)))
 // Farbtemperatur Warmweiss
-#define ParamLED_TW_ColorTempWW_                        (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ColorTempWW_)))
+#define ParamLED_TW_ChColorTempWW                       (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChColorTempWW)))
 // Farbtemperatur Tag
-#define ParamLED_TW_ColorTempDay_                       (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ColorTempDay_)))
+#define ParamLED_TW_ChColorTempDay                      (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChColorTempDay)))
 // Farbtemperatur Nacht
-#define ParamLED_TW_ColorTempNight_                     (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ColorTempNight_)))
+#define ParamLED_TW_ChColorTempNight                    (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChColorTempNight)))
 // Szenen
-#define ParamLED_TW_ScenesActive_                       ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ScenesActive_)) & LED_TW_ScenesActive_Mask))
+#define ParamLED_TW_ChScenesActive                      ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChScenesActive)) & LED_TW_ChScenesActiveMask))
 // Typ
-#define ParamLED_TW_SceneA_Type_                        ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneA_Type_)) & LED_TW_SceneA_Type_Mask) >> LED_TW_SceneA_Type_Shift)
+#define ParamLED_TW_ChSceneA_Type                       ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneA_Type)) & LED_TW_ChSceneA_TypeMask) >> LED_TW_ChSceneA_TypeShift)
 // Typ
-#define ParamLED_TW_SceneA_ValueType_                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneA_ValueType_)) & LED_TW_SceneA_ValueType_Mask) >> LED_TW_SceneA_ValueType_Shift)
+#define ParamLED_TW_ChSceneA_ValueType                  ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneA_ValueType)) & LED_TW_ChSceneA_ValueTypeMask) >> LED_TW_ChSceneA_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_TW_SceneA_Lockobject_                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneA_Lockobject_)) & LED_TW_SceneA_Lockobject_Mask))
+#define ParamLED_TW_ChSceneA_Lockobject                 ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneA_Lockobject)) & LED_TW_ChSceneA_LockobjectMask))
 // Sperren
-#define ParamLED_TW_SceneA_LockobjectFunc_              (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneA_LockobjectFunc_)))
+#define ParamLED_TW_ChSceneA_LockobjectFunc             (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneA_LockobjectFunc)))
 // Speichern
-#define ParamLED_TW_SceneA_AllowSave                    ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneA_AllowSave)) & LED_TW_SceneA_AllowSaveMask))
+#define ParamLED_TW_ChSceneA_AllowSave                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneA_AllowSave)) & LED_TW_ChSceneA_AllowSaveMask))
 // Typ
-#define ParamLED_TW_SceneA_Number_                      (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneA_Number_)) & LED_TW_SceneA_Number_Mask)
+#define ParamLED_TW_ChSceneA_Number                     (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneA_Number)) & LED_TW_ChSceneA_NumberMask)
 // Funktion
-#define ParamLED_TW_SceneA_Function                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneA_Function)) & LED_TW_SceneA_FunctionMask) >> LED_TW_SceneA_FunctionShift)
+#define ParamLED_TW_ChSceneA_Function                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneA_Function)) & LED_TW_ChSceneA_FunctionMask) >> LED_TW_ChSceneA_FunctionShift)
 // Ablauf
-#define ParamLED_TW_SceneA_Sequence                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneA_Sequence)) & LED_TW_SceneA_SequenceMask) >> LED_TW_SceneA_SequenceShift)
+#define ParamLED_TW_ChSceneA_Sequence                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneA_Sequence)) & LED_TW_ChSceneA_SequenceMask) >> LED_TW_ChSceneA_SequenceShift)
 // Helligkeit
-#define ParamLED_TW_SceneA_Brightness                   (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneA_Brightness)))
+#define ParamLED_TW_ChSceneA_Brightness                 (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneA_Brightness)))
 // Lichtfarbe
-#define ParamLED_TW_SceneA_TW_                          (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_SceneA_TW_)))
+#define ParamLED_TW_ChSceneA_TW                         (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChSceneA_TW)))
 // Typ
-#define ParamLED_TW_SceneB_Type_                        ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneB_Type_)) & LED_TW_SceneB_Type_Mask) >> LED_TW_SceneB_Type_Shift)
+#define ParamLED_TW_ChSceneB_Type                       ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneB_Type)) & LED_TW_ChSceneB_TypeMask) >> LED_TW_ChSceneB_TypeShift)
 // Typ
-#define ParamLED_TW_SceneB_ValueType_                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneB_ValueType_)) & LED_TW_SceneB_ValueType_Mask) >> LED_TW_SceneB_ValueType_Shift)
+#define ParamLED_TW_ChSceneB_ValueType                  ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneB_ValueType)) & LED_TW_ChSceneB_ValueTypeMask) >> LED_TW_ChSceneB_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_TW_SceneB_Lockobject_                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneB_Lockobject_)) & LED_TW_SceneB_Lockobject_Mask))
+#define ParamLED_TW_ChSceneB_Lockobject                 ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneB_Lockobject)) & LED_TW_ChSceneB_LockobjectMask))
 // Sperren
-#define ParamLED_TW_SceneB_LockobjectFunc_              (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneB_LockobjectFunc_)))
+#define ParamLED_TW_ChSceneB_LockobjectFunc             (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneB_LockobjectFunc)))
 // Speichern
-#define ParamLED_TW_SceneB_AllowSave                    ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneB_AllowSave)) & LED_TW_SceneB_AllowSaveMask))
+#define ParamLED_TW_ChSceneB_AllowSave                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneB_AllowSave)) & LED_TW_ChSceneB_AllowSaveMask))
 // Typ
-#define ParamLED_TW_SceneB_Number_                      (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneB_Number_)) & LED_TW_SceneB_Number_Mask)
+#define ParamLED_TW_ChSceneB_Number                     (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneB_Number)) & LED_TW_ChSceneB_NumberMask)
 // Funktion
-#define ParamLED_TW_SceneB_Function                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneB_Function)) & LED_TW_SceneB_FunctionMask) >> LED_TW_SceneB_FunctionShift)
+#define ParamLED_TW_ChSceneB_Function                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneB_Function)) & LED_TW_ChSceneB_FunctionMask) >> LED_TW_ChSceneB_FunctionShift)
 // Ablauf
-#define ParamLED_TW_SceneB_Sequence                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneB_Sequence)) & LED_TW_SceneB_SequenceMask) >> LED_TW_SceneB_SequenceShift)
+#define ParamLED_TW_ChSceneB_Sequence                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneB_Sequence)) & LED_TW_ChSceneB_SequenceMask) >> LED_TW_ChSceneB_SequenceShift)
 // Helligkeit
-#define ParamLED_TW_SceneB_Brightness                   (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneB_Brightness)))
+#define ParamLED_TW_ChSceneB_Brightness                 (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneB_Brightness)))
 // Lichtfarbe
-#define ParamLED_TW_SceneB_TW_                          (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_SceneB_TW_)))
+#define ParamLED_TW_ChSceneB_TW                         (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChSceneB_TW)))
 // Typ
-#define ParamLED_TW_SceneC_Type_                        ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneC_Type_)) & LED_TW_SceneC_Type_Mask) >> LED_TW_SceneC_Type_Shift)
+#define ParamLED_TW_ChSceneC_Type                       ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneC_Type)) & LED_TW_ChSceneC_TypeMask) >> LED_TW_ChSceneC_TypeShift)
 // Typ
-#define ParamLED_TW_SceneC_ValueType_                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneC_ValueType_)) & LED_TW_SceneC_ValueType_Mask) >> LED_TW_SceneC_ValueType_Shift)
+#define ParamLED_TW_ChSceneC_ValueType                  ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneC_ValueType)) & LED_TW_ChSceneC_ValueTypeMask) >> LED_TW_ChSceneC_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_TW_SceneC_Lockobject_                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneC_Lockobject_)) & LED_TW_SceneC_Lockobject_Mask))
+#define ParamLED_TW_ChSceneC_Lockobject                 ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneC_Lockobject)) & LED_TW_ChSceneC_LockobjectMask))
 // Sperren
-#define ParamLED_TW_SceneC_LockobjectFunc_              (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneC_LockobjectFunc_)))
+#define ParamLED_TW_ChSceneC_LockobjectFunc             (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneC_LockobjectFunc)))
 // Speichern
-#define ParamLED_TW_SceneC_AllowSave                    ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneC_AllowSave)) & LED_TW_SceneC_AllowSaveMask))
+#define ParamLED_TW_ChSceneC_AllowSave                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneC_AllowSave)) & LED_TW_ChSceneC_AllowSaveMask))
 // Typ
-#define ParamLED_TW_SceneC_Number_                      (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneC_Number_)) & LED_TW_SceneC_Number_Mask)
+#define ParamLED_TW_ChSceneC_Number                     (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneC_Number)) & LED_TW_ChSceneC_NumberMask)
 // Funktion
-#define ParamLED_TW_SceneC_Function                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneC_Function)) & LED_TW_SceneC_FunctionMask) >> LED_TW_SceneC_FunctionShift)
+#define ParamLED_TW_ChSceneC_Function                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneC_Function)) & LED_TW_ChSceneC_FunctionMask) >> LED_TW_ChSceneC_FunctionShift)
 // Ablauf
-#define ParamLED_TW_SceneC_Sequence                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneC_Sequence)) & LED_TW_SceneC_SequenceMask) >> LED_TW_SceneC_SequenceShift)
+#define ParamLED_TW_ChSceneC_Sequence                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneC_Sequence)) & LED_TW_ChSceneC_SequenceMask) >> LED_TW_ChSceneC_SequenceShift)
 // Helligkeit
-#define ParamLED_TW_SceneC_Brightness                   (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneC_Brightness)))
+#define ParamLED_TW_ChSceneC_Brightness                 (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneC_Brightness)))
 // Lichtfarbe
-#define ParamLED_TW_SceneC_TW_                          (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_SceneC_TW_)))
+#define ParamLED_TW_ChSceneC_TW                         (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChSceneC_TW)))
 // Typ
-#define ParamLED_TW_SceneD_Type_                        ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneD_Type_)) & LED_TW_SceneD_Type_Mask) >> LED_TW_SceneD_Type_Shift)
+#define ParamLED_TW_ChSceneD_Type                       ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneD_Type)) & LED_TW_ChSceneD_TypeMask) >> LED_TW_ChSceneD_TypeShift)
 // Typ
-#define ParamLED_TW_SceneD_ValueType_                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneD_ValueType_)) & LED_TW_SceneD_ValueType_Mask) >> LED_TW_SceneD_ValueType_Shift)
+#define ParamLED_TW_ChSceneD_ValueType                  ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneD_ValueType)) & LED_TW_ChSceneD_ValueTypeMask) >> LED_TW_ChSceneD_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_TW_SceneD_Lockobject_                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneD_Lockobject_)) & LED_TW_SceneD_Lockobject_Mask))
+#define ParamLED_TW_ChSceneD_Lockobject                 ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneD_Lockobject)) & LED_TW_ChSceneD_LockobjectMask))
 // Sperren
-#define ParamLED_TW_SceneD_LockobjectFunc_              (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneD_LockobjectFunc_)))
+#define ParamLED_TW_ChSceneD_LockobjectFunc             (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneD_LockobjectFunc)))
 // Speichern
-#define ParamLED_TW_SceneD_AllowSave                    ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneD_AllowSave)) & LED_TW_SceneD_AllowSaveMask))
+#define ParamLED_TW_ChSceneD_AllowSave                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneD_AllowSave)) & LED_TW_ChSceneD_AllowSaveMask))
 // Typ
-#define ParamLED_TW_SceneD_Number_                      (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneD_Number_)) & LED_TW_SceneD_Number_Mask)
+#define ParamLED_TW_ChSceneD_Number                     (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneD_Number)) & LED_TW_ChSceneD_NumberMask)
 // Funktion
-#define ParamLED_TW_SceneD_Function                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneD_Function)) & LED_TW_SceneD_FunctionMask) >> LED_TW_SceneD_FunctionShift)
+#define ParamLED_TW_ChSceneD_Function                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneD_Function)) & LED_TW_ChSceneD_FunctionMask) >> LED_TW_ChSceneD_FunctionShift)
 // Ablauf
-#define ParamLED_TW_SceneD_Sequence                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneD_Sequence)) & LED_TW_SceneD_SequenceMask) >> LED_TW_SceneD_SequenceShift)
+#define ParamLED_TW_ChSceneD_Sequence                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneD_Sequence)) & LED_TW_ChSceneD_SequenceMask) >> LED_TW_ChSceneD_SequenceShift)
 // Helligkeit
-#define ParamLED_TW_SceneD_Brightness                   (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneD_Brightness)))
+#define ParamLED_TW_ChSceneD_Brightness                 (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneD_Brightness)))
 // Lichtfarbe
-#define ParamLED_TW_SceneD_TW_                          (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_SceneD_TW_)))
+#define ParamLED_TW_ChSceneD_TW                         (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChSceneD_TW)))
 // Typ
-#define ParamLED_TW_SceneE_Type_                        ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneE_Type_)) & LED_TW_SceneE_Type_Mask) >> LED_TW_SceneE_Type_Shift)
+#define ParamLED_TW_ChSceneE_Type                       ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneE_Type)) & LED_TW_ChSceneE_TypeMask) >> LED_TW_ChSceneE_TypeShift)
 // Typ
-#define ParamLED_TW_SceneE_ValueType_                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneE_ValueType_)) & LED_TW_SceneE_ValueType_Mask) >> LED_TW_SceneE_ValueType_Shift)
+#define ParamLED_TW_ChSceneE_ValueType                  ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneE_ValueType)) & LED_TW_ChSceneE_ValueTypeMask) >> LED_TW_ChSceneE_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_TW_SceneE_Lockobject_                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneE_Lockobject_)) & LED_TW_SceneE_Lockobject_Mask))
+#define ParamLED_TW_ChSceneE_Lockobject                 ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneE_Lockobject)) & LED_TW_ChSceneE_LockobjectMask))
 // Sperren
-#define ParamLED_TW_SceneE_LockobjectFunc_              (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneE_LockobjectFunc_)))
+#define ParamLED_TW_ChSceneE_LockobjectFunc             (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneE_LockobjectFunc)))
 // Speichern
-#define ParamLED_TW_SceneE_AllowSave                    ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneE_AllowSave)) & LED_TW_SceneE_AllowSaveMask))
+#define ParamLED_TW_ChSceneE_AllowSave                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneE_AllowSave)) & LED_TW_ChSceneE_AllowSaveMask))
 // Typ
-#define ParamLED_TW_SceneE_Number_                      (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneE_Number_)) & LED_TW_SceneE_Number_Mask)
+#define ParamLED_TW_ChSceneE_Number                     (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneE_Number)) & LED_TW_ChSceneE_NumberMask)
 // Funktion
-#define ParamLED_TW_SceneE_Function                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneE_Function)) & LED_TW_SceneE_FunctionMask) >> LED_TW_SceneE_FunctionShift)
+#define ParamLED_TW_ChSceneE_Function                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneE_Function)) & LED_TW_ChSceneE_FunctionMask) >> LED_TW_ChSceneE_FunctionShift)
 // Ablauf
-#define ParamLED_TW_SceneE_Sequence                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneE_Sequence)) & LED_TW_SceneE_SequenceMask) >> LED_TW_SceneE_SequenceShift)
+#define ParamLED_TW_ChSceneE_Sequence                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneE_Sequence)) & LED_TW_ChSceneE_SequenceMask) >> LED_TW_ChSceneE_SequenceShift)
 // Helligkeit
-#define ParamLED_TW_SceneE_Brightness                   (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneE_Brightness)))
+#define ParamLED_TW_ChSceneE_Brightness                 (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneE_Brightness)))
 // Lichtfarbe
-#define ParamLED_TW_SceneE_TW_                          (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_SceneE_TW_)))
+#define ParamLED_TW_ChSceneE_TW                         (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChSceneE_TW)))
 // Typ
-#define ParamLED_TW_SceneF_Type_                        ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneF_Type_)) & LED_TW_SceneF_Type_Mask) >> LED_TW_SceneF_Type_Shift)
+#define ParamLED_TW_ChSceneF_Type                       ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneF_Type)) & LED_TW_ChSceneF_TypeMask) >> LED_TW_ChSceneF_TypeShift)
 // Typ
-#define ParamLED_TW_SceneF_ValueType_                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneF_ValueType_)) & LED_TW_SceneF_ValueType_Mask) >> LED_TW_SceneF_ValueType_Shift)
+#define ParamLED_TW_ChSceneF_ValueType                  ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneF_ValueType)) & LED_TW_ChSceneF_ValueTypeMask) >> LED_TW_ChSceneF_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_TW_SceneF_Lockobject_                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneF_Lockobject_)) & LED_TW_SceneF_Lockobject_Mask))
+#define ParamLED_TW_ChSceneF_Lockobject                 ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneF_Lockobject)) & LED_TW_ChSceneF_LockobjectMask))
 // Sperren
-#define ParamLED_TW_SceneF_LockobjectFunc_              (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneF_LockobjectFunc_)))
+#define ParamLED_TW_ChSceneF_LockobjectFunc             (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneF_LockobjectFunc)))
 // Speichern
-#define ParamLED_TW_SceneF_AllowSave                    ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneF_AllowSave)) & LED_TW_SceneF_AllowSaveMask))
+#define ParamLED_TW_ChSceneF_AllowSave                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneF_AllowSave)) & LED_TW_ChSceneF_AllowSaveMask))
 // Typ
-#define ParamLED_TW_SceneF_Number_                      (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneF_Number_)) & LED_TW_SceneF_Number_Mask)
+#define ParamLED_TW_ChSceneF_Number                     (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneF_Number)) & LED_TW_ChSceneF_NumberMask)
 // Funktion
-#define ParamLED_TW_SceneF_Function                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneF_Function)) & LED_TW_SceneF_FunctionMask) >> LED_TW_SceneF_FunctionShift)
+#define ParamLED_TW_ChSceneF_Function                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneF_Function)) & LED_TW_ChSceneF_FunctionMask) >> LED_TW_ChSceneF_FunctionShift)
 // Ablauf
-#define ParamLED_TW_SceneF_Sequence                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneF_Sequence)) & LED_TW_SceneF_SequenceMask) >> LED_TW_SceneF_SequenceShift)
+#define ParamLED_TW_ChSceneF_Sequence                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneF_Sequence)) & LED_TW_ChSceneF_SequenceMask) >> LED_TW_ChSceneF_SequenceShift)
 // Helligkeit
-#define ParamLED_TW_SceneF_Brightness                   (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneF_Brightness)))
+#define ParamLED_TW_ChSceneF_Brightness                 (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneF_Brightness)))
 // Lichtfarbe
-#define ParamLED_TW_SceneF_TW_                          (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_SceneF_TW_)))
+#define ParamLED_TW_ChSceneF_TW                         (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChSceneF_TW)))
 // Typ
-#define ParamLED_TW_SceneG_Type_                        ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneG_Type_)) & LED_TW_SceneG_Type_Mask) >> LED_TW_SceneG_Type_Shift)
+#define ParamLED_TW_ChSceneG_Type                       ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneG_Type)) & LED_TW_ChSceneG_TypeMask) >> LED_TW_ChSceneG_TypeShift)
 // Typ
-#define ParamLED_TW_SceneG_ValueType_                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneG_ValueType_)) & LED_TW_SceneG_ValueType_Mask) >> LED_TW_SceneG_ValueType_Shift)
+#define ParamLED_TW_ChSceneG_ValueType                  ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneG_ValueType)) & LED_TW_ChSceneG_ValueTypeMask) >> LED_TW_ChSceneG_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_TW_SceneG_Lockobject_                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneG_Lockobject_)) & LED_TW_SceneG_Lockobject_Mask))
+#define ParamLED_TW_ChSceneG_Lockobject                 ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneG_Lockobject)) & LED_TW_ChSceneG_LockobjectMask))
 // Sperren
-#define ParamLED_TW_SceneG_LockobjectFunc_              (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneG_LockobjectFunc_)))
+#define ParamLED_TW_ChSceneG_LockobjectFunc             (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneG_LockobjectFunc)))
 // Speichern
-#define ParamLED_TW_SceneG_AllowSave                    ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneG_AllowSave)) & LED_TW_SceneG_AllowSaveMask))
+#define ParamLED_TW_ChSceneG_AllowSave                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneG_AllowSave)) & LED_TW_ChSceneG_AllowSaveMask))
 // Typ
-#define ParamLED_TW_SceneG_Number_                      (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneG_Number_)) & LED_TW_SceneG_Number_Mask)
+#define ParamLED_TW_ChSceneG_Number                     (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneG_Number)) & LED_TW_ChSceneG_NumberMask)
 // Funktion
-#define ParamLED_TW_SceneG_Function                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneG_Function)) & LED_TW_SceneG_FunctionMask) >> LED_TW_SceneG_FunctionShift)
+#define ParamLED_TW_ChSceneG_Function                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneG_Function)) & LED_TW_ChSceneG_FunctionMask) >> LED_TW_ChSceneG_FunctionShift)
 // Ablauf
-#define ParamLED_TW_SceneG_Sequence                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneG_Sequence)) & LED_TW_SceneG_SequenceMask) >> LED_TW_SceneG_SequenceShift)
+#define ParamLED_TW_ChSceneG_Sequence                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneG_Sequence)) & LED_TW_ChSceneG_SequenceMask) >> LED_TW_ChSceneG_SequenceShift)
 // Helligkeit
-#define ParamLED_TW_SceneG_Brightness                   (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneG_Brightness)))
+#define ParamLED_TW_ChSceneG_Brightness                 (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneG_Brightness)))
 // Lichtfarbe
-#define ParamLED_TW_SceneG_TW_                          (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_SceneG_TW_)))
+#define ParamLED_TW_ChSceneG_TW                         (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChSceneG_TW)))
 // Typ
-#define ParamLED_TW_SceneH_Type_                        ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneH_Type_)) & LED_TW_SceneH_Type_Mask) >> LED_TW_SceneH_Type_Shift)
+#define ParamLED_TW_ChSceneH_Type                       ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_Type)) & LED_TW_ChSceneH_TypeMask) >> LED_TW_ChSceneH_TypeShift)
 // Typ
-#define ParamLED_TW_SceneH_ValueType_                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneH_ValueType_)) & LED_TW_SceneH_ValueType_Mask) >> LED_TW_SceneH_ValueType_Shift)
+#define ParamLED_TW_ChSceneH_ValueType                  ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_ValueType)) & LED_TW_ChSceneH_ValueTypeMask) >> LED_TW_ChSceneH_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_TW_SceneH_Lockobject_                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneH_Lockobject_)) & LED_TW_SceneH_Lockobject_Mask))
+#define ParamLED_TW_ChSceneH_Lockobject                 ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_Lockobject)) & LED_TW_ChSceneH_LockobjectMask))
 // Sperren
-#define ParamLED_TW_SceneH_LockobjectFunc_              (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneH_LockobjectFunc_)))
+#define ParamLED_TW_ChSceneH_LockobjectFunc             (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_LockobjectFunc)))
 // Speichern
-#define ParamLED_TW_SceneH_AllowSave                    ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneH_AllowSave)) & LED_TW_SceneH_AllowSaveMask))
+#define ParamLED_TW_ChSceneH_AllowSave                  ((bool)(knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_AllowSave)) & LED_TW_ChSceneH_AllowSaveMask))
 // Typ
-#define ParamLED_TW_SceneH_Number_                      (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneH_Number_)) & LED_TW_SceneH_Number_Mask)
+#define ParamLED_TW_ChSceneH_Number                     (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_Number)) & LED_TW_ChSceneH_NumberMask)
 // Funktion
-#define ParamLED_TW_SceneH_Function                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneH_Function)) & LED_TW_SceneH_FunctionMask) >> LED_TW_SceneH_FunctionShift)
+#define ParamLED_TW_ChSceneH_Function                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_Function)) & LED_TW_ChSceneH_FunctionMask) >> LED_TW_ChSceneH_FunctionShift)
 // Ablauf
-#define ParamLED_TW_SceneH_Sequence                     ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneH_Sequence)) & LED_TW_SceneH_SequenceMask) >> LED_TW_SceneH_SequenceShift)
+#define ParamLED_TW_ChSceneH_Sequence                   ((knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_Sequence)) & LED_TW_ChSceneH_SequenceMask) >> LED_TW_ChSceneH_SequenceShift)
 // Helligkeit
-#define ParamLED_TW_SceneH_Brightness                   (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_SceneH_Brightness)))
+#define ParamLED_TW_ChSceneH_Brightness                 (knx.paramByte(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_Brightness)))
 // Lichtfarbe
-#define ParamLED_TW_SceneH_TW_                          (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_SceneH_TW_)))
+#define ParamLED_TW_ChSceneH_TW                         (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_TW)))
 
 // deprecated
 #define LED_TW_KoOffset 200
@@ -1144,547 +1219,547 @@
 #define LED_TW_KoCalcIndex(number) ((number >= LED_TW_KoCalcNumber(0) && number < LED_TW_KoCalcNumber(LED_TW_KoBlockSize)) ? (number - LED_TW_KoBlockOffset) % LED_TW_KoBlockSize : -1)
 #define LED_TW_KoCalcChannel(number) ((number >= LED_TW_KoBlockOffset && number < LED_TW_KoBlockOffset + LED_TW_ChannelCount * LED_TW_KoBlockSize) ? (number - LED_TW_KoBlockOffset) / LED_TW_KoBlockSize : -1)
 
-#define LED_TW_KoSwitch_ 0
-#define LED_TW_KoStateOnOff_ 1
-#define LED_TW_KoLocking_ 2
-#define LED_TW_KoStateLocking_ 3
-#define LED_TW_KoBrightness_ 4
-#define LED_TW_KoBrightnessStatus_ 5
-#define LED_TW_KoDimRel_ 6
-#define LED_TW_KoScene_ 7
-#define LED_TW_KoNight_ 8
-#define LED_TW_KoColorTemperature_ 9
-#define LED_TW_KoColorTemperatureStatus_ 10
+#define LED_TW_KoChSwitch 0
+#define LED_TW_KoChStateOnOff 1
+#define LED_TW_KoChLocking 2
+#define LED_TW_KoChStateLocking 3
+#define LED_TW_KoChBrightness 4
+#define LED_TW_KoChBrightnessStatus 5
+#define LED_TW_KoChDimRel 6
+#define LED_TW_KoChScene 7
+#define LED_TW_KoChNight 8
+#define LED_TW_KoChColorTemperature 9
+#define LED_TW_KoChColorTemperatureStatus 10
 
 // Schalten
-#define KoLED_TW_Switch_                             (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoSwitch_)))
+#define KoLED_TW_ChSwitch                            (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChSwitch)))
 // Status Ein/Aus
-#define KoLED_TW_StateOnOff_                         (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoStateOnOff_)))
+#define KoLED_TW_ChStateOnOff                        (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChStateOnOff)))
 // Sperren
-#define KoLED_TW_Locking_                            (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoLocking_)))
+#define KoLED_TW_ChLocking                           (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChLocking)))
 // Sperren Status
-#define KoLED_TW_StateLocking_                       (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoStateLocking_)))
+#define KoLED_TW_ChStateLocking                      (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChStateLocking)))
 // Helligkeit
-#define KoLED_TW_Brightness_                         (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoBrightness_)))
+#define KoLED_TW_ChBrightness                        (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChBrightness)))
 // Helligkeit Status
-#define KoLED_TW_BrightnessStatus_                   (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoBrightnessStatus_)))
+#define KoLED_TW_ChBrightnessStatus                  (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChBrightnessStatus)))
 // Dimmen Relativ
-#define KoLED_TW_DimRel_                             (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoDimRel_)))
+#define KoLED_TW_ChDimRel                            (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChDimRel)))
 // Szene
-#define KoLED_TW_Scene_                              (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoScene_)))
+#define KoLED_TW_ChScene                             (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChScene)))
 // Nacht
-#define KoLED_TW_Night_                              (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoNight_)))
+#define KoLED_TW_ChNight                             (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChNight)))
 // Farbtemperatur
-#define KoLED_TW_ColorTemperature_                   (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoColorTemperature_)))
+#define KoLED_TW_ChColorTemperature                  (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChColorTemperature)))
 // Farbtemperatur Status
-#define KoLED_TW_ColorTemperatureStatus_             (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoColorTemperatureStatus_)))
+#define KoLED_TW_ChColorTemperatureStatus            (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChColorTemperatureStatus)))
 
 #define LED_RGB_ChannelCount 5
 
 // Parameter per channel
-#define LED_RGB_ParamBlockOffset 1747
+#define LED_RGB_ParamBlockOffset 1751
 #define LED_RGB_ParamBlockSize 80
 #define LED_RGB_ParamCalcIndex(index) (index + LED_RGB_ParamBlockOffset + _channelIndex * LED_RGB_ParamBlockSize)
 
-#define LED_RGB_LightDimmTimeDayON_                  1      // uint16_t
-#define LED_RGB_LightDimmTimeNightON_                3      // uint16_t
-#define LED_RGB_LightDimmTimeRel_                    5      // uint16_t
-#define LED_RGB_LightDimmTimeDayOFF_                 7      // uint16_t
-#define LED_RGB_LightDimmTimeNightOFF_               9      // uint16_t
-#define LED_RGB_BrighnessMin_                       11      // uint8_t
-#define LED_RGB_BrighnessMaxDay_                    12      // uint8_t
-#define LED_RGB_BrighnessMaxNight_                  13      // uint8_t
-#define LED_RGB_DimCurve_                           14      // 3 Bits, Bit 7-5
-#define     LED_RGB_DimCurve_Mask 0xE0
-#define     LED_RGB_DimCurve_Shift 5
-#define LED_RGB_StairCaseActive_                    14      // 1 Bit, Bit 4
-#define     LED_RGB_StairCaseActive_Mask 0x10
-#define     LED_RGB_StairCaseActive_Shift 4
-#define LED_RGB_StairCaseTimer_                     15      // uint8_t
-#define LED_RGB_StaicCaseTrigger_                   14      // 2 Bits, Bit 3-2
-#define     LED_RGB_StaicCaseTrigger_Mask 0x0C
-#define     LED_RGB_StaicCaseTrigger_Shift 2
-#define LED_RGB_StartupBehavior_                    16      // 8 Bits, Bit 7-0
-#define LED_RGB_ColorDay_                           17      // 5 Bits, Bit 7-3
-#define     LED_RGB_ColorDay_Mask 0xF8
-#define     LED_RGB_ColorDay_Shift 3
-#define LED_RGB_ColorNight_                         18      // 5 Bits, Bit 7-3
-#define     LED_RGB_ColorNight_Mask 0xF8
-#define     LED_RGB_ColorNight_Shift 3
-#define LED_RGB_ColorDayPicker_                     19      // 24 Bits, Bit 31-8
-#define     LED_RGB_ColorDayPicker_Mask 0xFFFFFF00
-#define     LED_RGB_ColorDayPicker_Shift 8
-#define LED_RGB_ColorTempDay_                       17      // uint16_t
-#define LED_RGB_ColorNightPicker_                   22      // 24 Bits, Bit 31-8
-#define     LED_RGB_ColorNightPicker_Mask 0xFFFFFF00
-#define     LED_RGB_ColorNightPicker_Shift 8
-#define LED_RGB_ColorTempNight_                     20      // uint16_t
-#define LED_RGB_ColorTimeDay_                       22      // uint16_t
-#define LED_RGB_ColorTimeNight_                     24      // uint16_t
-#define LED_RGB_ScenesActive_                       34      // 1 Bit, Bit 7
-#define     LED_RGB_ScenesActive_Mask 0x80
-#define     LED_RGB_ScenesActive_Shift 7
-#define LED_RGB_SceneA_Type_                        40      // 3 Bits, Bit 7-5
-#define     LED_RGB_SceneA_Type_Mask 0xE0
-#define     LED_RGB_SceneA_Type_Shift 5
-#define LED_RGB_SceneA_ValueType_                   40      // 3 Bits, Bit 4-2
-#define     LED_RGB_SceneA_ValueType_Mask 0x1C
-#define     LED_RGB_SceneA_ValueType_Shift 2
-#define LED_RGB_SceneA_Lockobject_                  40      // 1 Bit, Bit 1
-#define     LED_RGB_SceneA_Lockobject_Mask 0x02
-#define     LED_RGB_SceneA_Lockobject_Shift 1
-#define LED_RGB_SceneA_LockobjectFunc_              40      // 2 Bits, Bit 0--1
-#define LED_RGB_SceneA_AllowSave                    41      // 1 Bit, Bit 7
-#define     LED_RGB_SceneA_AllowSaveMask 0x80
-#define     LED_RGB_SceneA_AllowSaveShift 7
-#define LED_RGB_SceneA_Number_                      41      // 7 Bits, Bit 6-0
-#define     LED_RGB_SceneA_Number_Mask 0x7F
-#define     LED_RGB_SceneA_Number_Shift 0
-#define LED_RGB_SceneA_Function_                    42      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneA_Function_Mask 0xC0
-#define     LED_RGB_SceneA_Function_Shift 6
-#define LED_RGB_SceneA_Sequence_                    42      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneA_Sequence_Mask 0xC0
-#define     LED_RGB_SceneA_Sequence_Shift 6
-#define LED_RGB_SceneA_Brightness_                  42      // uint8_t
-#define LED_RGB_SceneA_RGB_                         42      // 24 Bits, Bit 31-8
-#define     LED_RGB_SceneA_RGB_Mask 0xFFFFFF00
-#define     LED_RGB_SceneA_RGB_Shift 8
-#define LED_RGB_SceneA_Hue_                         42      // uint8_t
-#define LED_RGB_SceneA_Sat_                         42      // uint8_t
-#define LED_RGB_SceneB_Type_                        45      // 3 Bits, Bit 7-5
-#define     LED_RGB_SceneB_Type_Mask 0xE0
-#define     LED_RGB_SceneB_Type_Shift 5
-#define LED_RGB_SceneB_ValueType_                   45      // 3 Bits, Bit 4-2
-#define     LED_RGB_SceneB_ValueType_Mask 0x1C
-#define     LED_RGB_SceneB_ValueType_Shift 2
-#define LED_RGB_SceneB_Lockobject_                  45      // 1 Bit, Bit 1
-#define     LED_RGB_SceneB_Lockobject_Mask 0x02
-#define     LED_RGB_SceneB_Lockobject_Shift 1
-#define LED_RGB_SceneB_LockobjectFunc_              45      // 2 Bits, Bit 0--1
-#define LED_RGB_SceneB_AllowSave                    46      // 1 Bit, Bit 7
-#define     LED_RGB_SceneB_AllowSaveMask 0x80
-#define     LED_RGB_SceneB_AllowSaveShift 7
-#define LED_RGB_SceneB_Number_                      46      // 7 Bits, Bit 6-0
-#define     LED_RGB_SceneB_Number_Mask 0x7F
-#define     LED_RGB_SceneB_Number_Shift 0
-#define LED_RGB_SceneB_Function_                    47      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneB_Function_Mask 0xC0
-#define     LED_RGB_SceneB_Function_Shift 6
-#define LED_RGB_SceneB_Sequence_                    47      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneB_Sequence_Mask 0xC0
-#define     LED_RGB_SceneB_Sequence_Shift 6
-#define LED_RGB_SceneB_Brightness_                  47      // uint8_t
-#define LED_RGB_SceneB_RGB_                         47      // 24 Bits, Bit 31-8
-#define     LED_RGB_SceneB_RGB_Mask 0xFFFFFF00
-#define     LED_RGB_SceneB_RGB_Shift 8
-#define LED_RGB_SceneB_Hue_                         47      // uint8_t
-#define LED_RGB_SceneB_Sat_                         47      // uint8_t
-#define LED_RGB_SceneC_Type_                        50      // 3 Bits, Bit 7-5
-#define     LED_RGB_SceneC_Type_Mask 0xE0
-#define     LED_RGB_SceneC_Type_Shift 5
-#define LED_RGB_SceneC_ValueType_                   50      // 3 Bits, Bit 4-2
-#define     LED_RGB_SceneC_ValueType_Mask 0x1C
-#define     LED_RGB_SceneC_ValueType_Shift 2
-#define LED_RGB_SceneC_Lockobject_                  50      // 1 Bit, Bit 1
-#define     LED_RGB_SceneC_Lockobject_Mask 0x02
-#define     LED_RGB_SceneC_Lockobject_Shift 1
-#define LED_RGB_SceneC_LockobjectFunc_              50      // 2 Bits, Bit 0--1
-#define LED_RGB_SceneC_AllowSave                    51      // 1 Bit, Bit 7
-#define     LED_RGB_SceneC_AllowSaveMask 0x80
-#define     LED_RGB_SceneC_AllowSaveShift 7
-#define LED_RGB_SceneC_Number_                      51      // 7 Bits, Bit 6-0
-#define     LED_RGB_SceneC_Number_Mask 0x7F
-#define     LED_RGB_SceneC_Number_Shift 0
-#define LED_RGB_SceneC_Function_                    52      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneC_Function_Mask 0xC0
-#define     LED_RGB_SceneC_Function_Shift 6
-#define LED_RGB_SceneC_Sequence_                    52      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneC_Sequence_Mask 0xC0
-#define     LED_RGB_SceneC_Sequence_Shift 6
-#define LED_RGB_SceneC_Brightness_                  52      // uint8_t
-#define LED_RGB_SceneC_RGB_                         52      // 24 Bits, Bit 31-8
-#define     LED_RGB_SceneC_RGB_Mask 0xFFFFFF00
-#define     LED_RGB_SceneC_RGB_Shift 8
-#define LED_RGB_SceneC_Hue_                         52      // uint8_t
-#define LED_RGB_SceneC_Sat_                         52      // uint8_t
-#define LED_RGB_SceneD_Type_                        55      // 3 Bits, Bit 7-5
-#define     LED_RGB_SceneD_Type_Mask 0xE0
-#define     LED_RGB_SceneD_Type_Shift 5
-#define LED_RGB_SceneD_ValueType_                   55      // 3 Bits, Bit 4-2
-#define     LED_RGB_SceneD_ValueType_Mask 0x1C
-#define     LED_RGB_SceneD_ValueType_Shift 2
-#define LED_RGB_SceneD_Lockobject_                  55      // 1 Bit, Bit 1
-#define     LED_RGB_SceneD_Lockobject_Mask 0x02
-#define     LED_RGB_SceneD_Lockobject_Shift 1
-#define LED_RGB_SceneD_LockobjectFunc_              55      // 2 Bits, Bit 0--1
-#define LED_RGB_SceneD_AllowSave                    56      // 1 Bit, Bit 7
-#define     LED_RGB_SceneD_AllowSaveMask 0x80
-#define     LED_RGB_SceneD_AllowSaveShift 7
-#define LED_RGB_SceneD_Number_                      56      // 7 Bits, Bit 6-0
-#define     LED_RGB_SceneD_Number_Mask 0x7F
-#define     LED_RGB_SceneD_Number_Shift 0
-#define LED_RGB_SceneD_Function_                    57      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneD_Function_Mask 0xC0
-#define     LED_RGB_SceneD_Function_Shift 6
-#define LED_RGB_SceneD_Sequence_                    57      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneD_Sequence_Mask 0xC0
-#define     LED_RGB_SceneD_Sequence_Shift 6
-#define LED_RGB_SceneD_Brightness_                  57      // uint8_t
-#define LED_RGB_SceneD_RGB_                         57      // 24 Bits, Bit 31-8
-#define     LED_RGB_SceneD_RGB_Mask 0xFFFFFF00
-#define     LED_RGB_SceneD_RGB_Shift 8
-#define LED_RGB_SceneD_Hue_                         57      // uint8_t
-#define LED_RGB_SceneD_Sat_                         57      // uint8_t
-#define LED_RGB_SceneE_Type_                        60      // 3 Bits, Bit 7-5
-#define     LED_RGB_SceneE_Type_Mask 0xE0
-#define     LED_RGB_SceneE_Type_Shift 5
-#define LED_RGB_SceneE_ValueType_                   60      // 3 Bits, Bit 4-2
-#define     LED_RGB_SceneE_ValueType_Mask 0x1C
-#define     LED_RGB_SceneE_ValueType_Shift 2
-#define LED_RGB_SceneE_Lockobject_                  60      // 1 Bit, Bit 1
-#define     LED_RGB_SceneE_Lockobject_Mask 0x02
-#define     LED_RGB_SceneE_Lockobject_Shift 1
-#define LED_RGB_SceneE_LockobjectFunc_              60      // 2 Bits, Bit 0--1
-#define LED_RGB_SceneE_AllowSave                    61      // 1 Bit, Bit 7
-#define     LED_RGB_SceneE_AllowSaveMask 0x80
-#define     LED_RGB_SceneE_AllowSaveShift 7
-#define LED_RGB_SceneE_Number_                      61      // 7 Bits, Bit 6-0
-#define     LED_RGB_SceneE_Number_Mask 0x7F
-#define     LED_RGB_SceneE_Number_Shift 0
-#define LED_RGB_SceneE_Function_                    62      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneE_Function_Mask 0xC0
-#define     LED_RGB_SceneE_Function_Shift 6
-#define LED_RGB_SceneE_Sequence_                    62      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneE_Sequence_Mask 0xC0
-#define     LED_RGB_SceneE_Sequence_Shift 6
-#define LED_RGB_SceneE_Brightness_                  62      // uint8_t
-#define LED_RGB_SceneE_RGB_                         62      // 24 Bits, Bit 31-8
-#define     LED_RGB_SceneE_RGB_Mask 0xFFFFFF00
-#define     LED_RGB_SceneE_RGB_Shift 8
-#define LED_RGB_SceneE_Hue_                         62      // uint8_t
-#define LED_RGB_SceneE_Sat_                         62      // uint8_t
-#define LED_RGB_SceneF_Type_                        65      // 3 Bits, Bit 7-5
-#define     LED_RGB_SceneF_Type_Mask 0xE0
-#define     LED_RGB_SceneF_Type_Shift 5
-#define LED_RGB_SceneF_ValueType_                   65      // 3 Bits, Bit 4-2
-#define     LED_RGB_SceneF_ValueType_Mask 0x1C
-#define     LED_RGB_SceneF_ValueType_Shift 2
-#define LED_RGB_SceneF_Lockobject_                  65      // 1 Bit, Bit 1
-#define     LED_RGB_SceneF_Lockobject_Mask 0x02
-#define     LED_RGB_SceneF_Lockobject_Shift 1
-#define LED_RGB_SceneF_LockobjectFunc_              65      // 2 Bits, Bit 0--1
-#define LED_RGB_SceneF_AllowSave                    66      // 1 Bit, Bit 7
-#define     LED_RGB_SceneF_AllowSaveMask 0x80
-#define     LED_RGB_SceneF_AllowSaveShift 7
-#define LED_RGB_SceneF_Number_                      66      // 7 Bits, Bit 6-0
-#define     LED_RGB_SceneF_Number_Mask 0x7F
-#define     LED_RGB_SceneF_Number_Shift 0
-#define LED_RGB_SceneF_Function_                    67      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneF_Function_Mask 0xC0
-#define     LED_RGB_SceneF_Function_Shift 6
-#define LED_RGB_SceneF_Sequence_                    67      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneF_Sequence_Mask 0xC0
-#define     LED_RGB_SceneF_Sequence_Shift 6
-#define LED_RGB_SceneF_Brightness_                  67      // uint8_t
-#define LED_RGB_SceneF_RGB_                         67      // 24 Bits, Bit 31-8
-#define     LED_RGB_SceneF_RGB_Mask 0xFFFFFF00
-#define     LED_RGB_SceneF_RGB_Shift 8
-#define LED_RGB_SceneF_Hue_                         67      // uint8_t
-#define LED_RGB_SceneF_Sat_                         67      // uint8_t
-#define LED_RGB_SceneG_Type_                        70      // 3 Bits, Bit 7-5
-#define     LED_RGB_SceneG_Type_Mask 0xE0
-#define     LED_RGB_SceneG_Type_Shift 5
-#define LED_RGB_SceneG_ValueType_                   70      // 3 Bits, Bit 4-2
-#define     LED_RGB_SceneG_ValueType_Mask 0x1C
-#define     LED_RGB_SceneG_ValueType_Shift 2
-#define LED_RGB_SceneG_Lockobject_                  70      // 1 Bit, Bit 1
-#define     LED_RGB_SceneG_Lockobject_Mask 0x02
-#define     LED_RGB_SceneG_Lockobject_Shift 1
-#define LED_RGB_SceneG_LockobjectFunc_              70      // 2 Bits, Bit 0--1
-#define LED_RGB_SceneG_AllowSave                    71      // 1 Bit, Bit 7
-#define     LED_RGB_SceneG_AllowSaveMask 0x80
-#define     LED_RGB_SceneG_AllowSaveShift 7
-#define LED_RGB_SceneG_Number_                      71      // 7 Bits, Bit 6-0
-#define     LED_RGB_SceneG_Number_Mask 0x7F
-#define     LED_RGB_SceneG_Number_Shift 0
-#define LED_RGB_SceneG_Function_                    72      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneG_Function_Mask 0xC0
-#define     LED_RGB_SceneG_Function_Shift 6
-#define LED_RGB_SceneG_Sequence_                    72      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneG_Sequence_Mask 0xC0
-#define     LED_RGB_SceneG_Sequence_Shift 6
-#define LED_RGB_SceneG_Brightness_                  72      // uint8_t
-#define LED_RGB_SceneG_RGB_                         72      // 24 Bits, Bit 31-8
-#define     LED_RGB_SceneG_RGB_Mask 0xFFFFFF00
-#define     LED_RGB_SceneG_RGB_Shift 8
-#define LED_RGB_SceneG_Hue_                         72      // uint8_t
-#define LED_RGB_SceneG_Sat_                         72      // uint8_t
-#define LED_RGB_SceneH_Type_                        75      // 3 Bits, Bit 7-5
-#define     LED_RGB_SceneH_Type_Mask 0xE0
-#define     LED_RGB_SceneH_Type_Shift 5
-#define LED_RGB_SceneH_ValueType_                   75      // 3 Bits, Bit 4-2
-#define     LED_RGB_SceneH_ValueType_Mask 0x1C
-#define     LED_RGB_SceneH_ValueType_Shift 2
-#define LED_RGB_SceneH_Lockobject_                  75      // 1 Bit, Bit 1
-#define     LED_RGB_SceneH_Lockobject_Mask 0x02
-#define     LED_RGB_SceneH_Lockobject_Shift 1
-#define LED_RGB_SceneH_LockobjectFunc_              75      // 2 Bits, Bit 0--1
-#define LED_RGB_SceneH_AllowSave                    76      // 1 Bit, Bit 7
-#define     LED_RGB_SceneH_AllowSaveMask 0x80
-#define     LED_RGB_SceneH_AllowSaveShift 7
-#define LED_RGB_SceneH_Number_                      76      // 7 Bits, Bit 6-0
-#define     LED_RGB_SceneH_Number_Mask 0x7F
-#define     LED_RGB_SceneH_Number_Shift 0
-#define LED_RGB_SceneH_Function_                    77      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneH_Function_Mask 0xC0
-#define     LED_RGB_SceneH_Function_Shift 6
-#define LED_RGB_SceneH_Sequence_                    77      // 2 Bits, Bit 7-6
-#define     LED_RGB_SceneH_Sequence_Mask 0xC0
-#define     LED_RGB_SceneH_Sequence_Shift 6
-#define LED_RGB_SceneH_Brightness_                  77      // uint8_t
-#define LED_RGB_SceneH_RGB_                         77      // 24 Bits, Bit 31-8
-#define     LED_RGB_SceneH_RGB_Mask 0xFFFFFF00
-#define     LED_RGB_SceneH_RGB_Shift 8
-#define LED_RGB_SceneH_Hue_                         77      // uint8_t
-#define LED_RGB_SceneH_Sat_                         77      // uint8_t
+#define LED_RGB_ChLightDimmTimeDayON                 1      // uint16_t
+#define LED_RGB_ChLightDimmTimeNightON               3      // uint16_t
+#define LED_RGB_ChLightDimmTimeRel                   5      // uint16_t
+#define LED_RGB_ChLightDimmTimeDayOFF                7      // uint16_t
+#define LED_RGB_ChLightDimmTimeNightOFF              9      // uint16_t
+#define LED_RGB_ChBrighnessMin                      11      // uint8_t
+#define LED_RGB_ChBrighnessMaxDay                   12      // uint8_t
+#define LED_RGB_ChBrighnessMaxNight                 13      // uint8_t
+#define LED_RGB_ChDimCurve                          14      // 3 Bits, Bit 7-5
+#define     LED_RGB_ChDimCurveMask 0xE0
+#define     LED_RGB_ChDimCurveShift 5
+#define LED_RGB_ChStairCaseActive                   14      // 1 Bit, Bit 4
+#define     LED_RGB_ChStairCaseActiveMask 0x10
+#define     LED_RGB_ChStairCaseActiveShift 4
+#define LED_RGB_ChStairCaseTimer                    15      // uint8_t
+#define LED_RGB_ChStaicCaseTrigger                  14      // 2 Bits, Bit 3-2
+#define     LED_RGB_ChStaicCaseTriggerMask 0x0C
+#define     LED_RGB_ChStaicCaseTriggerShift 2
+#define LED_RGB_ChStartupBehavior                   16      // 8 Bits, Bit 7-0
+#define LED_RGB_ChColorDay                          17      // 5 Bits, Bit 7-3
+#define     LED_RGB_ChColorDayMask 0xF8
+#define     LED_RGB_ChColorDayShift 3
+#define LED_RGB_ChColorNight                        18      // 5 Bits, Bit 7-3
+#define     LED_RGB_ChColorNightMask 0xF8
+#define     LED_RGB_ChColorNightShift 3
+#define LED_RGB_ChColorDayPicker                    19      // 24 Bits, Bit 31-8
+#define     LED_RGB_ChColorDayPickerMask 0xFFFFFF00
+#define     LED_RGB_ChColorDayPickerShift 8
+#define LED_RGB_ChColorTempDay                      17      // uint16_t
+#define LED_RGB_ChColorNightPicker                  22      // 24 Bits, Bit 31-8
+#define     LED_RGB_ChColorNightPickerMask 0xFFFFFF00
+#define     LED_RGB_ChColorNightPickerShift 8
+#define LED_RGB_ChColorTempNight                    20      // uint16_t
+#define LED_RGB_ChColorTimeDay                      22      // uint16_t
+#define LED_RGB_ChColorTimeNight                    24      // uint16_t
+#define LED_RGB_ChScenesActive                      34      // 1 Bit, Bit 7
+#define     LED_RGB_ChScenesActiveMask 0x80
+#define     LED_RGB_ChScenesActiveShift 7
+#define LED_RGB_ChSceneA_Type                       40      // 3 Bits, Bit 7-5
+#define     LED_RGB_ChSceneA_TypeMask 0xE0
+#define     LED_RGB_ChSceneA_TypeShift 5
+#define LED_RGB_ChSceneA_ValueType                  40      // 3 Bits, Bit 4-2
+#define     LED_RGB_ChSceneA_ValueTypeMask 0x1C
+#define     LED_RGB_ChSceneA_ValueTypeShift 2
+#define LED_RGB_ChSceneA_Lockobject                 40      // 1 Bit, Bit 1
+#define     LED_RGB_ChSceneA_LockobjectMask 0x02
+#define     LED_RGB_ChSceneA_LockobjectShift 1
+#define LED_RGB_ChSceneA_LockobjectFunc             40      // 2 Bits, Bit 0--1
+#define LED_RGB_ChSceneA_AllowSave                  41      // 1 Bit, Bit 7
+#define     LED_RGB_ChSceneA_AllowSaveMask 0x80
+#define     LED_RGB_ChSceneA_AllowSaveShift 7
+#define LED_RGB_ChSceneA_Number                     41      // 7 Bits, Bit 6-0
+#define     LED_RGB_ChSceneA_NumberMask 0x7F
+#define     LED_RGB_ChSceneA_NumberShift 0
+#define LED_RGB_ChSceneA_Function                   42      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneA_FunctionMask 0xC0
+#define     LED_RGB_ChSceneA_FunctionShift 6
+#define LED_RGB_ChSceneA_Sequence                   42      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneA_SequenceMask 0xC0
+#define     LED_RGB_ChSceneA_SequenceShift 6
+#define LED_RGB_ChSceneA_Brightness                 42      // uint8_t
+#define LED_RGB_ChSceneA_RGB                        42      // 24 Bits, Bit 31-8
+#define     LED_RGB_ChSceneA_RGBMask 0xFFFFFF00
+#define     LED_RGB_ChSceneA_RGBShift 8
+#define LED_RGB_ChSceneA_Hue                        42      // uint8_t
+#define LED_RGB_ChSceneA_Sat                        42      // uint8_t
+#define LED_RGB_ChSceneB_Type                       45      // 3 Bits, Bit 7-5
+#define     LED_RGB_ChSceneB_TypeMask 0xE0
+#define     LED_RGB_ChSceneB_TypeShift 5
+#define LED_RGB_ChSceneB_ValueType                  45      // 3 Bits, Bit 4-2
+#define     LED_RGB_ChSceneB_ValueTypeMask 0x1C
+#define     LED_RGB_ChSceneB_ValueTypeShift 2
+#define LED_RGB_ChSceneB_Lockobject                 45      // 1 Bit, Bit 1
+#define     LED_RGB_ChSceneB_LockobjectMask 0x02
+#define     LED_RGB_ChSceneB_LockobjectShift 1
+#define LED_RGB_ChSceneB_LockobjectFunc             45      // 2 Bits, Bit 0--1
+#define LED_RGB_ChSceneB_AllowSave                  46      // 1 Bit, Bit 7
+#define     LED_RGB_ChSceneB_AllowSaveMask 0x80
+#define     LED_RGB_ChSceneB_AllowSaveShift 7
+#define LED_RGB_ChSceneB_Number                     46      // 7 Bits, Bit 6-0
+#define     LED_RGB_ChSceneB_NumberMask 0x7F
+#define     LED_RGB_ChSceneB_NumberShift 0
+#define LED_RGB_ChSceneB_Function                   47      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneB_FunctionMask 0xC0
+#define     LED_RGB_ChSceneB_FunctionShift 6
+#define LED_RGB_ChSceneB_Sequence                   47      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneB_SequenceMask 0xC0
+#define     LED_RGB_ChSceneB_SequenceShift 6
+#define LED_RGB_ChSceneB_Brightness                 47      // uint8_t
+#define LED_RGB_ChSceneB_RGB                        47      // 24 Bits, Bit 31-8
+#define     LED_RGB_ChSceneB_RGBMask 0xFFFFFF00
+#define     LED_RGB_ChSceneB_RGBShift 8
+#define LED_RGB_ChSceneB_Hue                        47      // uint8_t
+#define LED_RGB_ChSceneB_Sat                        47      // uint8_t
+#define LED_RGB_ChSceneC_Type                       50      // 3 Bits, Bit 7-5
+#define     LED_RGB_ChSceneC_TypeMask 0xE0
+#define     LED_RGB_ChSceneC_TypeShift 5
+#define LED_RGB_ChSceneC_ValueType                  50      // 3 Bits, Bit 4-2
+#define     LED_RGB_ChSceneC_ValueTypeMask 0x1C
+#define     LED_RGB_ChSceneC_ValueTypeShift 2
+#define LED_RGB_ChSceneC_Lockobject                 50      // 1 Bit, Bit 1
+#define     LED_RGB_ChSceneC_LockobjectMask 0x02
+#define     LED_RGB_ChSceneC_LockobjectShift 1
+#define LED_RGB_ChSceneC_LockobjectFunc             50      // 2 Bits, Bit 0--1
+#define LED_RGB_ChSceneC_AllowSave                  51      // 1 Bit, Bit 7
+#define     LED_RGB_ChSceneC_AllowSaveMask 0x80
+#define     LED_RGB_ChSceneC_AllowSaveShift 7
+#define LED_RGB_ChSceneC_Number                     51      // 7 Bits, Bit 6-0
+#define     LED_RGB_ChSceneC_NumberMask 0x7F
+#define     LED_RGB_ChSceneC_NumberShift 0
+#define LED_RGB_ChSceneC_Function                   52      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneC_FunctionMask 0xC0
+#define     LED_RGB_ChSceneC_FunctionShift 6
+#define LED_RGB_ChSceneC_Sequence                   52      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneC_SequenceMask 0xC0
+#define     LED_RGB_ChSceneC_SequenceShift 6
+#define LED_RGB_ChSceneC_Brightness                 52      // uint8_t
+#define LED_RGB_ChSceneC_RGB                        52      // 24 Bits, Bit 31-8
+#define     LED_RGB_ChSceneC_RGBMask 0xFFFFFF00
+#define     LED_RGB_ChSceneC_RGBShift 8
+#define LED_RGB_ChSceneC_Hue                        52      // uint8_t
+#define LED_RGB_ChSceneC_Sat                        52      // uint8_t
+#define LED_RGB_ChSceneD_Type                       55      // 3 Bits, Bit 7-5
+#define     LED_RGB_ChSceneD_TypeMask 0xE0
+#define     LED_RGB_ChSceneD_TypeShift 5
+#define LED_RGB_ChSceneD_ValueType                  55      // 3 Bits, Bit 4-2
+#define     LED_RGB_ChSceneD_ValueTypeMask 0x1C
+#define     LED_RGB_ChSceneD_ValueTypeShift 2
+#define LED_RGB_ChSceneD_Lockobject                 55      // 1 Bit, Bit 1
+#define     LED_RGB_ChSceneD_LockobjectMask 0x02
+#define     LED_RGB_ChSceneD_LockobjectShift 1
+#define LED_RGB_ChSceneD_LockobjectFunc             55      // 2 Bits, Bit 0--1
+#define LED_RGB_ChSceneD_AllowSave                  56      // 1 Bit, Bit 7
+#define     LED_RGB_ChSceneD_AllowSaveMask 0x80
+#define     LED_RGB_ChSceneD_AllowSaveShift 7
+#define LED_RGB_ChSceneD_Number                     56      // 7 Bits, Bit 6-0
+#define     LED_RGB_ChSceneD_NumberMask 0x7F
+#define     LED_RGB_ChSceneD_NumberShift 0
+#define LED_RGB_ChSceneD_Function                   57      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneD_FunctionMask 0xC0
+#define     LED_RGB_ChSceneD_FunctionShift 6
+#define LED_RGB_ChSceneD_Sequence                   57      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneD_SequenceMask 0xC0
+#define     LED_RGB_ChSceneD_SequenceShift 6
+#define LED_RGB_ChSceneD_Brightness                 57      // uint8_t
+#define LED_RGB_ChSceneD_RGB                        57      // 24 Bits, Bit 31-8
+#define     LED_RGB_ChSceneD_RGBMask 0xFFFFFF00
+#define     LED_RGB_ChSceneD_RGBShift 8
+#define LED_RGB_ChSceneD_Hue                        57      // uint8_t
+#define LED_RGB_ChSceneD_Sat                        57      // uint8_t
+#define LED_RGB_ChSceneE_Type                       60      // 3 Bits, Bit 7-5
+#define     LED_RGB_ChSceneE_TypeMask 0xE0
+#define     LED_RGB_ChSceneE_TypeShift 5
+#define LED_RGB_ChSceneE_ValueType                  60      // 3 Bits, Bit 4-2
+#define     LED_RGB_ChSceneE_ValueTypeMask 0x1C
+#define     LED_RGB_ChSceneE_ValueTypeShift 2
+#define LED_RGB_ChSceneE_Lockobject                 60      // 1 Bit, Bit 1
+#define     LED_RGB_ChSceneE_LockobjectMask 0x02
+#define     LED_RGB_ChSceneE_LockobjectShift 1
+#define LED_RGB_ChSceneE_LockobjectFunc             60      // 2 Bits, Bit 0--1
+#define LED_RGB_ChSceneE_AllowSave                  61      // 1 Bit, Bit 7
+#define     LED_RGB_ChSceneE_AllowSaveMask 0x80
+#define     LED_RGB_ChSceneE_AllowSaveShift 7
+#define LED_RGB_ChSceneE_Number                     61      // 7 Bits, Bit 6-0
+#define     LED_RGB_ChSceneE_NumberMask 0x7F
+#define     LED_RGB_ChSceneE_NumberShift 0
+#define LED_RGB_ChSceneE_Function                   62      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneE_FunctionMask 0xC0
+#define     LED_RGB_ChSceneE_FunctionShift 6
+#define LED_RGB_ChSceneE_Sequence                   62      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneE_SequenceMask 0xC0
+#define     LED_RGB_ChSceneE_SequenceShift 6
+#define LED_RGB_ChSceneE_Brightness                 62      // uint8_t
+#define LED_RGB_ChSceneE_RGB                        62      // 24 Bits, Bit 31-8
+#define     LED_RGB_ChSceneE_RGBMask 0xFFFFFF00
+#define     LED_RGB_ChSceneE_RGBShift 8
+#define LED_RGB_ChSceneE_Hue                        62      // uint8_t
+#define LED_RGB_ChSceneE_Sat                        62      // uint8_t
+#define LED_RGB_ChSceneF_Type                       65      // 3 Bits, Bit 7-5
+#define     LED_RGB_ChSceneF_TypeMask 0xE0
+#define     LED_RGB_ChSceneF_TypeShift 5
+#define LED_RGB_ChSceneF_ValueType                  65      // 3 Bits, Bit 4-2
+#define     LED_RGB_ChSceneF_ValueTypeMask 0x1C
+#define     LED_RGB_ChSceneF_ValueTypeShift 2
+#define LED_RGB_ChSceneF_Lockobject                 65      // 1 Bit, Bit 1
+#define     LED_RGB_ChSceneF_LockobjectMask 0x02
+#define     LED_RGB_ChSceneF_LockobjectShift 1
+#define LED_RGB_ChSceneF_LockobjectFunc             65      // 2 Bits, Bit 0--1
+#define LED_RGB_ChSceneF_AllowSave                  66      // 1 Bit, Bit 7
+#define     LED_RGB_ChSceneF_AllowSaveMask 0x80
+#define     LED_RGB_ChSceneF_AllowSaveShift 7
+#define LED_RGB_ChSceneF_Number                     66      // 7 Bits, Bit 6-0
+#define     LED_RGB_ChSceneF_NumberMask 0x7F
+#define     LED_RGB_ChSceneF_NumberShift 0
+#define LED_RGB_ChSceneF_Function                   67      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneF_FunctionMask 0xC0
+#define     LED_RGB_ChSceneF_FunctionShift 6
+#define LED_RGB_ChSceneF_Sequence                   67      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneF_SequenceMask 0xC0
+#define     LED_RGB_ChSceneF_SequenceShift 6
+#define LED_RGB_ChSceneF_Brightness                 67      // uint8_t
+#define LED_RGB_ChSceneF_RGB                        67      // 24 Bits, Bit 31-8
+#define     LED_RGB_ChSceneF_RGBMask 0xFFFFFF00
+#define     LED_RGB_ChSceneF_RGBShift 8
+#define LED_RGB_ChSceneF_Hue                        67      // uint8_t
+#define LED_RGB_ChSceneF_Sat                        67      // uint8_t
+#define LED_RGB_ChSceneG_Type                       70      // 3 Bits, Bit 7-5
+#define     LED_RGB_ChSceneG_TypeMask 0xE0
+#define     LED_RGB_ChSceneG_TypeShift 5
+#define LED_RGB_ChSceneG_ValueType                  70      // 3 Bits, Bit 4-2
+#define     LED_RGB_ChSceneG_ValueTypeMask 0x1C
+#define     LED_RGB_ChSceneG_ValueTypeShift 2
+#define LED_RGB_ChSceneG_Lockobject                 70      // 1 Bit, Bit 1
+#define     LED_RGB_ChSceneG_LockobjectMask 0x02
+#define     LED_RGB_ChSceneG_LockobjectShift 1
+#define LED_RGB_ChSceneG_LockobjectFunc             70      // 2 Bits, Bit 0--1
+#define LED_RGB_ChSceneG_AllowSave                  71      // 1 Bit, Bit 7
+#define     LED_RGB_ChSceneG_AllowSaveMask 0x80
+#define     LED_RGB_ChSceneG_AllowSaveShift 7
+#define LED_RGB_ChSceneG_Number                     71      // 7 Bits, Bit 6-0
+#define     LED_RGB_ChSceneG_NumberMask 0x7F
+#define     LED_RGB_ChSceneG_NumberShift 0
+#define LED_RGB_ChSceneG_Function                   72      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneG_FunctionMask 0xC0
+#define     LED_RGB_ChSceneG_FunctionShift 6
+#define LED_RGB_ChSceneG_Sequence                   72      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneG_SequenceMask 0xC0
+#define     LED_RGB_ChSceneG_SequenceShift 6
+#define LED_RGB_ChSceneG_Brightness                 72      // uint8_t
+#define LED_RGB_ChSceneG_RGB                        72      // 24 Bits, Bit 31-8
+#define     LED_RGB_ChSceneG_RGBMask 0xFFFFFF00
+#define     LED_RGB_ChSceneG_RGBShift 8
+#define LED_RGB_ChSceneG_Hue                        72      // uint8_t
+#define LED_RGB_ChSceneG_Sat                        72      // uint8_t
+#define LED_RGB_ChSceneH_Type                       75      // 3 Bits, Bit 7-5
+#define     LED_RGB_ChSceneH_TypeMask 0xE0
+#define     LED_RGB_ChSceneH_TypeShift 5
+#define LED_RGB_ChSceneH_ValueType                  75      // 3 Bits, Bit 4-2
+#define     LED_RGB_ChSceneH_ValueTypeMask 0x1C
+#define     LED_RGB_ChSceneH_ValueTypeShift 2
+#define LED_RGB_ChSceneH_Lockobject                 75      // 1 Bit, Bit 1
+#define     LED_RGB_ChSceneH_LockobjectMask 0x02
+#define     LED_RGB_ChSceneH_LockobjectShift 1
+#define LED_RGB_ChSceneH_LockobjectFunc             75      // 2 Bits, Bit 0--1
+#define LED_RGB_ChSceneH_AllowSave                  76      // 1 Bit, Bit 7
+#define     LED_RGB_ChSceneH_AllowSaveMask 0x80
+#define     LED_RGB_ChSceneH_AllowSaveShift 7
+#define LED_RGB_ChSceneH_Number                     76      // 7 Bits, Bit 6-0
+#define     LED_RGB_ChSceneH_NumberMask 0x7F
+#define     LED_RGB_ChSceneH_NumberShift 0
+#define LED_RGB_ChSceneH_Function                   77      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneH_FunctionMask 0xC0
+#define     LED_RGB_ChSceneH_FunctionShift 6
+#define LED_RGB_ChSceneH_Sequence                   77      // 2 Bits, Bit 7-6
+#define     LED_RGB_ChSceneH_SequenceMask 0xC0
+#define     LED_RGB_ChSceneH_SequenceShift 6
+#define LED_RGB_ChSceneH_Brightness                 77      // uint8_t
+#define LED_RGB_ChSceneH_RGB                        77      // 24 Bits, Bit 31-8
+#define     LED_RGB_ChSceneH_RGBMask 0xFFFFFF00
+#define     LED_RGB_ChSceneH_RGBShift 8
+#define LED_RGB_ChSceneH_Hue                        77      // uint8_t
+#define LED_RGB_ChSceneH_Sat                        77      // uint8_t
 
 // Dimmzeit Tag On
-#define ParamLED_RGB_LightDimmTimeDayON_                 (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_LightDimmTimeDayON_)))
+#define ParamLED_RGB_ChLightDimmTimeDayON                (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ChLightDimmTimeDayON)))
 // Dimmzeit Nacht On
-#define ParamLED_RGB_LightDimmTimeNightON_               (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_LightDimmTimeNightON_)))
+#define ParamLED_RGB_ChLightDimmTimeNightON              (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ChLightDimmTimeNightON)))
 // Dimmzeit Relativ
-#define ParamLED_RGB_LightDimmTimeRel_                   (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_LightDimmTimeRel_)))
+#define ParamLED_RGB_ChLightDimmTimeRel                  (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ChLightDimmTimeRel)))
 // Dimmzeit Tag Off
-#define ParamLED_RGB_LightDimmTimeDayOFF_                (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_LightDimmTimeDayOFF_)))
+#define ParamLED_RGB_ChLightDimmTimeDayOFF               (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ChLightDimmTimeDayOFF)))
 // Dimmzeit Nacht Off
-#define ParamLED_RGB_LightDimmTimeNightOFF_              (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_LightDimmTimeNightOFF_)))
+#define ParamLED_RGB_ChLightDimmTimeNightOFF             (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ChLightDimmTimeNightOFF)))
 // Helligkeit min.
-#define ParamLED_RGB_BrighnessMin_                       (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_BrighnessMin_)))
+#define ParamLED_RGB_ChBrighnessMin                      (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChBrighnessMin)))
 // Helligkeit max. (Tag)
-#define ParamLED_RGB_BrighnessMaxDay_                    (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_BrighnessMaxDay_)))
+#define ParamLED_RGB_ChBrighnessMaxDay                   (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChBrighnessMaxDay)))
 // Helligkeit max. (Nacht)
-#define ParamLED_RGB_BrighnessMaxNight_                  (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_BrighnessMaxNight_)))
+#define ParamLED_RGB_ChBrighnessMaxNight                 (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChBrighnessMaxNight)))
 // Dimmkurve
-#define ParamLED_RGB_DimCurve_                           ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_DimCurve_)) & LED_RGB_DimCurve_Mask) >> LED_RGB_DimCurve_Shift)
+#define ParamLED_RGB_ChDimCurve                          ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChDimCurve)) & LED_RGB_ChDimCurveMask) >> LED_RGB_ChDimCurveShift)
 // Treppenlichtfunktion
-#define ParamLED_RGB_StairCaseActive_                    ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_StairCaseActive_)) & LED_RGB_StairCaseActive_Mask))
+#define ParamLED_RGB_ChStairCaseActive                   ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChStairCaseActive)) & LED_RGB_ChStairCaseActiveMask))
 // Nachlaufzeit
-#define ParamLED_RGB_StairCaseTimer_                     (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_StairCaseTimer_)))
+#define ParamLED_RGB_ChStairCaseTimer                    (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChStairCaseTimer)))
 // Treppenlicht Trigger
-#define ParamLED_RGB_StaicCaseTrigger_                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_StaicCaseTrigger_)) & LED_RGB_StaicCaseTrigger_Mask) >> LED_RGB_StaicCaseTrigger_Shift)
+#define ParamLED_RGB_ChStaicCaseTrigger                  ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChStaicCaseTrigger)) & LED_RGB_ChStaicCaseTriggerMask) >> LED_RGB_ChStaicCaseTriggerShift)
 // Einschaltverhalten
-#define ParamLED_RGB_StartupBehavior_                    (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_StartupBehavior_)))
+#define ParamLED_RGB_ChStartupBehavior                   (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChStartupBehavior)))
 // Farbe Tag
-#define ParamLED_RGB_ColorDay_                           ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ColorDay_)) & LED_RGB_ColorDay_Mask) >> LED_RGB_ColorDay_Shift)
+#define ParamLED_RGB_ChColorDay                          ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChColorDay)) & LED_RGB_ChColorDayMask) >> LED_RGB_ChColorDayShift)
 // Farb Nacht
-#define ParamLED_RGB_ColorNight_                         ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ColorNight_)) & LED_RGB_ColorNight_Mask) >> LED_RGB_ColorNight_Shift)
+#define ParamLED_RGB_ChColorNight                        ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChColorNight)) & LED_RGB_ChColorNightMask) >> LED_RGB_ChColorNightShift)
 // Farbe Tag 3-Byte-RGB
-#define ParamLED_RGB_ColorDayPicker_                     ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ColorDayPicker_)) & LED_RGB_ColorDayPicker_Mask) >> LED_RGB_ColorDayPicker_Shift)
+#define ParamLED_RGB_ChColorDayPicker                    ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ChColorDayPicker)) & LED_RGB_ChColorDayPickerMask) >> LED_RGB_ChColorDayPickerShift)
 // Farbtemperatur Tag
-#define ParamLED_RGB_ColorTempDay_                       (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ColorTempDay_)))
+#define ParamLED_RGB_ChColorTempDay                      (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ChColorTempDay)))
 // Farbe Nacht 3-Byte-RGB
-#define ParamLED_RGB_ColorNightPicker_                   ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ColorNightPicker_)) & LED_RGB_ColorNightPicker_Mask) >> LED_RGB_ColorNightPicker_Shift)
+#define ParamLED_RGB_ChColorNightPicker                  ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ChColorNightPicker)) & LED_RGB_ChColorNightPickerMask) >> LED_RGB_ChColorNightPickerShift)
 // Farbtemperatur Nacht
-#define ParamLED_RGB_ColorTempNight_                     (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ColorTempNight_)))
+#define ParamLED_RGB_ChColorTempNight                    (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ChColorTempNight)))
 // Zeit Farbänderung Tag
-#define ParamLED_RGB_ColorTimeDay_                       (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ColorTimeDay_)))
+#define ParamLED_RGB_ChColorTimeDay                      (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ChColorTimeDay)))
 // Zeit Farbänderung Nacht
-#define ParamLED_RGB_ColorTimeNight_                     (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ColorTimeNight_)))
+#define ParamLED_RGB_ChColorTimeNight                    (knx.paramWord(LED_RGB_ParamCalcIndex(LED_RGB_ChColorTimeNight)))
 // Szenen
-#define ParamLED_RGB_ScenesActive_                       ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ScenesActive_)) & LED_RGB_ScenesActive_Mask))
+#define ParamLED_RGB_ChScenesActive                      ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChScenesActive)) & LED_RGB_ChScenesActiveMask))
 // Typ
-#define ParamLED_RGB_SceneA_Type_                        ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_Type_)) & LED_RGB_SceneA_Type_Mask) >> LED_RGB_SceneA_Type_Shift)
+#define ParamLED_RGB_ChSceneA_Type                       ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_Type)) & LED_RGB_ChSceneA_TypeMask) >> LED_RGB_ChSceneA_TypeShift)
 // Typ
-#define ParamLED_RGB_SceneA_ValueType_                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_ValueType_)) & LED_RGB_SceneA_ValueType_Mask) >> LED_RGB_SceneA_ValueType_Shift)
+#define ParamLED_RGB_ChSceneA_ValueType                  ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_ValueType)) & LED_RGB_ChSceneA_ValueTypeMask) >> LED_RGB_ChSceneA_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_RGB_SceneA_Lockobject_                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_Lockobject_)) & LED_RGB_SceneA_Lockobject_Mask))
+#define ParamLED_RGB_ChSceneA_Lockobject                 ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_Lockobject)) & LED_RGB_ChSceneA_LockobjectMask))
 // Sperren
-#define ParamLED_RGB_SceneA_LockobjectFunc_              (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_LockobjectFunc_)))
+#define ParamLED_RGB_ChSceneA_LockobjectFunc             (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_LockobjectFunc)))
 // Speichern
-#define ParamLED_RGB_SceneA_AllowSave                    ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_AllowSave)) & LED_RGB_SceneA_AllowSaveMask))
+#define ParamLED_RGB_ChSceneA_AllowSave                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_AllowSave)) & LED_RGB_ChSceneA_AllowSaveMask))
 // Typ
-#define ParamLED_RGB_SceneA_Number_                      (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_Number_)) & LED_RGB_SceneA_Number_Mask)
+#define ParamLED_RGB_ChSceneA_Number                     (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_Number)) & LED_RGB_ChSceneA_NumberMask)
 // Funktion
-#define ParamLED_RGB_SceneA_Function_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_Function_)) & LED_RGB_SceneA_Function_Mask) >> LED_RGB_SceneA_Function_Shift)
+#define ParamLED_RGB_ChSceneA_Function                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_Function)) & LED_RGB_ChSceneA_FunctionMask) >> LED_RGB_ChSceneA_FunctionShift)
 // Ablauf
-#define ParamLED_RGB_SceneA_Sequence_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_Sequence_)) & LED_RGB_SceneA_Sequence_Mask) >> LED_RGB_SceneA_Sequence_Shift)
+#define ParamLED_RGB_ChSceneA_Sequence                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_Sequence)) & LED_RGB_ChSceneA_SequenceMask) >> LED_RGB_ChSceneA_SequenceShift)
 // Helligkeit
-#define ParamLED_RGB_SceneA_Brightness_                  (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_Brightness_)))
+#define ParamLED_RGB_ChSceneA_Brightness                 (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_Brightness)))
 // Lichtfarbe RGB
-#define ParamLED_RGB_SceneA_RGB_                         ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_RGB_)) & LED_RGB_SceneA_RGB_Mask) >> LED_RGB_SceneA_RGB_Shift)
+#define ParamLED_RGB_ChSceneA_RGB                        ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_RGB)) & LED_RGB_ChSceneA_RGBMask) >> LED_RGB_ChSceneA_RGBShift)
 // Hue
-#define ParamLED_RGB_SceneA_Hue_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_Hue_)))
+#define ParamLED_RGB_ChSceneA_Hue                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_Hue)))
 // Saturation
-#define ParamLED_RGB_SceneA_Sat_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneA_Sat_)))
+#define ParamLED_RGB_ChSceneA_Sat                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneA_Sat)))
 // Typ
-#define ParamLED_RGB_SceneB_Type_                        ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_Type_)) & LED_RGB_SceneB_Type_Mask) >> LED_RGB_SceneB_Type_Shift)
+#define ParamLED_RGB_ChSceneB_Type                       ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_Type)) & LED_RGB_ChSceneB_TypeMask) >> LED_RGB_ChSceneB_TypeShift)
 // Typ
-#define ParamLED_RGB_SceneB_ValueType_                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_ValueType_)) & LED_RGB_SceneB_ValueType_Mask) >> LED_RGB_SceneB_ValueType_Shift)
+#define ParamLED_RGB_ChSceneB_ValueType                  ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_ValueType)) & LED_RGB_ChSceneB_ValueTypeMask) >> LED_RGB_ChSceneB_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_RGB_SceneB_Lockobject_                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_Lockobject_)) & LED_RGB_SceneB_Lockobject_Mask))
+#define ParamLED_RGB_ChSceneB_Lockobject                 ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_Lockobject)) & LED_RGB_ChSceneB_LockobjectMask))
 // Sperren
-#define ParamLED_RGB_SceneB_LockobjectFunc_              (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_LockobjectFunc_)))
+#define ParamLED_RGB_ChSceneB_LockobjectFunc             (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_LockobjectFunc)))
 // Speichern
-#define ParamLED_RGB_SceneB_AllowSave                    ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_AllowSave)) & LED_RGB_SceneB_AllowSaveMask))
+#define ParamLED_RGB_ChSceneB_AllowSave                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_AllowSave)) & LED_RGB_ChSceneB_AllowSaveMask))
 // Typ
-#define ParamLED_RGB_SceneB_Number_                      (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_Number_)) & LED_RGB_SceneB_Number_Mask)
+#define ParamLED_RGB_ChSceneB_Number                     (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_Number)) & LED_RGB_ChSceneB_NumberMask)
 // Funktion
-#define ParamLED_RGB_SceneB_Function_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_Function_)) & LED_RGB_SceneB_Function_Mask) >> LED_RGB_SceneB_Function_Shift)
+#define ParamLED_RGB_ChSceneB_Function                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_Function)) & LED_RGB_ChSceneB_FunctionMask) >> LED_RGB_ChSceneB_FunctionShift)
 // Ablauf
-#define ParamLED_RGB_SceneB_Sequence_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_Sequence_)) & LED_RGB_SceneB_Sequence_Mask) >> LED_RGB_SceneB_Sequence_Shift)
+#define ParamLED_RGB_ChSceneB_Sequence                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_Sequence)) & LED_RGB_ChSceneB_SequenceMask) >> LED_RGB_ChSceneB_SequenceShift)
 // Helligkeit
-#define ParamLED_RGB_SceneB_Brightness_                  (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_Brightness_)))
+#define ParamLED_RGB_ChSceneB_Brightness                 (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_Brightness)))
 // Lichtfarbe RGB
-#define ParamLED_RGB_SceneB_RGB_                         ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_RGB_)) & LED_RGB_SceneB_RGB_Mask) >> LED_RGB_SceneB_RGB_Shift)
+#define ParamLED_RGB_ChSceneB_RGB                        ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_RGB)) & LED_RGB_ChSceneB_RGBMask) >> LED_RGB_ChSceneB_RGBShift)
 // Hue
-#define ParamLED_RGB_SceneB_Hue_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_Hue_)))
+#define ParamLED_RGB_ChSceneB_Hue                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_Hue)))
 // Saturation
-#define ParamLED_RGB_SceneB_Sat_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneB_Sat_)))
+#define ParamLED_RGB_ChSceneB_Sat                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneB_Sat)))
 // Typ
-#define ParamLED_RGB_SceneC_Type_                        ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_Type_)) & LED_RGB_SceneC_Type_Mask) >> LED_RGB_SceneC_Type_Shift)
+#define ParamLED_RGB_ChSceneC_Type                       ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_Type)) & LED_RGB_ChSceneC_TypeMask) >> LED_RGB_ChSceneC_TypeShift)
 // Typ
-#define ParamLED_RGB_SceneC_ValueType_                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_ValueType_)) & LED_RGB_SceneC_ValueType_Mask) >> LED_RGB_SceneC_ValueType_Shift)
+#define ParamLED_RGB_ChSceneC_ValueType                  ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_ValueType)) & LED_RGB_ChSceneC_ValueTypeMask) >> LED_RGB_ChSceneC_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_RGB_SceneC_Lockobject_                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_Lockobject_)) & LED_RGB_SceneC_Lockobject_Mask))
+#define ParamLED_RGB_ChSceneC_Lockobject                 ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_Lockobject)) & LED_RGB_ChSceneC_LockobjectMask))
 // Sperren
-#define ParamLED_RGB_SceneC_LockobjectFunc_              (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_LockobjectFunc_)))
+#define ParamLED_RGB_ChSceneC_LockobjectFunc             (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_LockobjectFunc)))
 // Speichern
-#define ParamLED_RGB_SceneC_AllowSave                    ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_AllowSave)) & LED_RGB_SceneC_AllowSaveMask))
+#define ParamLED_RGB_ChSceneC_AllowSave                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_AllowSave)) & LED_RGB_ChSceneC_AllowSaveMask))
 // Typ
-#define ParamLED_RGB_SceneC_Number_                      (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_Number_)) & LED_RGB_SceneC_Number_Mask)
+#define ParamLED_RGB_ChSceneC_Number                     (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_Number)) & LED_RGB_ChSceneC_NumberMask)
 // Funktion
-#define ParamLED_RGB_SceneC_Function_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_Function_)) & LED_RGB_SceneC_Function_Mask) >> LED_RGB_SceneC_Function_Shift)
+#define ParamLED_RGB_ChSceneC_Function                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_Function)) & LED_RGB_ChSceneC_FunctionMask) >> LED_RGB_ChSceneC_FunctionShift)
 // Ablauf
-#define ParamLED_RGB_SceneC_Sequence_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_Sequence_)) & LED_RGB_SceneC_Sequence_Mask) >> LED_RGB_SceneC_Sequence_Shift)
+#define ParamLED_RGB_ChSceneC_Sequence                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_Sequence)) & LED_RGB_ChSceneC_SequenceMask) >> LED_RGB_ChSceneC_SequenceShift)
 // Helligkeit
-#define ParamLED_RGB_SceneC_Brightness_                  (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_Brightness_)))
+#define ParamLED_RGB_ChSceneC_Brightness                 (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_Brightness)))
 // Lichtfarbe RGB
-#define ParamLED_RGB_SceneC_RGB_                         ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_RGB_)) & LED_RGB_SceneC_RGB_Mask) >> LED_RGB_SceneC_RGB_Shift)
+#define ParamLED_RGB_ChSceneC_RGB                        ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_RGB)) & LED_RGB_ChSceneC_RGBMask) >> LED_RGB_ChSceneC_RGBShift)
 // Hue
-#define ParamLED_RGB_SceneC_Hue_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_Hue_)))
+#define ParamLED_RGB_ChSceneC_Hue                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_Hue)))
 // Saturation
-#define ParamLED_RGB_SceneC_Sat_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneC_Sat_)))
+#define ParamLED_RGB_ChSceneC_Sat                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneC_Sat)))
 // Typ
-#define ParamLED_RGB_SceneD_Type_                        ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_Type_)) & LED_RGB_SceneD_Type_Mask) >> LED_RGB_SceneD_Type_Shift)
+#define ParamLED_RGB_ChSceneD_Type                       ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_Type)) & LED_RGB_ChSceneD_TypeMask) >> LED_RGB_ChSceneD_TypeShift)
 // Typ
-#define ParamLED_RGB_SceneD_ValueType_                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_ValueType_)) & LED_RGB_SceneD_ValueType_Mask) >> LED_RGB_SceneD_ValueType_Shift)
+#define ParamLED_RGB_ChSceneD_ValueType                  ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_ValueType)) & LED_RGB_ChSceneD_ValueTypeMask) >> LED_RGB_ChSceneD_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_RGB_SceneD_Lockobject_                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_Lockobject_)) & LED_RGB_SceneD_Lockobject_Mask))
+#define ParamLED_RGB_ChSceneD_Lockobject                 ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_Lockobject)) & LED_RGB_ChSceneD_LockobjectMask))
 // Sperren
-#define ParamLED_RGB_SceneD_LockobjectFunc_              (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_LockobjectFunc_)))
+#define ParamLED_RGB_ChSceneD_LockobjectFunc             (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_LockobjectFunc)))
 // Speichern
-#define ParamLED_RGB_SceneD_AllowSave                    ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_AllowSave)) & LED_RGB_SceneD_AllowSaveMask))
+#define ParamLED_RGB_ChSceneD_AllowSave                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_AllowSave)) & LED_RGB_ChSceneD_AllowSaveMask))
 // Typ
-#define ParamLED_RGB_SceneD_Number_                      (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_Number_)) & LED_RGB_SceneD_Number_Mask)
+#define ParamLED_RGB_ChSceneD_Number                     (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_Number)) & LED_RGB_ChSceneD_NumberMask)
 // Funktion
-#define ParamLED_RGB_SceneD_Function_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_Function_)) & LED_RGB_SceneD_Function_Mask) >> LED_RGB_SceneD_Function_Shift)
+#define ParamLED_RGB_ChSceneD_Function                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_Function)) & LED_RGB_ChSceneD_FunctionMask) >> LED_RGB_ChSceneD_FunctionShift)
 // Ablauf
-#define ParamLED_RGB_SceneD_Sequence_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_Sequence_)) & LED_RGB_SceneD_Sequence_Mask) >> LED_RGB_SceneD_Sequence_Shift)
+#define ParamLED_RGB_ChSceneD_Sequence                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_Sequence)) & LED_RGB_ChSceneD_SequenceMask) >> LED_RGB_ChSceneD_SequenceShift)
 // Helligkeit
-#define ParamLED_RGB_SceneD_Brightness_                  (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_Brightness_)))
+#define ParamLED_RGB_ChSceneD_Brightness                 (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_Brightness)))
 // Lichtfarbe RGB
-#define ParamLED_RGB_SceneD_RGB_                         ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_RGB_)) & LED_RGB_SceneD_RGB_Mask) >> LED_RGB_SceneD_RGB_Shift)
+#define ParamLED_RGB_ChSceneD_RGB                        ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_RGB)) & LED_RGB_ChSceneD_RGBMask) >> LED_RGB_ChSceneD_RGBShift)
 // Hue
-#define ParamLED_RGB_SceneD_Hue_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_Hue_)))
+#define ParamLED_RGB_ChSceneD_Hue                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_Hue)))
 // Saturation
-#define ParamLED_RGB_SceneD_Sat_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneD_Sat_)))
+#define ParamLED_RGB_ChSceneD_Sat                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneD_Sat)))
 // Typ
-#define ParamLED_RGB_SceneE_Type_                        ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_Type_)) & LED_RGB_SceneE_Type_Mask) >> LED_RGB_SceneE_Type_Shift)
+#define ParamLED_RGB_ChSceneE_Type                       ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_Type)) & LED_RGB_ChSceneE_TypeMask) >> LED_RGB_ChSceneE_TypeShift)
 // Typ
-#define ParamLED_RGB_SceneE_ValueType_                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_ValueType_)) & LED_RGB_SceneE_ValueType_Mask) >> LED_RGB_SceneE_ValueType_Shift)
+#define ParamLED_RGB_ChSceneE_ValueType                  ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_ValueType)) & LED_RGB_ChSceneE_ValueTypeMask) >> LED_RGB_ChSceneE_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_RGB_SceneE_Lockobject_                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_Lockobject_)) & LED_RGB_SceneE_Lockobject_Mask))
+#define ParamLED_RGB_ChSceneE_Lockobject                 ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_Lockobject)) & LED_RGB_ChSceneE_LockobjectMask))
 // Sperren
-#define ParamLED_RGB_SceneE_LockobjectFunc_              (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_LockobjectFunc_)))
+#define ParamLED_RGB_ChSceneE_LockobjectFunc             (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_LockobjectFunc)))
 // Speichern
-#define ParamLED_RGB_SceneE_AllowSave                    ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_AllowSave)) & LED_RGB_SceneE_AllowSaveMask))
+#define ParamLED_RGB_ChSceneE_AllowSave                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_AllowSave)) & LED_RGB_ChSceneE_AllowSaveMask))
 // Typ
-#define ParamLED_RGB_SceneE_Number_                      (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_Number_)) & LED_RGB_SceneE_Number_Mask)
+#define ParamLED_RGB_ChSceneE_Number                     (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_Number)) & LED_RGB_ChSceneE_NumberMask)
 // Funktion
-#define ParamLED_RGB_SceneE_Function_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_Function_)) & LED_RGB_SceneE_Function_Mask) >> LED_RGB_SceneE_Function_Shift)
+#define ParamLED_RGB_ChSceneE_Function                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_Function)) & LED_RGB_ChSceneE_FunctionMask) >> LED_RGB_ChSceneE_FunctionShift)
 // Ablauf
-#define ParamLED_RGB_SceneE_Sequence_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_Sequence_)) & LED_RGB_SceneE_Sequence_Mask) >> LED_RGB_SceneE_Sequence_Shift)
+#define ParamLED_RGB_ChSceneE_Sequence                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_Sequence)) & LED_RGB_ChSceneE_SequenceMask) >> LED_RGB_ChSceneE_SequenceShift)
 // Helligkeit
-#define ParamLED_RGB_SceneE_Brightness_                  (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_Brightness_)))
+#define ParamLED_RGB_ChSceneE_Brightness                 (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_Brightness)))
 // Lichtfarbe RGB
-#define ParamLED_RGB_SceneE_RGB_                         ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_RGB_)) & LED_RGB_SceneE_RGB_Mask) >> LED_RGB_SceneE_RGB_Shift)
+#define ParamLED_RGB_ChSceneE_RGB                        ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_RGB)) & LED_RGB_ChSceneE_RGBMask) >> LED_RGB_ChSceneE_RGBShift)
 // Hue
-#define ParamLED_RGB_SceneE_Hue_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_Hue_)))
+#define ParamLED_RGB_ChSceneE_Hue                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_Hue)))
 // Saturation
-#define ParamLED_RGB_SceneE_Sat_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneE_Sat_)))
+#define ParamLED_RGB_ChSceneE_Sat                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneE_Sat)))
 // Typ
-#define ParamLED_RGB_SceneF_Type_                        ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_Type_)) & LED_RGB_SceneF_Type_Mask) >> LED_RGB_SceneF_Type_Shift)
+#define ParamLED_RGB_ChSceneF_Type                       ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_Type)) & LED_RGB_ChSceneF_TypeMask) >> LED_RGB_ChSceneF_TypeShift)
 // Typ
-#define ParamLED_RGB_SceneF_ValueType_                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_ValueType_)) & LED_RGB_SceneF_ValueType_Mask) >> LED_RGB_SceneF_ValueType_Shift)
+#define ParamLED_RGB_ChSceneF_ValueType                  ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_ValueType)) & LED_RGB_ChSceneF_ValueTypeMask) >> LED_RGB_ChSceneF_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_RGB_SceneF_Lockobject_                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_Lockobject_)) & LED_RGB_SceneF_Lockobject_Mask))
+#define ParamLED_RGB_ChSceneF_Lockobject                 ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_Lockobject)) & LED_RGB_ChSceneF_LockobjectMask))
 // Sperren
-#define ParamLED_RGB_SceneF_LockobjectFunc_              (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_LockobjectFunc_)))
+#define ParamLED_RGB_ChSceneF_LockobjectFunc             (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_LockobjectFunc)))
 // Speichern
-#define ParamLED_RGB_SceneF_AllowSave                    ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_AllowSave)) & LED_RGB_SceneF_AllowSaveMask))
+#define ParamLED_RGB_ChSceneF_AllowSave                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_AllowSave)) & LED_RGB_ChSceneF_AllowSaveMask))
 // Typ
-#define ParamLED_RGB_SceneF_Number_                      (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_Number_)) & LED_RGB_SceneF_Number_Mask)
+#define ParamLED_RGB_ChSceneF_Number                     (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_Number)) & LED_RGB_ChSceneF_NumberMask)
 // Funktion
-#define ParamLED_RGB_SceneF_Function_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_Function_)) & LED_RGB_SceneF_Function_Mask) >> LED_RGB_SceneF_Function_Shift)
+#define ParamLED_RGB_ChSceneF_Function                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_Function)) & LED_RGB_ChSceneF_FunctionMask) >> LED_RGB_ChSceneF_FunctionShift)
 // Ablauf
-#define ParamLED_RGB_SceneF_Sequence_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_Sequence_)) & LED_RGB_SceneF_Sequence_Mask) >> LED_RGB_SceneF_Sequence_Shift)
+#define ParamLED_RGB_ChSceneF_Sequence                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_Sequence)) & LED_RGB_ChSceneF_SequenceMask) >> LED_RGB_ChSceneF_SequenceShift)
 // Helligkeit
-#define ParamLED_RGB_SceneF_Brightness_                  (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_Brightness_)))
+#define ParamLED_RGB_ChSceneF_Brightness                 (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_Brightness)))
 // Lichtfarbe RGB
-#define ParamLED_RGB_SceneF_RGB_                         ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_RGB_)) & LED_RGB_SceneF_RGB_Mask) >> LED_RGB_SceneF_RGB_Shift)
+#define ParamLED_RGB_ChSceneF_RGB                        ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_RGB)) & LED_RGB_ChSceneF_RGBMask) >> LED_RGB_ChSceneF_RGBShift)
 // Hue
-#define ParamLED_RGB_SceneF_Hue_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_Hue_)))
+#define ParamLED_RGB_ChSceneF_Hue                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_Hue)))
 // Saturation
-#define ParamLED_RGB_SceneF_Sat_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneF_Sat_)))
+#define ParamLED_RGB_ChSceneF_Sat                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneF_Sat)))
 // Typ
-#define ParamLED_RGB_SceneG_Type_                        ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_Type_)) & LED_RGB_SceneG_Type_Mask) >> LED_RGB_SceneG_Type_Shift)
+#define ParamLED_RGB_ChSceneG_Type                       ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_Type)) & LED_RGB_ChSceneG_TypeMask) >> LED_RGB_ChSceneG_TypeShift)
 // Typ
-#define ParamLED_RGB_SceneG_ValueType_                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_ValueType_)) & LED_RGB_SceneG_ValueType_Mask) >> LED_RGB_SceneG_ValueType_Shift)
+#define ParamLED_RGB_ChSceneG_ValueType                  ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_ValueType)) & LED_RGB_ChSceneG_ValueTypeMask) >> LED_RGB_ChSceneG_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_RGB_SceneG_Lockobject_                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_Lockobject_)) & LED_RGB_SceneG_Lockobject_Mask))
+#define ParamLED_RGB_ChSceneG_Lockobject                 ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_Lockobject)) & LED_RGB_ChSceneG_LockobjectMask))
 // Sperren
-#define ParamLED_RGB_SceneG_LockobjectFunc_              (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_LockobjectFunc_)))
+#define ParamLED_RGB_ChSceneG_LockobjectFunc             (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_LockobjectFunc)))
 // Speichern
-#define ParamLED_RGB_SceneG_AllowSave                    ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_AllowSave)) & LED_RGB_SceneG_AllowSaveMask))
+#define ParamLED_RGB_ChSceneG_AllowSave                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_AllowSave)) & LED_RGB_ChSceneG_AllowSaveMask))
 // Typ
-#define ParamLED_RGB_SceneG_Number_                      (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_Number_)) & LED_RGB_SceneG_Number_Mask)
+#define ParamLED_RGB_ChSceneG_Number                     (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_Number)) & LED_RGB_ChSceneG_NumberMask)
 // Funktion
-#define ParamLED_RGB_SceneG_Function_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_Function_)) & LED_RGB_SceneG_Function_Mask) >> LED_RGB_SceneG_Function_Shift)
+#define ParamLED_RGB_ChSceneG_Function                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_Function)) & LED_RGB_ChSceneG_FunctionMask) >> LED_RGB_ChSceneG_FunctionShift)
 // Ablauf
-#define ParamLED_RGB_SceneG_Sequence_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_Sequence_)) & LED_RGB_SceneG_Sequence_Mask) >> LED_RGB_SceneG_Sequence_Shift)
+#define ParamLED_RGB_ChSceneG_Sequence                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_Sequence)) & LED_RGB_ChSceneG_SequenceMask) >> LED_RGB_ChSceneG_SequenceShift)
 // Helligkeit
-#define ParamLED_RGB_SceneG_Brightness_                  (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_Brightness_)))
+#define ParamLED_RGB_ChSceneG_Brightness                 (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_Brightness)))
 // Lichtfarbe RGB
-#define ParamLED_RGB_SceneG_RGB_                         ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_RGB_)) & LED_RGB_SceneG_RGB_Mask) >> LED_RGB_SceneG_RGB_Shift)
+#define ParamLED_RGB_ChSceneG_RGB                        ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_RGB)) & LED_RGB_ChSceneG_RGBMask) >> LED_RGB_ChSceneG_RGBShift)
 // Hue
-#define ParamLED_RGB_SceneG_Hue_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_Hue_)))
+#define ParamLED_RGB_ChSceneG_Hue                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_Hue)))
 // Saturation
-#define ParamLED_RGB_SceneG_Sat_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneG_Sat_)))
+#define ParamLED_RGB_ChSceneG_Sat                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneG_Sat)))
 // Typ
-#define ParamLED_RGB_SceneH_Type_                        ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_Type_)) & LED_RGB_SceneH_Type_Mask) >> LED_RGB_SceneH_Type_Shift)
+#define ParamLED_RGB_ChSceneH_Type                       ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_Type)) & LED_RGB_ChSceneH_TypeMask) >> LED_RGB_ChSceneH_TypeShift)
 // Typ
-#define ParamLED_RGB_SceneH_ValueType_                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_ValueType_)) & LED_RGB_SceneH_ValueType_Mask) >> LED_RGB_SceneH_ValueType_Shift)
+#define ParamLED_RGB_ChSceneH_ValueType                  ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_ValueType)) & LED_RGB_ChSceneH_ValueTypeMask) >> LED_RGB_ChSceneH_ValueTypeShift)
 // Sperrobjekt
-#define ParamLED_RGB_SceneH_Lockobject_                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_Lockobject_)) & LED_RGB_SceneH_Lockobject_Mask))
+#define ParamLED_RGB_ChSceneH_Lockobject                 ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_Lockobject)) & LED_RGB_ChSceneH_LockobjectMask))
 // Sperren
-#define ParamLED_RGB_SceneH_LockobjectFunc_              (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_LockobjectFunc_)))
+#define ParamLED_RGB_ChSceneH_LockobjectFunc             (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_LockobjectFunc)))
 // Speichern
-#define ParamLED_RGB_SceneH_AllowSave                    ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_AllowSave)) & LED_RGB_SceneH_AllowSaveMask))
+#define ParamLED_RGB_ChSceneH_AllowSave                  ((bool)(knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_AllowSave)) & LED_RGB_ChSceneH_AllowSaveMask))
 // Typ
-#define ParamLED_RGB_SceneH_Number_                      (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_Number_)) & LED_RGB_SceneH_Number_Mask)
+#define ParamLED_RGB_ChSceneH_Number                     (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_Number)) & LED_RGB_ChSceneH_NumberMask)
 // Funktion
-#define ParamLED_RGB_SceneH_Function_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_Function_)) & LED_RGB_SceneH_Function_Mask) >> LED_RGB_SceneH_Function_Shift)
+#define ParamLED_RGB_ChSceneH_Function                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_Function)) & LED_RGB_ChSceneH_FunctionMask) >> LED_RGB_ChSceneH_FunctionShift)
 // Ablauf
-#define ParamLED_RGB_SceneH_Sequence_                    ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_Sequence_)) & LED_RGB_SceneH_Sequence_Mask) >> LED_RGB_SceneH_Sequence_Shift)
+#define ParamLED_RGB_ChSceneH_Sequence                   ((knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_Sequence)) & LED_RGB_ChSceneH_SequenceMask) >> LED_RGB_ChSceneH_SequenceShift)
 // Helligkeit
-#define ParamLED_RGB_SceneH_Brightness_                  (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_Brightness_)))
+#define ParamLED_RGB_ChSceneH_Brightness                 (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_Brightness)))
 // Lichtfarbe RGB
-#define ParamLED_RGB_SceneH_RGB_                         ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_RGB_)) & LED_RGB_SceneH_RGB_Mask) >> LED_RGB_SceneH_RGB_Shift)
+#define ParamLED_RGB_ChSceneH_RGB                        ((knx.paramInt(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_RGB)) & LED_RGB_ChSceneH_RGBMask) >> LED_RGB_ChSceneH_RGBShift)
 // Hue
-#define ParamLED_RGB_SceneH_Hue_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_Hue_)))
+#define ParamLED_RGB_ChSceneH_Hue                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_Hue)))
 // Saturation
-#define ParamLED_RGB_SceneH_Sat_                         (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_SceneH_Sat_)))
+#define ParamLED_RGB_ChSceneH_Sat                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_Sat)))
 
 // deprecated
 #define LED_RGB_KoOffset 300
@@ -1697,54 +1772,54 @@
 #define LED_RGB_KoCalcIndex(number) ((number >= LED_RGB_KoCalcNumber(0) && number < LED_RGB_KoCalcNumber(LED_RGB_KoBlockSize)) ? (number - LED_RGB_KoBlockOffset) % LED_RGB_KoBlockSize : -1)
 #define LED_RGB_KoCalcChannel(number) ((number >= LED_RGB_KoBlockOffset && number < LED_RGB_KoBlockOffset + LED_RGB_ChannelCount * LED_RGB_KoBlockSize) ? (number - LED_RGB_KoBlockOffset) / LED_RGB_KoBlockSize : -1)
 
-#define LED_RGB_KoSwitch_ 0
-#define LED_RGB_KoStateOnOff_ 1
-#define LED_RGB_KoLocking_ 2
-#define LED_RGB_KoStateLocking_ 3
-#define LED_RGB_KoBrightness_ 4
-#define LED_RGB_KoBrightnessStatus_ 5
-#define LED_RGB_KoDimRel_ 6
-#define LED_RGB_KoScene_ 7
-#define LED_RGB_KoNight_ 8
-#define LED_RGB_KoColorTemperature_ 9
-#define LED_RGB_KoColorTemperatureStatus_ 10
-#define LED_RGB_KoRGB_ 11
-#define LED_RGB_KoRGBStatus_ 12
-#define LED_RGB_KoHSV_ 13
-#define LED_RGB_KoHSVStatus_ 14
+#define LED_RGB_KoChSwitch 0
+#define LED_RGB_KoChStateOnOff 1
+#define LED_RGB_KoChLocking 2
+#define LED_RGB_KoChStateLocking 3
+#define LED_RGB_KoChBrightness 4
+#define LED_RGB_KoChBrightnessStatus 5
+#define LED_RGB_KoChDimRel 6
+#define LED_RGB_KoChScene 7
+#define LED_RGB_KoChNight 8
+#define LED_RGB_KoChColorTemperature 9
+#define LED_RGB_KoChColorTemperatureStatus 10
+#define LED_RGB_KoChRGB 11
+#define LED_RGB_KoChRGBStatus 12
+#define LED_RGB_KoChHSV 13
+#define LED_RGB_KoChHSVStatus 14
 
 // Schalten
-#define KoLED_RGB_Switch_                             (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoSwitch_)))
+#define KoLED_RGB_ChSwitch                            (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChSwitch)))
 // Status Ein/Aus
-#define KoLED_RGB_StateOnOff_                         (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoStateOnOff_)))
+#define KoLED_RGB_ChStateOnOff                        (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChStateOnOff)))
 // Sperren
-#define KoLED_RGB_Locking_                            (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoLocking_)))
+#define KoLED_RGB_ChLocking                           (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChLocking)))
 // Sperren Status
-#define KoLED_RGB_StateLocking_                       (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoStateLocking_)))
+#define KoLED_RGB_ChStateLocking                      (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChStateLocking)))
 // Helligkeit
-#define KoLED_RGB_Brightness_                         (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoBrightness_)))
+#define KoLED_RGB_ChBrightness                        (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChBrightness)))
 // Helligkeit Status
-#define KoLED_RGB_BrightnessStatus_                   (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoBrightnessStatus_)))
+#define KoLED_RGB_ChBrightnessStatus                  (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChBrightnessStatus)))
 // Dimmen Relativ
-#define KoLED_RGB_DimRel_                             (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoDimRel_)))
+#define KoLED_RGB_ChDimRel                            (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChDimRel)))
 // Szene
-#define KoLED_RGB_Scene_                              (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoScene_)))
+#define KoLED_RGB_ChScene                             (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChScene)))
 // Nacht
-#define KoLED_RGB_Night_                              (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoNight_)))
+#define KoLED_RGB_ChNight                             (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChNight)))
 // Farbtemperatur
-#define KoLED_RGB_ColorTemperature_                   (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoColorTemperature_)))
+#define KoLED_RGB_ChColorTemperature                  (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChColorTemperature)))
 // Farbtemperatur Status
-#define KoLED_RGB_ColorTemperatureStatus_             (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoColorTemperatureStatus_)))
+#define KoLED_RGB_ChColorTemperatureStatus            (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChColorTemperatureStatus)))
 // RGB
-#define KoLED_RGB_RGB_                                (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoRGB_)))
+#define KoLED_RGB_ChRGB                               (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChRGB)))
 // RGB Status
-#define KoLED_RGB_RGBStatus_                          (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoRGBStatus_)))
+#define KoLED_RGB_ChRGBStatus                         (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChRGBStatus)))
 // HSV
-#define KoLED_RGB_HSV_                                (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoHSV_)))
+#define KoLED_RGB_ChHSV                               (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChHSV)))
 // HSV Status
-#define KoLED_RGB_HSVStatus_                          (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoHSVStatus_)))
+#define KoLED_RGB_ChHSVStatus                         (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChHSVStatus)))
 
-#define SWA_VisibleChannels                     2147      // uint8_t
+#define SWA_VisibleChannels                     2151      // uint8_t
 
 // Verfügbare Kanäle
 #define ParamSWA_VisibleChannels                     (knx.paramByte(SWA_VisibleChannels))
@@ -1757,7 +1832,7 @@
 #define SWA_ChannelCount 1
 
 // Parameter per channel
-#define SWA_ParamBlockOffset 2148
+#define SWA_ParamBlockOffset 2152
 #define SWA_ParamBlockSize 74
 #define SWA_ParamCalcIndex(index) (index + SWA_ParamBlockOffset + _channelIndex * SWA_ParamBlockSize)
 
@@ -2038,7 +2113,7 @@
 #define BI_ChannelCount 4
 
 // Parameter per channel
-#define BI_ParamBlockOffset 2222
+#define BI_ParamBlockOffset 2226
 #define BI_ParamBlockSize 4
 #define BI_ParamCalcIndex(index) (index + BI_ParamBlockOffset + _channelIndex * BI_ParamBlockSize)
 
@@ -2095,10 +2170,10 @@
 // 
 #define KoBI_ChannelOutput                       (knx.getGroupObject(BI_KoCalcNumber(BI_KoChannelOutput)))
 
-#define BTN_ReactionTimeMultiClick              2238      // 8 Bits, Bit 7-0
-#define BTN_ReactionTimeLong                    2239      // 8 Bits, Bit 7-0
-#define BTN_ReactionTimeExtraLong               2240      // 8 Bits, Bit 7-0
-#define BTN_VisibleChannels                     2241      // uint8_t
+#define BTN_ReactionTimeMultiClick              2242      // 8 Bits, Bit 7-0
+#define BTN_ReactionTimeLong                    2243      // 8 Bits, Bit 7-0
+#define BTN_ReactionTimeExtraLong               2244      // 8 Bits, Bit 7-0
+#define BTN_VisibleChannels                     2245      // uint8_t
 
 // Mehrfach-Klick
 #define ParamBTN_ReactionTimeMultiClick              (knx.paramByte(BTN_ReactionTimeMultiClick))
@@ -2112,7 +2187,7 @@
 #define BTN_ChannelCount 10
 
 // Parameter per channel
-#define BTN_ParamBlockOffset 2242
+#define BTN_ParamBlockOffset 2246
 #define BTN_ParamBlockSize 53
 #define BTN_ParamCalcIndex(index) (index + BTN_ParamBlockOffset + _channelIndex * BTN_ParamBlockSize)
 
@@ -2628,254 +2703,744 @@
 // 
 #define KoBTN_Out6                                (knx.getGroupObject(BTN_KoCalcNumber(BTN_KoOut6)))
 
-#define LOG_BuzzerInstalled                     2772      // 1 Bit, Bit 7
+#define SENS_Error                               2776      // 1 Bit, Bit 7
+#define     SENS_ErrorMask 0x80
+#define     SENS_ErrorShift 7
+#define SENS_Dewpoint                            2776      // 1 Bit, Bit 6
+#define     SENS_DewpointMask 0x40
+#define     SENS_DewpointShift 6
+#define SENS_Comfort                             2776      // 1 Bit, Bit 5
+#define     SENS_ComfortMask 0x20
+#define     SENS_ComfortShift 5
+#define SENS_Airquality                          2776      // 1 Bit, Bit 4
+#define     SENS_AirqualityMask 0x10
+#define     SENS_AirqualityShift 4
+#define SENS_Accuracy                            2776      // 1 Bit, Bit 3
+#define     SENS_AccuracyMask 0x08
+#define     SENS_AccuracyShift 3
+#define SENS_DeleteData                          2776      // 1 Bit, Bit 2
+#define     SENS_DeleteDataMask 0x04
+#define     SENS_DeleteDataShift 2
+#define SENS_TempOffset                          2777      // int8_t
+#define SENS_TempCycleBase                       2778      // 2 Bits, Bit 7-6
+#define     SENS_TempCycleBaseMask 0xC0
+#define     SENS_TempCycleBaseShift 6
+#define SENS_TempCycleTime                       2778      // 14 Bits, Bit 13-0
+#define     SENS_TempCycleTimeMask 0x3FFF
+#define     SENS_TempCycleTimeShift 0
+#define SENS_TempDeltaAbs                        2780      // uint16_t
+#define SENS_TempDeltaPercent                    2782      // uint8_t
+#define SENS_TempSmooth                          2783      // uint8_t
+#define SENS_TempExtCount                        2784      // 2 Bits, Bit 1-0
+#define     SENS_TempExtCountMask 0x03
+#define     SENS_TempExtCountShift 0
+#define SENS_TempExtRead                         2784      // 1 Bit, Bit 2
+#define     SENS_TempExtReadMask 0x04
+#define     SENS_TempExtReadShift 2
+#define SENS_TempIntPercent                      2785      // uint8_t
+#define SENS_TempExt1Percent                     2786      // uint8_t
+#define SENS_TempExt2Percent                     2787      // uint8_t
+#define SENS_HumOffset                           2788      // int8_t
+#define SENS_HumCycleBase                        2789      // 2 Bits, Bit 7-6
+#define     SENS_HumCycleBaseMask 0xC0
+#define     SENS_HumCycleBaseShift 6
+#define SENS_HumCycleTime                        2789      // 14 Bits, Bit 13-0
+#define     SENS_HumCycleTimeMask 0x3FFF
+#define     SENS_HumCycleTimeShift 0
+#define SENS_HumDeltaAbs                         2791      // uint16_t
+#define SENS_HumDeltaPercent                     2793      // uint8_t
+#define SENS_HumSmooth                           2794      // uint8_t
+#define SENS_HumExtCount                         2795      // 2 Bits, Bit 1-0
+#define     SENS_HumExtCountMask 0x03
+#define     SENS_HumExtCountShift 0
+#define SENS_HumExtRead                          2795      // 1 Bit, Bit 2
+#define     SENS_HumExtReadMask 0x04
+#define     SENS_HumExtReadShift 2
+#define SENS_HumIntPercent                       2796      // uint8_t
+#define SENS_HumExt1Percent                      2797      // uint8_t
+#define SENS_HumExt2Percent                      2798      // uint8_t
+#define SENS_PreOffset                           2799      // int8_t
+#define SENS_PreCycleBase                        2800      // 2 Bits, Bit 7-6
+#define     SENS_PreCycleBaseMask 0xC0
+#define     SENS_PreCycleBaseShift 6
+#define SENS_PreCycleTime                        2800      // 14 Bits, Bit 13-0
+#define     SENS_PreCycleTimeMask 0x3FFF
+#define     SENS_PreCycleTimeShift 0
+#define SENS_PreDeltaAbs                         2802      // uint16_t
+#define SENS_PreDeltaPercent                     2804      // uint8_t
+#define SENS_PreSmooth                           2805      // uint8_t
+#define SENS_PreExtCount                         2806      // 2 Bits, Bit 1-0
+#define     SENS_PreExtCountMask 0x03
+#define     SENS_PreExtCountShift 0
+#define SENS_PreExtRead                          2806      // 1 Bit, Bit 2
+#define     SENS_PreExtReadMask 0x04
+#define     SENS_PreExtReadShift 2
+#define SENS_PreIntPercent                       2807      // uint8_t
+#define SENS_PreExt1Percent                      2808      // uint8_t
+#define SENS_PreExt2Percent                      2809      // uint8_t
+#define SENS_VocOffset                           2810      // int8_t
+#define SENS_VocCycleBase                        2811      // 2 Bits, Bit 7-6
+#define     SENS_VocCycleBaseMask 0xC0
+#define     SENS_VocCycleBaseShift 6
+#define SENS_VocCycleTime                        2811      // 14 Bits, Bit 13-0
+#define     SENS_VocCycleTimeMask 0x3FFF
+#define     SENS_VocCycleTimeShift 0
+#define SENS_VocDeltaAbs                         2813      // uint16_t
+#define SENS_VocDeltaPercent                     2815      // uint8_t
+#define SENS_VocSmooth                           2816      // uint8_t
+#define SENS_VocExtCount                         2817      // 2 Bits, Bit 1-0
+#define     SENS_VocExtCountMask 0x03
+#define     SENS_VocExtCountShift 0
+#define SENS_VocExtRead                          2817      // 1 Bit, Bit 2
+#define     SENS_VocExtReadMask 0x04
+#define     SENS_VocExtReadShift 2
+#define SENS_VocIntPercent                       2818      // uint8_t
+#define SENS_VocExt1Percent                      2819      // uint8_t
+#define SENS_VocExt2Percent                      2820      // uint8_t
+#define SENS_Co2Offset                           2821      // int8_t
+#define SENS_Co2CycleBase                        2822      // 2 Bits, Bit 7-6
+#define     SENS_Co2CycleBaseMask 0xC0
+#define     SENS_Co2CycleBaseShift 6
+#define SENS_Co2CycleTime                        2822      // 14 Bits, Bit 13-0
+#define     SENS_Co2CycleTimeMask 0x3FFF
+#define     SENS_Co2CycleTimeShift 0
+#define SENS_Co2DeltaAbs                         2824      // uint16_t
+#define SENS_Co2DeltaPercent                     2826      // uint8_t
+#define SENS_Co2Smooth                           2827      // uint8_t
+#define SENS_Co2ExtCount                         2828      // 2 Bits, Bit 1-0
+#define     SENS_Co2ExtCountMask 0x03
+#define     SENS_Co2ExtCountShift 0
+#define SENS_Co2ExtRead                          2828      // 1 Bit, Bit 2
+#define     SENS_Co2ExtReadMask 0x04
+#define     SENS_Co2ExtReadShift 2
+#define SENS_Co2IntPercent                       2829      // uint8_t
+#define SENS_Co2Ext1Percent                      2830      // uint8_t
+#define SENS_Co2Ext2Percent                      2831      // uint8_t
+#define SENS_DewOffset                           2833      // int8_t
+#define SENS_DewCycleBase                        2834      // 2 Bits, Bit 7-6
+#define     SENS_DewCycleBaseMask 0xC0
+#define     SENS_DewCycleBaseShift 6
+#define SENS_DewCycleTime                        2834      // 14 Bits, Bit 13-0
+#define     SENS_DewCycleTimeMask 0x3FFF
+#define     SENS_DewCycleTimeShift 0
+#define SENS_DewDeltaAbs                         2836      // uint16_t
+#define SENS_DewDeltaPercent                     2838      // uint8_t
+#define SENS_DewSmooth                           2839      // uint8_t
+#define SENS_LuxOffset                           2840      // int8_t
+#define SENS_LuxCycleBase                        2841      // 2 Bits, Bit 7-6
+#define     SENS_LuxCycleBaseMask 0xC0
+#define     SENS_LuxCycleBaseShift 6
+#define SENS_LuxCycleTime                        2841      // 14 Bits, Bit 13-0
+#define     SENS_LuxCycleTimeMask 0x3FFF
+#define     SENS_LuxCycleTimeShift 0
+#define SENS_LuxDeltaAbs                         2843      // uint16_t
+#define SENS_LuxDeltaPercent                     2845      // uint8_t
+#define SENS_LuxSmooth                           2846      // uint8_t
+#define SENS_LuxExtCount                         2847      // 2 Bits, Bit 1-0
+#define     SENS_LuxExtCountMask 0x03
+#define     SENS_LuxExtCountShift 0
+#define SENS_LuxExtRead                          2847      // 1 Bit, Bit 2
+#define     SENS_LuxExtReadMask 0x04
+#define     SENS_LuxExtReadShift 2
+#define SENS_LuxIntPercent                       2848      // uint8_t
+#define SENS_LuxExt1Percent                      2849      // uint8_t
+#define SENS_LuxExt2Percent                      2850      // uint8_t
+#define SENS_TofOffset                           2851      // int8_t
+#define SENS_TofCycleBase                        2852      // 2 Bits, Bit 7-6
+#define     SENS_TofCycleBaseMask 0xC0
+#define     SENS_TofCycleBaseShift 6
+#define SENS_TofCycleTime                        2852      // 14 Bits, Bit 13-0
+#define     SENS_TofCycleTimeMask 0x3FFF
+#define     SENS_TofCycleTimeShift 0
+#define SENS_TofDeltaAbs                         2854      // uint16_t
+#define SENS_TofDeltaPercent                     2856      // uint8_t
+#define SENS_TofSmooth                           2857      // uint8_t
+#define SENS_TofExtCount                         2858      // 2 Bits, Bit 1-0
+#define     SENS_TofExtCountMask 0x03
+#define     SENS_TofExtCountShift 0
+#define SENS_TofExtRead                          2858      // 1 Bit, Bit 2
+#define     SENS_TofExtReadMask 0x04
+#define     SENS_TofExtReadShift 2
+#define SENS_TofIntPercent                       2859      // uint8_t
+#define SENS_TofExt1Percent                      2860      // uint8_t
+#define SENS_TofExt2Percent                      2861      // uint8_t
+#define SENS_TempSensor                          2862      // 4 Bits, Bit 7-4
+#define     SENS_TempSensorMask 0xF0
+#define     SENS_TempSensorShift 4
+#define SENS_HumSensor                           2862      // 4 Bits, Bit 3-0
+#define     SENS_HumSensorMask 0x0F
+#define     SENS_HumSensorShift 0
+#define SENS_PreSensor                           2863      // 4 Bits, Bit 7-4
+#define     SENS_PreSensorMask 0xF0
+#define     SENS_PreSensorShift 4
+#define SENS_VocSensor                           2863      // 4 Bits, Bit 3-0
+#define     SENS_VocSensorMask 0x0F
+#define     SENS_VocSensorShift 0
+#define SENS_Co2Sensor                           2864      // 4 Bits, Bit 7-4
+#define     SENS_Co2SensorMask 0xF0
+#define     SENS_Co2SensorShift 4
+#define SENS_LuxSensor                           2864      // 4 Bits, Bit 3-0
+#define     SENS_LuxSensorMask 0x0F
+#define     SENS_LuxSensorShift 0
+#define SENS_TofSensor                           2865      // 4 Bits, Bit 7-4
+#define     SENS_TofSensorMask 0xF0
+#define     SENS_TofSensorShift 4
+#define SENS_SCD41MeasureIntervalDelayBase       2866      // 2 Bits, Bit 7-6
+#define     SENS_SCD41MeasureIntervalDelayBaseMask 0xC0
+#define     SENS_SCD41MeasureIntervalDelayBaseShift 6
+#define SENS_SCD41MeasureIntervalDelayTime       2866      // 14 Bits, Bit 13-0
+#define     SENS_SCD41MeasureIntervalDelayTimeMask 0x3FFF
+#define     SENS_SCD41MeasureIntervalDelayTimeShift 0
+
+// Fehlerobjekt für Standardmesswerte anzeigen
+#define ParamSENS_Error                               ((bool)(knx.paramByte(SENS_Error) & SENS_ErrorMask))
+// Taupunkt berechnen
+#define ParamSENS_Dewpoint                            ((bool)(knx.paramByte(SENS_Dewpoint) & SENS_DewpointMask))
+// Behaglichkeitszone ausgeben
+#define ParamSENS_Comfort                             ((bool)(knx.paramByte(SENS_Comfort) & SENS_ComfortMask))
+// Luftqualitätsampel ausgeben
+#define ParamSENS_Airquality                          ((bool)(knx.paramByte(SENS_Airquality) & SENS_AirqualityMask))
+// Kalibrierungsfortschritt ausgeben
+#define ParamSENS_Accuracy                            ((bool)(knx.paramByte(SENS_Accuracy) & SENS_AccuracyMask))
+// Kalibrierungsdaten löschen
+#define ParamSENS_DeleteData                          ((bool)(knx.paramByte(SENS_DeleteData) & SENS_DeleteDataMask))
+// Temperatur anpassen (interner Messwert)
+#define ParamSENS_TempOffset                          ((int8_t)knx.paramByte(SENS_TempOffset))
+// Zeitbasis
+#define ParamSENS_TempCycleBase                       ((knx.paramByte(SENS_TempCycleBase) & SENS_TempCycleBaseMask) >> SENS_TempCycleBaseShift)
+// Zeit
+#define ParamSENS_TempCycleTime                       (knx.paramWord(SENS_TempCycleTime) & SENS_TempCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_TempCycleTimeMS                     (paramDelay(knx.paramWord(SENS_TempCycleTime)))
+// Temperatur bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_TempDeltaAbs                        (knx.paramWord(SENS_TempDeltaAbs))
+// Temperatur bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_TempDeltaPercent                    (knx.paramByte(SENS_TempDeltaPercent))
+// Temperatur glätten: P =
+#define ParamSENS_TempSmooth                          (knx.paramByte(SENS_TempSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_TempExtCount                        (knx.paramByte(SENS_TempExtCount) & SENS_TempExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_TempExtRead                         ((bool)(knx.paramByte(SENS_TempExtRead) & SENS_TempExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_TempIntPercent                      (knx.paramByte(SENS_TempIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_TempExt1Percent                     (knx.paramByte(SENS_TempExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_TempExt2Percent                     (knx.paramByte(SENS_TempExt2Percent))
+// Luftfeuchte anpassen (interner Messwert)
+#define ParamSENS_HumOffset                           ((int8_t)knx.paramByte(SENS_HumOffset))
+// Zeitbasis
+#define ParamSENS_HumCycleBase                        ((knx.paramByte(SENS_HumCycleBase) & SENS_HumCycleBaseMask) >> SENS_HumCycleBaseShift)
+// Zeit
+#define ParamSENS_HumCycleTime                        (knx.paramWord(SENS_HumCycleTime) & SENS_HumCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_HumCycleTimeMS                      (paramDelay(knx.paramWord(SENS_HumCycleTime)))
+// Luftfeuchte bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_HumDeltaAbs                         (knx.paramWord(SENS_HumDeltaAbs))
+// Luftfeuchte bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_HumDeltaPercent                     (knx.paramByte(SENS_HumDeltaPercent))
+// Luftfeuchte glätten: P =
+#define ParamSENS_HumSmooth                           (knx.paramByte(SENS_HumSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_HumExtCount                         (knx.paramByte(SENS_HumExtCount) & SENS_HumExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_HumExtRead                          ((bool)(knx.paramByte(SENS_HumExtRead) & SENS_HumExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_HumIntPercent                       (knx.paramByte(SENS_HumIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_HumExt1Percent                      (knx.paramByte(SENS_HumExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_HumExt2Percent                      (knx.paramByte(SENS_HumExt2Percent))
+// Luftdruck anpassen (interner Messwert)
+#define ParamSENS_PreOffset                           ((int8_t)knx.paramByte(SENS_PreOffset))
+// Zeitbasis
+#define ParamSENS_PreCycleBase                        ((knx.paramByte(SENS_PreCycleBase) & SENS_PreCycleBaseMask) >> SENS_PreCycleBaseShift)
+// Zeit
+#define ParamSENS_PreCycleTime                        (knx.paramWord(SENS_PreCycleTime) & SENS_PreCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_PreCycleTimeMS                      (paramDelay(knx.paramWord(SENS_PreCycleTime)))
+// Luftdruck bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_PreDeltaAbs                         (knx.paramWord(SENS_PreDeltaAbs))
+// Luftdruck bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_PreDeltaPercent                     (knx.paramByte(SENS_PreDeltaPercent))
+// Luftdruck glätten: P =
+#define ParamSENS_PreSmooth                           (knx.paramByte(SENS_PreSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_PreExtCount                         (knx.paramByte(SENS_PreExtCount) & SENS_PreExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_PreExtRead                          ((bool)(knx.paramByte(SENS_PreExtRead) & SENS_PreExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_PreIntPercent                       (knx.paramByte(SENS_PreIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_PreExt1Percent                      (knx.paramByte(SENS_PreExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_PreExt2Percent                      (knx.paramByte(SENS_PreExt2Percent))
+// VOC anpassen (interner Messwert)
+#define ParamSENS_VocOffset                           ((int8_t)knx.paramByte(SENS_VocOffset))
+// Zeitbasis
+#define ParamSENS_VocCycleBase                        ((knx.paramByte(SENS_VocCycleBase) & SENS_VocCycleBaseMask) >> SENS_VocCycleBaseShift)
+// Zeit
+#define ParamSENS_VocCycleTime                        (knx.paramWord(SENS_VocCycleTime) & SENS_VocCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_VocCycleTimeMS                      (paramDelay(knx.paramWord(SENS_VocCycleTime)))
+// VOC bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_VocDeltaAbs                         (knx.paramWord(SENS_VocDeltaAbs))
+// VOC bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_VocDeltaPercent                     (knx.paramByte(SENS_VocDeltaPercent))
+// VOC glätten: P =
+#define ParamSENS_VocSmooth                           (knx.paramByte(SENS_VocSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_VocExtCount                         (knx.paramByte(SENS_VocExtCount) & SENS_VocExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_VocExtRead                          ((bool)(knx.paramByte(SENS_VocExtRead) & SENS_VocExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_VocIntPercent                       (knx.paramByte(SENS_VocIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_VocExt1Percent                      (knx.paramByte(SENS_VocExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_VocExt2Percent                      (knx.paramByte(SENS_VocExt2Percent))
+// CO2 anpassen (interner Messwert)
+#define ParamSENS_Co2Offset                           ((int8_t)knx.paramByte(SENS_Co2Offset))
+// Zeitbasis
+#define ParamSENS_Co2CycleBase                        ((knx.paramByte(SENS_Co2CycleBase) & SENS_Co2CycleBaseMask) >> SENS_Co2CycleBaseShift)
+// Zeit
+#define ParamSENS_Co2CycleTime                        (knx.paramWord(SENS_Co2CycleTime) & SENS_Co2CycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_Co2CycleTimeMS                      (paramDelay(knx.paramWord(SENS_Co2CycleTime)))
+// CO2 bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_Co2DeltaAbs                         (knx.paramWord(SENS_Co2DeltaAbs))
+// CO2 bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_Co2DeltaPercent                     (knx.paramByte(SENS_Co2DeltaPercent))
+// CO2 glätten: P =
+#define ParamSENS_Co2Smooth                           (knx.paramByte(SENS_Co2Smooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_Co2ExtCount                         (knx.paramByte(SENS_Co2ExtCount) & SENS_Co2ExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_Co2ExtRead                          ((bool)(knx.paramByte(SENS_Co2ExtRead) & SENS_Co2ExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_Co2IntPercent                       (knx.paramByte(SENS_Co2IntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_Co2Ext1Percent                      (knx.paramByte(SENS_Co2Ext1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_Co2Ext2Percent                      (knx.paramByte(SENS_Co2Ext2Percent))
+// Taupunkt anpassen
+#define ParamSENS_DewOffset                           ((int8_t)knx.paramByte(SENS_DewOffset))
+// Zeitbasis
+#define ParamSENS_DewCycleBase                        ((knx.paramByte(SENS_DewCycleBase) & SENS_DewCycleBaseMask) >> SENS_DewCycleBaseShift)
+// Zeit
+#define ParamSENS_DewCycleTime                        (knx.paramWord(SENS_DewCycleTime) & SENS_DewCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_DewCycleTimeMS                      (paramDelay(knx.paramWord(SENS_DewCycleTime)))
+// Taupunkt bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_DewDeltaAbs                         (knx.paramWord(SENS_DewDeltaAbs))
+// Taupunkt bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_DewDeltaPercent                     (knx.paramByte(SENS_DewDeltaPercent))
+// Taupunkt glätten: P =
+#define ParamSENS_DewSmooth                           (knx.paramByte(SENS_DewSmooth))
+// Helligkeit anpassen (interner Messwert)
+#define ParamSENS_LuxOffset                           ((int8_t)knx.paramByte(SENS_LuxOffset))
+// Zeitbasis
+#define ParamSENS_LuxCycleBase                        ((knx.paramByte(SENS_LuxCycleBase) & SENS_LuxCycleBaseMask) >> SENS_LuxCycleBaseShift)
+// Zeit
+#define ParamSENS_LuxCycleTime                        (knx.paramWord(SENS_LuxCycleTime) & SENS_LuxCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_LuxCycleTimeMS                      (paramDelay(knx.paramWord(SENS_LuxCycleTime)))
+// Helligkeit bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_LuxDeltaAbs                         (knx.paramWord(SENS_LuxDeltaAbs))
+// Helligkeit bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_LuxDeltaPercent                     (knx.paramByte(SENS_LuxDeltaPercent))
+// Helligkeit glätten: P =
+#define ParamSENS_LuxSmooth                           (knx.paramByte(SENS_LuxSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_LuxExtCount                         (knx.paramByte(SENS_LuxExtCount) & SENS_LuxExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_LuxExtRead                          ((bool)(knx.paramByte(SENS_LuxExtRead) & SENS_LuxExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_LuxIntPercent                       (knx.paramByte(SENS_LuxIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_LuxExt1Percent                      (knx.paramByte(SENS_LuxExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_LuxExt2Percent                      (knx.paramByte(SENS_LuxExt2Percent))
+// Entfernung anpassen (interner Messwert)
+#define ParamSENS_TofOffset                           ((int8_t)knx.paramByte(SENS_TofOffset))
+// Zeitbasis
+#define ParamSENS_TofCycleBase                        ((knx.paramByte(SENS_TofCycleBase) & SENS_TofCycleBaseMask) >> SENS_TofCycleBaseShift)
+// Zeit
+#define ParamSENS_TofCycleTime                        (knx.paramWord(SENS_TofCycleTime) & SENS_TofCycleTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_TofCycleTimeMS                      (paramDelay(knx.paramWord(SENS_TofCycleTime)))
+// Entfernung bei absoluter Abweichung senden(0=nicht senden)
+#define ParamSENS_TofDeltaAbs                         (knx.paramWord(SENS_TofDeltaAbs))
+// Entfernung bei Abweichung vom vorherigen Wert senden(0=nicht senden)
+#define ParamSENS_TofDeltaPercent                     (knx.paramByte(SENS_TofDeltaPercent))
+// Entfernung glätten: P =
+#define ParamSENS_TofSmooth                           (knx.paramByte(SENS_TofSmooth))
+// Externe Messwerte berücksichtigen
+#define ParamSENS_TofExtCount                         (knx.paramByte(SENS_TofExtCount) & SENS_TofExtCountMask)
+//     Externe Messwerte beim Start lesen
+#define ParamSENS_TofExtRead                          ((bool)(knx.paramByte(SENS_TofExtRead) & SENS_TofExtReadMask))
+//     Anteil interner Messwert
+#define ParamSENS_TofIntPercent                       (knx.paramByte(SENS_TofIntPercent))
+//     Anteil externer Messwert 1
+#define ParamSENS_TofExt1Percent                      (knx.paramByte(SENS_TofExt1Percent))
+//     Anteil externer Messwert 2
+#define ParamSENS_TofExt2Percent                      (knx.paramByte(SENS_TofExt2Percent))
+// Temperatursensor
+#define ParamSENS_TempSensor                          ((knx.paramByte(SENS_TempSensor) & SENS_TempSensorMask) >> SENS_TempSensorShift)
+// Luftfeuchtesensor
+#define ParamSENS_HumSensor                           (knx.paramByte(SENS_HumSensor) & SENS_HumSensorMask)
+// Luftdrucksensor
+#define ParamSENS_PreSensor                           ((knx.paramByte(SENS_PreSensor) & SENS_PreSensorMask) >> SENS_PreSensorShift)
+// Voc-Sensor
+#define ParamSENS_VocSensor                           (knx.paramByte(SENS_VocSensor) & SENS_VocSensorMask)
+// Co2-Sensor
+#define ParamSENS_Co2Sensor                           ((knx.paramByte(SENS_Co2Sensor) & SENS_Co2SensorMask) >> SENS_Co2SensorShift)
+// Helligkeitssensor
+#define ParamSENS_LuxSensor                           (knx.paramByte(SENS_LuxSensor) & SENS_LuxSensorMask)
+// Füllstands- und Näherungssensor
+#define ParamSENS_TofSensor                           ((knx.paramByte(SENS_TofSensor) & SENS_TofSensorMask) >> SENS_TofSensorShift)
+// Zeitbasis
+#define ParamSENS_SCD41MeasureIntervalDelayBase       ((knx.paramByte(SENS_SCD41MeasureIntervalDelayBase) & SENS_SCD41MeasureIntervalDelayBaseMask) >> SENS_SCD41MeasureIntervalDelayBaseShift)
+// Zeit
+#define ParamSENS_SCD41MeasureIntervalDelayTime       (knx.paramWord(SENS_SCD41MeasureIntervalDelayTime) & SENS_SCD41MeasureIntervalDelayTimeMask)
+// Zeit (in Millisekunden)
+#define ParamSENS_SCD41MeasureIntervalDelayTimeMS     (paramDelay(knx.paramWord(SENS_SCD41MeasureIntervalDelayTime)))
+
+#define SENS_KoRequestValues 563
+#define SENS_KoError 564
+#define SENS_KoTemp 580
+#define SENS_KoExt1Temp 590
+#define SENS_KoExt2Temp 591
+#define SENS_KoHum 581
+#define SENS_KoExt1Hum 592
+#define SENS_KoExt2Hum 593
+#define SENS_KoPre 582
+#define SENS_KoExt1Pre 594
+#define SENS_KoExt2Pre 595
+#define SENS_KoVoc 583
+#define SENS_KoExt1Voc 596
+#define SENS_KoExt2Voc 597
+#define SENS_KoCo2 584
+#define SENS_KoExt1Co2 598
+#define SENS_KoExt2Co2 599
+#define SENS_KoLux 607
+#define SENS_KoExt1Lux 600
+#define SENS_KoExt2Lux 601
+#define SENS_KoTof 608
+#define SENS_KoExt1Tof 602
+#define SENS_KoExt2Tof 603
+#define SENS_KoCo2b 585
+#define SENS_KoDewpoint 586
+#define SENS_KoComfort 587
+#define SENS_KoAirquality 588
+#define SENS_KoSensorAccuracy 589
+
+// Sensorwerte anfordern
+#define KoSENS_RequestValues                       (knx.getGroupObject(SENS_KoRequestValues))
+// Sensorfehler
+#define KoSENS_Error                               (knx.getGroupObject(SENS_KoError))
+// Temperatur
+#define KoSENS_Temp                                (knx.getGroupObject(SENS_KoTemp))
+// Extern: Temperatur 1
+#define KoSENS_Ext1Temp                            (knx.getGroupObject(SENS_KoExt1Temp))
+// Extern: Temperatur 2
+#define KoSENS_Ext2Temp                            (knx.getGroupObject(SENS_KoExt2Temp))
+// Luftfeuchte
+#define KoSENS_Hum                                 (knx.getGroupObject(SENS_KoHum))
+// Extern: Luftfeuchte 1
+#define KoSENS_Ext1Hum                             (knx.getGroupObject(SENS_KoExt1Hum))
+// Extern: Luftfeuchte 2
+#define KoSENS_Ext2Hum                             (knx.getGroupObject(SENS_KoExt2Hum))
+// Luftdruck
+#define KoSENS_Pre                                 (knx.getGroupObject(SENS_KoPre))
+// Extern: Luftdruck 1
+#define KoSENS_Ext1Pre                             (knx.getGroupObject(SENS_KoExt1Pre))
+// Extern: Luftdruck 2
+#define KoSENS_Ext2Pre                             (knx.getGroupObject(SENS_KoExt2Pre))
+// VOC
+#define KoSENS_Voc                                 (knx.getGroupObject(SENS_KoVoc))
+// Extern: VOC 1
+#define KoSENS_Ext1Voc                             (knx.getGroupObject(SENS_KoExt1Voc))
+// Extern: VOC 2
+#define KoSENS_Ext2Voc                             (knx.getGroupObject(SENS_KoExt2Voc))
+// CO2
+#define KoSENS_Co2                                 (knx.getGroupObject(SENS_KoCo2))
+// Extern: CO2 1
+#define KoSENS_Ext1Co2                             (knx.getGroupObject(SENS_KoExt1Co2))
+// Extern: CO2 2
+#define KoSENS_Ext2Co2                             (knx.getGroupObject(SENS_KoExt2Co2))
+// Helligkeit
+#define KoSENS_Lux                                 (knx.getGroupObject(SENS_KoLux))
+// Extern: Helligkeit 1
+#define KoSENS_Ext1Lux                             (knx.getGroupObject(SENS_KoExt1Lux))
+// Extern: Helligkeit 2
+#define KoSENS_Ext2Lux                             (knx.getGroupObject(SENS_KoExt2Lux))
+// Entfernung
+#define KoSENS_Tof                                 (knx.getGroupObject(SENS_KoTof))
+// Extern: Entfernung 1
+#define KoSENS_Ext1Tof                             (knx.getGroupObject(SENS_KoExt1Tof))
+// Extern: Entfernung 2
+#define KoSENS_Ext2Tof                             (knx.getGroupObject(SENS_KoExt2Tof))
+// CO2-VOC
+#define KoSENS_Co2b                                (knx.getGroupObject(SENS_KoCo2b))
+// Taupunkt
+#define KoSENS_Dewpoint                            (knx.getGroupObject(SENS_KoDewpoint))
+// Behaglichkeit
+#define KoSENS_Comfort                             (knx.getGroupObject(SENS_KoComfort))
+// Luftqualitätsampel (1-6)
+#define KoSENS_Airquality                          (knx.getGroupObject(SENS_KoAirquality))
+// Kalibrierungfortschritt
+#define KoSENS_SensorAccuracy                      (knx.getGroupObject(SENS_KoSensorAccuracy))
+
+#define LOG_BuzzerInstalled                     2868      // 1 Bit, Bit 7
 #define     LOG_BuzzerInstalledMask 0x80
 #define     LOG_BuzzerInstalledShift 7
-#define LOG_LedInstalled                        2772      // 1 Bit, Bit 6
+#define LOG_LedInstalled                        2868      // 1 Bit, Bit 6
 #define     LOG_LedInstalledMask 0x40
 #define     LOG_LedInstalledShift 6
-#define LOG_VacationKo                          2772      // 1 Bit, Bit 5
+#define LOG_VacationKo                          2868      // 1 Bit, Bit 5
 #define     LOG_VacationKoMask 0x20
 #define     LOG_VacationKoShift 5
-#define LOG_HolidayKo                           2772      // 1 Bit, Bit 4
+#define LOG_HolidayKo                           2868      // 1 Bit, Bit 4
 #define     LOG_HolidayKoMask 0x10
 #define     LOG_HolidayKoShift 4
-#define LOG_VacationRead                        2772      // 1 Bit, Bit 3
+#define LOG_VacationRead                        2868      // 1 Bit, Bit 3
 #define     LOG_VacationReadMask 0x08
 #define     LOG_VacationReadShift 3
-#define LOG_HolidaySend                         2772      // 1 Bit, Bit 2
+#define LOG_HolidaySend                         2868      // 1 Bit, Bit 2
 #define     LOG_HolidaySendMask 0x04
 #define     LOG_HolidaySendShift 2
-#define LOG_Neujahr                             2773      // 1 Bit, Bit 7
+#define LOG_Neujahr                             2869      // 1 Bit, Bit 7
 #define     LOG_NeujahrMask 0x80
 #define     LOG_NeujahrShift 7
-#define LOG_DreiKoenige                         2773      // 1 Bit, Bit 6
+#define LOG_DreiKoenige                         2869      // 1 Bit, Bit 6
 #define     LOG_DreiKoenigeMask 0x40
 #define     LOG_DreiKoenigeShift 6
-#define LOG_Weiberfastnacht                     2773      // 1 Bit, Bit 5
+#define LOG_Weiberfastnacht                     2869      // 1 Bit, Bit 5
 #define     LOG_WeiberfastnachtMask 0x20
 #define     LOG_WeiberfastnachtShift 5
-#define LOG_Rosenmontag                         2773      // 1 Bit, Bit 4
+#define LOG_Rosenmontag                         2869      // 1 Bit, Bit 4
 #define     LOG_RosenmontagMask 0x10
 #define     LOG_RosenmontagShift 4
-#define LOG_Fastnachtsdienstag                  2773      // 1 Bit, Bit 3
+#define LOG_Fastnachtsdienstag                  2869      // 1 Bit, Bit 3
 #define     LOG_FastnachtsdienstagMask 0x08
 #define     LOG_FastnachtsdienstagShift 3
-#define LOG_Aschermittwoch                      2773      // 1 Bit, Bit 2
+#define LOG_Aschermittwoch                      2869      // 1 Bit, Bit 2
 #define     LOG_AschermittwochMask 0x04
 #define     LOG_AschermittwochShift 2
-#define LOG_Frauentag                           2773      // 1 Bit, Bit 1
+#define LOG_Frauentag                           2869      // 1 Bit, Bit 1
 #define     LOG_FrauentagMask 0x02
 #define     LOG_FrauentagShift 1
-#define LOG_Gruendonnerstag                     2773      // 1 Bit, Bit 0
+#define LOG_Gruendonnerstag                     2869      // 1 Bit, Bit 0
 #define     LOG_GruendonnerstagMask 0x01
 #define     LOG_GruendonnerstagShift 0
-#define LOG_Karfreitag                          2774      // 1 Bit, Bit 7
+#define LOG_Karfreitag                          2870      // 1 Bit, Bit 7
 #define     LOG_KarfreitagMask 0x80
 #define     LOG_KarfreitagShift 7
-#define LOG_Ostersonntag                        2774      // 1 Bit, Bit 6
+#define LOG_Ostersonntag                        2870      // 1 Bit, Bit 6
 #define     LOG_OstersonntagMask 0x40
 #define     LOG_OstersonntagShift 6
-#define LOG_Ostermontag                         2774      // 1 Bit, Bit 5
+#define LOG_Ostermontag                         2870      // 1 Bit, Bit 5
 #define     LOG_OstermontagMask 0x20
 #define     LOG_OstermontagShift 5
-#define LOG_TagDerArbeit                        2774      // 1 Bit, Bit 4
+#define LOG_TagDerArbeit                        2870      // 1 Bit, Bit 4
 #define     LOG_TagDerArbeitMask 0x10
 #define     LOG_TagDerArbeitShift 4
-#define LOG_Himmelfahrt                         2774      // 1 Bit, Bit 3
+#define LOG_Himmelfahrt                         2870      // 1 Bit, Bit 3
 #define     LOG_HimmelfahrtMask 0x08
 #define     LOG_HimmelfahrtShift 3
-#define LOG_Pfingstsonntag                      2774      // 1 Bit, Bit 2
+#define LOG_Pfingstsonntag                      2870      // 1 Bit, Bit 2
 #define     LOG_PfingstsonntagMask 0x04
 #define     LOG_PfingstsonntagShift 2
-#define LOG_Pfingstmontag                       2774      // 1 Bit, Bit 1
+#define LOG_Pfingstmontag                       2870      // 1 Bit, Bit 1
 #define     LOG_PfingstmontagMask 0x02
 #define     LOG_PfingstmontagShift 1
-#define LOG_Fronleichnam                        2774      // 1 Bit, Bit 0
+#define LOG_Fronleichnam                        2870      // 1 Bit, Bit 0
 #define     LOG_FronleichnamMask 0x01
 #define     LOG_FronleichnamShift 0
-#define LOG_Friedensfest                        2775      // 1 Bit, Bit 7
+#define LOG_Friedensfest                        2871      // 1 Bit, Bit 7
 #define     LOG_FriedensfestMask 0x80
 #define     LOG_FriedensfestShift 7
-#define LOG_MariaHimmelfahrt                    2775      // 1 Bit, Bit 6
+#define LOG_MariaHimmelfahrt                    2871      // 1 Bit, Bit 6
 #define     LOG_MariaHimmelfahrtMask 0x40
 #define     LOG_MariaHimmelfahrtShift 6
-#define LOG_DeutscheEinheit                     2775      // 1 Bit, Bit 5
+#define LOG_DeutscheEinheit                     2871      // 1 Bit, Bit 5
 #define     LOG_DeutscheEinheitMask 0x20
 #define     LOG_DeutscheEinheitShift 5
-#define LOG_Reformationstag                     2775      // 1 Bit, Bit 4
+#define LOG_Reformationstag                     2871      // 1 Bit, Bit 4
 #define     LOG_ReformationstagMask 0x10
 #define     LOG_ReformationstagShift 4
-#define LOG_Allerheiligen                       2775      // 1 Bit, Bit 3
+#define LOG_Allerheiligen                       2871      // 1 Bit, Bit 3
 #define     LOG_AllerheiligenMask 0x08
 #define     LOG_AllerheiligenShift 3
-#define LOG_BussBettag                          2775      // 1 Bit, Bit 2
+#define LOG_BussBettag                          2871      // 1 Bit, Bit 2
 #define     LOG_BussBettagMask 0x04
 #define     LOG_BussBettagShift 2
-#define LOG_Advent1                             2775      // 1 Bit, Bit 1
+#define LOG_Advent1                             2871      // 1 Bit, Bit 1
 #define     LOG_Advent1Mask 0x02
 #define     LOG_Advent1Shift 1
-#define LOG_Advent2                             2775      // 1 Bit, Bit 0
+#define LOG_Advent2                             2871      // 1 Bit, Bit 0
 #define     LOG_Advent2Mask 0x01
 #define     LOG_Advent2Shift 0
-#define LOG_Advent3                             2776      // 1 Bit, Bit 7
+#define LOG_Advent3                             2872      // 1 Bit, Bit 7
 #define     LOG_Advent3Mask 0x80
 #define     LOG_Advent3Shift 7
-#define LOG_Advent4                             2776      // 1 Bit, Bit 6
+#define LOG_Advent4                             2872      // 1 Bit, Bit 6
 #define     LOG_Advent4Mask 0x40
 #define     LOG_Advent4Shift 6
-#define LOG_Heiligabend                         2776      // 1 Bit, Bit 5
+#define LOG_Heiligabend                         2872      // 1 Bit, Bit 5
 #define     LOG_HeiligabendMask 0x20
 #define     LOG_HeiligabendShift 5
-#define LOG_Weihnachtstag1                      2776      // 1 Bit, Bit 4
+#define LOG_Weihnachtstag1                      2872      // 1 Bit, Bit 4
 #define     LOG_Weihnachtstag1Mask 0x10
 #define     LOG_Weihnachtstag1Shift 4
-#define LOG_Weihnachtstag2                      2776      // 1 Bit, Bit 3
+#define LOG_Weihnachtstag2                      2872      // 1 Bit, Bit 3
 #define     LOG_Weihnachtstag2Mask 0x08
 #define     LOG_Weihnachtstag2Shift 3
-#define LOG_Silvester                           2776      // 1 Bit, Bit 2
+#define LOG_Silvester                           2872      // 1 Bit, Bit 2
 #define     LOG_SilvesterMask 0x04
 #define     LOG_SilvesterShift 2
-#define LOG_Nationalfeiertag                    2776      // 1 Bit, Bit 1
+#define LOG_Nationalfeiertag                    2872      // 1 Bit, Bit 1
 #define     LOG_NationalfeiertagMask 0x02
 #define     LOG_NationalfeiertagShift 1
-#define LOG_MariaEmpfaengnis                    2776      // 1 Bit, Bit 0
+#define LOG_MariaEmpfaengnis                    2872      // 1 Bit, Bit 0
 #define     LOG_MariaEmpfaengnisMask 0x01
 #define     LOG_MariaEmpfaengnisShift 0
-#define LOG_NationalfeiertagSchweiz             2777      // 1 Bit, Bit 7
+#define LOG_NationalfeiertagSchweiz             2873      // 1 Bit, Bit 7
 #define     LOG_NationalfeiertagSchweizMask 0x80
 #define     LOG_NationalfeiertagSchweizShift 7
-#define LOG_Totensonntag                        2777      // 1 Bit, Bit 6
+#define LOG_Totensonntag                        2873      // 1 Bit, Bit 6
 #define     LOG_TotensonntagMask 0x40
 #define     LOG_TotensonntagShift 6
-#define LOG_Weltkindertag                       2777      // 1 Bit, Bit 5
+#define LOG_Weltkindertag                       2873      // 1 Bit, Bit 5
 #define     LOG_WeltkindertagMask 0x20
 #define     LOG_WeltkindertagShift 5
-#define LOG_BuzzerSilent                        2778      // uint16_t
-#define LOG_BuzzerNormal                        2780      // uint16_t
-#define LOG_BuzzerLoud                          2782      // uint16_t
-#define LOG_VisibleChannels                     2784      // uint8_t
-#define LOG_LedMapping                          2785      // 3 Bits, Bit 7-5
+#define LOG_BuzzerSilent                        2874      // uint16_t
+#define LOG_BuzzerNormal                        2876      // uint16_t
+#define LOG_BuzzerLoud                          2878      // uint16_t
+#define LOG_VisibleChannels                     2880      // uint8_t
+#define LOG_LedMapping                          2881      // 3 Bits, Bit 7-5
 #define     LOG_LedMappingMask 0xE0
 #define     LOG_LedMappingShift 5
-#define LOG_UserFormula1                        2786      // char*, 99 Byte
-#define LOG_UserFormula1Active                  2885      // 1 Bit, Bit 7
+#define LOG_UserFormula1                        2882      // char*, 99 Byte
+#define LOG_UserFormula1Active                  2981      // 1 Bit, Bit 7
 #define     LOG_UserFormula1ActiveMask 0x80
 #define     LOG_UserFormula1ActiveShift 7
-#define LOG_UserFormula2                        2886      // char*, 99 Byte
-#define LOG_UserFormula2Active                  2985      // 1 Bit, Bit 7
+#define LOG_UserFormula2                        2982      // char*, 99 Byte
+#define LOG_UserFormula2Active                  3081      // 1 Bit, Bit 7
 #define     LOG_UserFormula2ActiveMask 0x80
 #define     LOG_UserFormula2ActiveShift 7
-#define LOG_UserFormula3                        2986      // char*, 99 Byte
-#define LOG_UserFormula3Active                  3085      // 1 Bit, Bit 7
+#define LOG_UserFormula3                        3082      // char*, 99 Byte
+#define LOG_UserFormula3Active                  3181      // 1 Bit, Bit 7
 #define     LOG_UserFormula3ActiveMask 0x80
 #define     LOG_UserFormula3ActiveShift 7
-#define LOG_UserFormula4                        3086      // char*, 99 Byte
-#define LOG_UserFormula4Active                  3185      // 1 Bit, Bit 7
+#define LOG_UserFormula4                        3182      // char*, 99 Byte
+#define LOG_UserFormula4Active                  3281      // 1 Bit, Bit 7
 #define     LOG_UserFormula4ActiveMask 0x80
 #define     LOG_UserFormula4ActiveShift 7
-#define LOG_UserFormula5                        3186      // char*, 99 Byte
-#define LOG_UserFormula5Active                  3285      // 1 Bit, Bit 7
+#define LOG_UserFormula5                        3282      // char*, 99 Byte
+#define LOG_UserFormula5Active                  3381      // 1 Bit, Bit 7
 #define     LOG_UserFormula5ActiveMask 0x80
 #define     LOG_UserFormula5ActiveShift 7
-#define LOG_UserFormula6                        3286      // char*, 99 Byte
-#define LOG_UserFormula6Active                  3385      // 1 Bit, Bit 7
+#define LOG_UserFormula6                        3382      // char*, 99 Byte
+#define LOG_UserFormula6Active                  3481      // 1 Bit, Bit 7
 #define     LOG_UserFormula6ActiveMask 0x80
 #define     LOG_UserFormula6ActiveShift 7
-#define LOG_UserFormula7                        3386      // char*, 99 Byte
-#define LOG_UserFormula7Active                  3485      // 1 Bit, Bit 7
+#define LOG_UserFormula7                        3482      // char*, 99 Byte
+#define LOG_UserFormula7Active                  3581      // 1 Bit, Bit 7
 #define     LOG_UserFormula7ActiveMask 0x80
 #define     LOG_UserFormula7ActiveShift 7
-#define LOG_UserFormula8                        3486      // char*, 99 Byte
-#define LOG_UserFormula8Active                  3585      // 1 Bit, Bit 7
+#define LOG_UserFormula8                        3582      // char*, 99 Byte
+#define LOG_UserFormula8Active                  3681      // 1 Bit, Bit 7
 #define     LOG_UserFormula8ActiveMask 0x80
 #define     LOG_UserFormula8ActiveShift 7
-#define LOG_UserFormula9                        3586      // char*, 99 Byte
-#define LOG_UserFormula9Active                  3685      // 1 Bit, Bit 7
+#define LOG_UserFormula9                        3682      // char*, 99 Byte
+#define LOG_UserFormula9Active                  3781      // 1 Bit, Bit 7
 #define     LOG_UserFormula9ActiveMask 0x80
 #define     LOG_UserFormula9ActiveShift 7
-#define LOG_UserFormula10                       3686      // char*, 99 Byte
-#define LOG_UserFormula10Active                 3785      // 1 Bit, Bit 7
+#define LOG_UserFormula10                       3782      // char*, 99 Byte
+#define LOG_UserFormula10Active                 3881      // 1 Bit, Bit 7
 #define     LOG_UserFormula10ActiveMask 0x80
 #define     LOG_UserFormula10ActiveShift 7
-#define LOG_UserFormula11                       3786      // char*, 99 Byte
-#define LOG_UserFormula11Active                 3885      // 1 Bit, Bit 7
+#define LOG_UserFormula11                       3882      // char*, 99 Byte
+#define LOG_UserFormula11Active                 3981      // 1 Bit, Bit 7
 #define     LOG_UserFormula11ActiveMask 0x80
 #define     LOG_UserFormula11ActiveShift 7
-#define LOG_UserFormula12                       3886      // char*, 99 Byte
-#define LOG_UserFormula12Active                 3985      // 1 Bit, Bit 7
+#define LOG_UserFormula12                       3982      // char*, 99 Byte
+#define LOG_UserFormula12Active                 4081      // 1 Bit, Bit 7
 #define     LOG_UserFormula12ActiveMask 0x80
 #define     LOG_UserFormula12ActiveShift 7
-#define LOG_UserFormula13                       3986      // char*, 99 Byte
-#define LOG_UserFormula13Active                 4085      // 1 Bit, Bit 7
+#define LOG_UserFormula13                       4082      // char*, 99 Byte
+#define LOG_UserFormula13Active                 4181      // 1 Bit, Bit 7
 #define     LOG_UserFormula13ActiveMask 0x80
 #define     LOG_UserFormula13ActiveShift 7
-#define LOG_UserFormula14                       4086      // char*, 99 Byte
-#define LOG_UserFormula14Active                 4185      // 1 Bit, Bit 7
+#define LOG_UserFormula14                       4182      // char*, 99 Byte
+#define LOG_UserFormula14Active                 4281      // 1 Bit, Bit 7
 #define     LOG_UserFormula14ActiveMask 0x80
 #define     LOG_UserFormula14ActiveShift 7
-#define LOG_UserFormula15                       4186      // char*, 99 Byte
-#define LOG_UserFormula15Active                 4285      // 1 Bit, Bit 7
+#define LOG_UserFormula15                       4282      // char*, 99 Byte
+#define LOG_UserFormula15Active                 4381      // 1 Bit, Bit 7
 #define     LOG_UserFormula15ActiveMask 0x80
 #define     LOG_UserFormula15ActiveShift 7
-#define LOG_UserFormula16                       4286      // char*, 99 Byte
-#define LOG_UserFormula16Active                 4385      // 1 Bit, Bit 7
+#define LOG_UserFormula16                       4382      // char*, 99 Byte
+#define LOG_UserFormula16Active                 4481      // 1 Bit, Bit 7
 #define     LOG_UserFormula16ActiveMask 0x80
 #define     LOG_UserFormula16ActiveShift 7
-#define LOG_UserFormula17                       4386      // char*, 99 Byte
-#define LOG_UserFormula17Active                 4485      // 1 Bit, Bit 7
+#define LOG_UserFormula17                       4482      // char*, 99 Byte
+#define LOG_UserFormula17Active                 4581      // 1 Bit, Bit 7
 #define     LOG_UserFormula17ActiveMask 0x80
 #define     LOG_UserFormula17ActiveShift 7
-#define LOG_UserFormula18                       4486      // char*, 99 Byte
-#define LOG_UserFormula18Active                 4585      // 1 Bit, Bit 7
+#define LOG_UserFormula18                       4582      // char*, 99 Byte
+#define LOG_UserFormula18Active                 4681      // 1 Bit, Bit 7
 #define     LOG_UserFormula18ActiveMask 0x80
 #define     LOG_UserFormula18ActiveShift 7
-#define LOG_UserFormula19                       4586      // char*, 99 Byte
-#define LOG_UserFormula19Active                 4685      // 1 Bit, Bit 7
+#define LOG_UserFormula19                       4682      // char*, 99 Byte
+#define LOG_UserFormula19Active                 4781      // 1 Bit, Bit 7
 #define     LOG_UserFormula19ActiveMask 0x80
 #define     LOG_UserFormula19ActiveShift 7
-#define LOG_UserFormula20                       4686      // char*, 99 Byte
-#define LOG_UserFormula20Active                 4785      // 1 Bit, Bit 7
+#define LOG_UserFormula20                       4782      // char*, 99 Byte
+#define LOG_UserFormula20Active                 4881      // 1 Bit, Bit 7
 #define     LOG_UserFormula20ActiveMask 0x80
 #define     LOG_UserFormula20ActiveShift 7
-#define LOG_UserFormula21                       4786      // char*, 99 Byte
-#define LOG_UserFormula21Active                 4885      // 1 Bit, Bit 7
+#define LOG_UserFormula21                       4882      // char*, 99 Byte
+#define LOG_UserFormula21Active                 4981      // 1 Bit, Bit 7
 #define     LOG_UserFormula21ActiveMask 0x80
 #define     LOG_UserFormula21ActiveShift 7
-#define LOG_UserFormula22                       4886      // char*, 99 Byte
-#define LOG_UserFormula22Active                 4985      // 1 Bit, Bit 7
+#define LOG_UserFormula22                       4982      // char*, 99 Byte
+#define LOG_UserFormula22Active                 5081      // 1 Bit, Bit 7
 #define     LOG_UserFormula22ActiveMask 0x80
 #define     LOG_UserFormula22ActiveShift 7
-#define LOG_UserFormula23                       4986      // char*, 99 Byte
-#define LOG_UserFormula23Active                 5085      // 1 Bit, Bit 7
+#define LOG_UserFormula23                       5082      // char*, 99 Byte
+#define LOG_UserFormula23Active                 5181      // 1 Bit, Bit 7
 #define     LOG_UserFormula23ActiveMask 0x80
 #define     LOG_UserFormula23ActiveShift 7
-#define LOG_UserFormula24                       5086      // char*, 99 Byte
-#define LOG_UserFormula24Active                 5185      // 1 Bit, Bit 7
+#define LOG_UserFormula24                       5182      // char*, 99 Byte
+#define LOG_UserFormula24Active                 5281      // 1 Bit, Bit 7
 #define     LOG_UserFormula24ActiveMask 0x80
 #define     LOG_UserFormula24ActiveShift 7
-#define LOG_UserFormula25                       5186      // char*, 99 Byte
-#define LOG_UserFormula25Active                 5285      // 1 Bit, Bit 7
+#define LOG_UserFormula25                       5282      // char*, 99 Byte
+#define LOG_UserFormula25Active                 5381      // 1 Bit, Bit 7
 #define     LOG_UserFormula25ActiveMask 0x80
 #define     LOG_UserFormula25ActiveShift 7
-#define LOG_UserFormula26                       5286      // char*, 99 Byte
-#define LOG_UserFormula26Active                 5385      // 1 Bit, Bit 7
+#define LOG_UserFormula26                       5382      // char*, 99 Byte
+#define LOG_UserFormula26Active                 5481      // 1 Bit, Bit 7
 #define     LOG_UserFormula26ActiveMask 0x80
 #define     LOG_UserFormula26ActiveShift 7
-#define LOG_UserFormula27                       5386      // char*, 99 Byte
-#define LOG_UserFormula27Active                 5485      // 1 Bit, Bit 7
+#define LOG_UserFormula27                       5482      // char*, 99 Byte
+#define LOG_UserFormula27Active                 5581      // 1 Bit, Bit 7
 #define     LOG_UserFormula27ActiveMask 0x80
 #define     LOG_UserFormula27ActiveShift 7
-#define LOG_UserFormula28                       5486      // char*, 99 Byte
-#define LOG_UserFormula28Active                 5585      // 1 Bit, Bit 7
+#define LOG_UserFormula28                       5582      // char*, 99 Byte
+#define LOG_UserFormula28Active                 5681      // 1 Bit, Bit 7
 #define     LOG_UserFormula28ActiveMask 0x80
 #define     LOG_UserFormula28ActiveShift 7
-#define LOG_UserFormula29                       5586      // char*, 99 Byte
-#define LOG_UserFormula29Active                 5685      // 1 Bit, Bit 7
+#define LOG_UserFormula29                       5682      // char*, 99 Byte
+#define LOG_UserFormula29Active                 5781      // 1 Bit, Bit 7
 #define     LOG_UserFormula29ActiveMask 0x80
 #define     LOG_UserFormula29ActiveShift 7
-#define LOG_UserFormula30                       5686      // char*, 99 Byte
-#define LOG_UserFormula30Active                 5785      // 1 Bit, Bit 7
+#define LOG_UserFormula30                       5782      // char*, 99 Byte
+#define LOG_UserFormula30Active                 5881      // 1 Bit, Bit 7
 #define     LOG_UserFormula30ActiveMask 0x80
 #define     LOG_UserFormula30ActiveShift 7
 
@@ -3109,10 +3674,10 @@
 // Buzzer sperren
 #define KoLOG_BuzzerLock                          (knx.getGroupObject(LOG_KoBuzzerLock))
 
-#define LOG_ChannelCount 99
+#define LOG_ChannelCount 3
 
 // Parameter per channel
-#define LOG_ParamBlockOffset 5786
+#define LOG_ParamBlockOffset 5882
 #define LOG_ParamBlockSize 85
 #define LOG_ParamCalcIndex(index) (index + LOG_ParamBlockOffset + _channelIndex * LOG_ParamBlockSize)
 
@@ -4969,6 +5534,733 @@
 // Ausgang
 #define KoLOG_KOfO                                (knx.getGroupObject(LOG_KoCalcNumber(LOG_KoKOfO)))
 
+#define FCB_VisibleChannels                     6137      // uint8_t
+
+// Verfügbare Kanäle
+#define ParamFCB_VisibleChannels                     (knx.paramByte(FCB_VisibleChannels))
+
+#define FCB_ChannelCount 1
+
+// Parameter per channel
+#define FCB_ParamBlockOffset 6138
+#define FCB_ParamBlockSize 71
+#define FCB_ParamCalcIndex(index) (index + FCB_ParamBlockOffset + _channelIndex * FCB_ParamBlockSize)
+
+#define FCB_CHChannelType                        0      // 8 Bits, Bit 7-0
+#define FCB_CHChannelDisabled                    1      // 1 Bit, Bit 7
+#define     FCB_CHChannelDisabledMask 0x80
+#define     FCB_CHChannelDisabledShift 7
+#define FCB_CHLogicKo0D                          2      // 2 Bits, Bit 7-6
+#define     FCB_CHLogicKo0DMask 0xC0
+#define     FCB_CHLogicKo0DShift 6
+#define FCB_CHLogicKo1D                          2      // 2 Bits, Bit 5-4
+#define     FCB_CHLogicKo1DMask 0x30
+#define     FCB_CHLogicKo1DShift 4
+#define FCB_CHLogicKo2D                          2      // 2 Bits, Bit 3-2
+#define     FCB_CHLogicKo2DMask 0x0C
+#define     FCB_CHLogicKo2DShift 2
+#define FCB_CHLogicKo3D                          2      // 2 Bits, Bit 1-0
+#define     FCB_CHLogicKo3DMask 0x03
+#define     FCB_CHLogicKo3DShift 0
+#define FCB_CHLogicKo4D                          3      // 2 Bits, Bit 7-6
+#define     FCB_CHLogicKo4DMask 0xC0
+#define     FCB_CHLogicKo4DShift 6
+#define FCB_CHLogicKo5D                          3      // 2 Bits, Bit 5-4
+#define     FCB_CHLogicKo5DMask 0x30
+#define     FCB_CHLogicKo5DShift 4
+#define FCB_CHLogicKo6D                          3      // 2 Bits, Bit 3-2
+#define     FCB_CHLogicKo6DMask 0x0C
+#define     FCB_CHLogicKo6DShift 2
+#define FCB_CHLogicKo7D                          3      // 2 Bits, Bit 1-0
+#define     FCB_CHLogicKo7DMask 0x03
+#define     FCB_CHLogicKo7DShift 0
+#define FCB_CHLogicKo8D                          4      // 2 Bits, Bit 7-6
+#define     FCB_CHLogicKo8DMask 0xC0
+#define     FCB_CHLogicKo8DShift 6
+#define FCB_CHLogicOutInv                        4      // 1 Bit, Bit 4
+#define     FCB_CHLogicOutInvMask 0x10
+#define     FCB_CHLogicOutInvShift 4
+#define FCB_CHLogicBehavKo0                      5      // 4 Bits, Bit 7-4
+#define     FCB_CHLogicBehavKo0Mask 0xF0
+#define     FCB_CHLogicBehavKo0Shift 4
+#define FCB_CHLogicBehavKo1                      5      // 4 Bits, Bit 3-0
+#define     FCB_CHLogicBehavKo1Mask 0x0F
+#define     FCB_CHLogicBehavKo1Shift 0
+#define FCB_CHLogicBehavKo2                      6      // 4 Bits, Bit 7-4
+#define     FCB_CHLogicBehavKo2Mask 0xF0
+#define     FCB_CHLogicBehavKo2Shift 4
+#define FCB_CHLogicBehavKo3                      6      // 4 Bits, Bit 3-0
+#define     FCB_CHLogicBehavKo3Mask 0x0F
+#define     FCB_CHLogicBehavKo3Shift 0
+#define FCB_CHLogicBehavKo4                      7      // 4 Bits, Bit 7-4
+#define     FCB_CHLogicBehavKo4Mask 0xF0
+#define     FCB_CHLogicBehavKo4Shift 4
+#define FCB_CHLogicBehavKo5                      7      // 4 Bits, Bit 3-0
+#define     FCB_CHLogicBehavKo5Mask 0x0F
+#define     FCB_CHLogicBehavKo5Shift 0
+#define FCB_CHLogicBehavKo6                      8      // 4 Bits, Bit 7-4
+#define     FCB_CHLogicBehavKo6Mask 0xF0
+#define     FCB_CHLogicBehavKo6Shift 4
+#define FCB_CHLogicBehavKo7                      8      // 4 Bits, Bit 3-0
+#define     FCB_CHLogicBehavKo7Mask 0x0F
+#define     FCB_CHLogicBehavKo7Shift 0
+#define FCB_CHLogicBehavKo8                      9      // 4 Bits, Bit 7-4
+#define     FCB_CHLogicBehavKo8Mask 0xF0
+#define     FCB_CHLogicBehavKo8Shift 4
+#define FCB_CHLogicBehavOut                      9      // 1 Bit, Bit 3
+#define     FCB_CHLogicBehavOutMask 0x08
+#define     FCB_CHLogicBehavOutShift 3
+#define FCB_CHPrioKo0D                           2      // 2 Bits, Bit 7-6
+#define     FCB_CHPrioKo0DMask 0xC0
+#define     FCB_CHPrioKo0DShift 6
+#define FCB_CHPrioKo1D                           2      // 2 Bits, Bit 5-4
+#define     FCB_CHPrioKo1DMask 0x30
+#define     FCB_CHPrioKo1DShift 4
+#define FCB_CHPrioKo2D                           2      // 2 Bits, Bit 3-2
+#define     FCB_CHPrioKo2DMask 0x0C
+#define     FCB_CHPrioKo2DShift 2
+#define FCB_CHPrioKo3D                           2      // 2 Bits, Bit 1-0
+#define     FCB_CHPrioKo3DMask 0x03
+#define     FCB_CHPrioKo3DShift 0
+#define FCB_CHPrioKo4D                           3      // 2 Bits, Bit 7-6
+#define     FCB_CHPrioKo4DMask 0xC0
+#define     FCB_CHPrioKo4DShift 6
+#define FCB_CHPrioKo5D                           3      // 2 Bits, Bit 5-4
+#define     FCB_CHPrioKo5DMask 0x30
+#define     FCB_CHPrioKo5DShift 4
+#define FCB_CHPrioKo6D                           3      // 2 Bits, Bit 3-2
+#define     FCB_CHPrioKo6DMask 0x0C
+#define     FCB_CHPrioKo6DShift 2
+#define FCB_CHPrioKo7D                           3      // 2 Bits, Bit 1-0
+#define     FCB_CHPrioKo7DMask 0x03
+#define     FCB_CHPrioKo7DShift 0
+#define FCB_CHPrioKo8D                           4      // 2 Bits, Bit 7-6
+#define     FCB_CHPrioKo8DMask 0xC0
+#define     FCB_CHPrioKo8DShift 6
+#define FCB_CHPrioOutputType                     4      // 2 Bits, Bit 5-4
+#define     FCB_CHPrioOutputTypeMask 0x30
+#define     FCB_CHPrioOutputTypeShift 4
+#define FCB_CHPrioOutPKo0                        5      // uint8_t
+#define FCB_CHPrioOutByteKo0                     5      // uint8_t
+#define FCB_CHPrioOutSceneKo0                    5      // uint8_t
+#define FCB_CHPrioOutPKo1                        6      // uint8_t
+#define FCB_CHPrioOutByteKo1                     6      // uint8_t
+#define FCB_CHPrioOutSceneKo1                    6      // uint8_t
+#define FCB_CHPrioOutPKo2                        7      // uint8_t
+#define FCB_CHPrioOutByteKo2                     7      // uint8_t
+#define FCB_CHPrioOutSceneKo2                    7      // uint8_t
+#define FCB_CHPrioOutPKo3                        8      // uint8_t
+#define FCB_CHPrioOutByteKo3                     8      // uint8_t
+#define FCB_CHPrioOutSceneKo3                    8      // uint8_t
+#define FCB_CHPrioOutPKo4                        9      // uint8_t
+#define FCB_CHPrioOutByteKo4                     9      // uint8_t
+#define FCB_CHPrioOutSceneKo4                    9      // uint8_t
+#define FCB_CHPrioOutPKo5                       10      // uint8_t
+#define FCB_CHPrioOutByteKo5                    10      // uint8_t
+#define FCB_CHPrioOutSceneKo5                   10      // uint8_t
+#define FCB_CHPrioOutPKo6                       11      // uint8_t
+#define FCB_CHPrioOutByteKo6                    11      // uint8_t
+#define FCB_CHPrioOutSceneKo6                   11      // uint8_t
+#define FCB_CHPrioOutPKo7                       12      // uint8_t
+#define FCB_CHPrioOutByteKo7                    12      // uint8_t
+#define FCB_CHPrioOutSceneKo7                   12      // uint8_t
+#define FCB_CHPrioOutPKo8                       13      // uint8_t
+#define FCB_CHPrioOutByteKo8                    13      // uint8_t
+#define FCB_CHPrioOutSceneKo8                   13      // uint8_t
+#define FCB_CHPrioOutPDefault                   14      // uint8_t
+#define FCB_CHPrioOutByteDefault                14      // uint8_t
+#define FCB_CHPrioOutSceneDefault               14      // uint8_t
+#define FCB_CHPrioBehavKo0                      15      // 4 Bits, Bit 7-4
+#define     FCB_CHPrioBehavKo0Mask 0xF0
+#define     FCB_CHPrioBehavKo0Shift 4
+#define FCB_CHPrioBehavKo1                      15      // 4 Bits, Bit 3-0
+#define     FCB_CHPrioBehavKo1Mask 0x0F
+#define     FCB_CHPrioBehavKo1Shift 0
+#define FCB_CHPrioBehavKo2                      16      // 4 Bits, Bit 7-4
+#define     FCB_CHPrioBehavKo2Mask 0xF0
+#define     FCB_CHPrioBehavKo2Shift 4
+#define FCB_CHPrioBehavKo3                      16      // 4 Bits, Bit 3-0
+#define     FCB_CHPrioBehavKo3Mask 0x0F
+#define     FCB_CHPrioBehavKo3Shift 0
+#define FCB_CHPrioBehavKo4                      17      // 4 Bits, Bit 7-4
+#define     FCB_CHPrioBehavKo4Mask 0xF0
+#define     FCB_CHPrioBehavKo4Shift 4
+#define FCB_CHPrioBehavKo5                      17      // 4 Bits, Bit 3-0
+#define     FCB_CHPrioBehavKo5Mask 0x0F
+#define     FCB_CHPrioBehavKo5Shift 0
+#define FCB_CHPrioBehavKo6                      18      // 4 Bits, Bit 7-4
+#define     FCB_CHPrioBehavKo6Mask 0xF0
+#define     FCB_CHPrioBehavKo6Shift 4
+#define FCB_CHPrioBehavKo7                      18      // 4 Bits, Bit 3-0
+#define     FCB_CHPrioBehavKo7Mask 0x0F
+#define     FCB_CHPrioBehavKo7Shift 0
+#define FCB_CHPrioBehavKo8                      19      // 4 Bits, Bit 7-4
+#define     FCB_CHPrioBehavKo8Mask 0xF0
+#define     FCB_CHPrioBehavKo8Shift 4
+#define FCB_CHPrioBehavOut                      19      // 1 Bit, Bit 3
+#define     FCB_CHPrioBehavOutMask 0x08
+#define     FCB_CHPrioBehavOutShift 3
+#define FCB_CHAggWeight                          2      // 1 Bit, Bit 7
+#define     FCB_CHAggWeightMask 0x80
+#define     FCB_CHAggWeightShift 7
+#define FCB_CHAggType                            2      // 7 Bits, Bit 6-0
+#define     FCB_CHAggTypeMask 0x7F
+#define     FCB_CHAggTypeShift 0
+#define FCB_CHAggKo0D                            3      // 2 Bits, Bit 7-6
+#define     FCB_CHAggKo0DMask 0xC0
+#define     FCB_CHAggKo0DShift 6
+#define FCB_CHAggKo1D                            3      // 2 Bits, Bit 5-4
+#define     FCB_CHAggKo1DMask 0x30
+#define     FCB_CHAggKo1DShift 4
+#define FCB_CHAggKo2D                            3      // 2 Bits, Bit 3-2
+#define     FCB_CHAggKo2DMask 0x0C
+#define     FCB_CHAggKo2DShift 2
+#define FCB_CHAggKo3D                            3      // 2 Bits, Bit 1-0
+#define     FCB_CHAggKo3DMask 0x03
+#define     FCB_CHAggKo3DShift 0
+#define FCB_CHAggKo4D                            4      // 2 Bits, Bit 7-6
+#define     FCB_CHAggKo4DMask 0xC0
+#define     FCB_CHAggKo4DShift 6
+#define FCB_CHAggKo5D                            4      // 2 Bits, Bit 5-4
+#define     FCB_CHAggKo5DMask 0x30
+#define     FCB_CHAggKo5DShift 4
+#define FCB_CHAggKo6D                            4      // 2 Bits, Bit 3-2
+#define     FCB_CHAggKo6DMask 0x0C
+#define     FCB_CHAggKo6DShift 2
+#define FCB_CHAggKo7D                            4      // 2 Bits, Bit 1-0
+#define     FCB_CHAggKo7DMask 0x03
+#define     FCB_CHAggKo7DShift 0
+#define FCB_CHAggKo8D                            5      // 2 Bits, Bit 7-6
+#define     FCB_CHAggKo8DMask 0xC0
+#define     FCB_CHAggKo8DShift 6
+#define FCB_CHAggBehavOut                        5      // 1 Bit, Bit 5
+#define     FCB_CHAggBehavOutMask 0x20
+#define     FCB_CHAggBehavOutShift 5
+#define FCB_CHAggOutputRounding                  5      // 1 Bit, Bit 3
+#define     FCB_CHAggOutputRoundingMask 0x08
+#define     FCB_CHAggOutputRoundingShift 3
+#define FCB_CHAggOutputOverflow                  5      // 2 Bits, Bit 2-1
+#define     FCB_CHAggOutputOverflowMask 0x06
+#define     FCB_CHAggOutputOverflowShift 1
+#define FCB_CHAggInputDpt                        6      // 8 Bits, Bit 7-0
+#define FCB_CHAggOutputDptEff                    7      // 8 Bits, Bit 7-0
+#define FCB_CHAggKo0W                            8      // int8_t
+#define FCB_CHAggKo1W                            9      // int8_t
+#define FCB_CHAggKo2W                           10      // int8_t
+#define FCB_CHAggKo3W                           11      // int8_t
+#define FCB_CHAggKo4W                           12      // int8_t
+#define FCB_CHAggKo5W                           13      // int8_t
+#define FCB_CHAggKo6W                           14      // int8_t
+#define FCB_CHAggKo7W                           15      // int8_t
+#define FCB_CHAggKo8W                           16      // int8_t
+#define FCB_CHCountDownTimeStartKo               2      // 4 Bits, Bit 7-4
+#define     FCB_CHCountDownTimeStartKoMask 0xF0
+#define     FCB_CHCountDownTimeStartKoShift 4
+#define FCB_CHCountDownDelayBase                 3      // 2 Bits, Bit 7-6
+#define     FCB_CHCountDownDelayBaseMask 0xC0
+#define     FCB_CHCountDownDelayBaseShift 6
+#define FCB_CHCountDownDelayTime                 3      // 14 Bits, Bit 13-0
+#define     FCB_CHCountDownDelayTimeMask 0x3FFF
+#define     FCB_CHCountDownDelayTimeShift 0
+#define FCB_CHCountDownTimeOffset                5      // 4 Bits, Bit 7-4
+#define     FCB_CHCountDownTimeOffsetMask 0xF0
+#define     FCB_CHCountDownTimeOffsetShift 4
+#define FCB_CHCountDownTrigger                   5      // 4 Bits, Bit 3-0
+#define     FCB_CHCountDownTriggerMask 0x0F
+#define     FCB_CHCountDownTriggerShift 0
+#define FCB_CHCountDownTemplate                  6      // char*, 14 Byte
+#define FCB_CHCountDownTemplate1h               21      // char*, 14 Byte
+#define FCB_CHCountDownTemplate1m               36      // char*, 14 Byte
+#define FCB_CHCountDownTemplateEnd              51      // char*, 14 Byte
+#define FCB_CHCountDownTextPause                66      // char*, 1 Byte
+#define FCB_CHCountDownTextRun                  68      // char*, 1 Byte
+#define FCB_CHCountDownCounterKo                70      // 4 Bits, Bit 7-4
+#define     FCB_CHCountDownCounterKoMask 0xF0
+#define     FCB_CHCountDownCounterKoShift 4
+#define FCB_CHCountDownTextKo                   70      // 2 Bits, Bit 3-2
+#define     FCB_CHCountDownTextKoMask 0x0C
+#define     FCB_CHCountDownTextKoShift 2
+#define FCB_CHMonitoringValueType                2      // 8 Bits, Bit 7-0
+#define FCB_CHMonitoringWDEnabled                3      // 1 Bit, Bit 7
+#define     FCB_CHMonitoringWDEnabledMask 0x80
+#define     FCB_CHMonitoringWDEnabledShift 7
+#define FCB_CHMonitoringWDTTimeoutDelayBase      4      // 2 Bits, Bit 7-6
+#define     FCB_CHMonitoringWDTTimeoutDelayBaseMask 0xC0
+#define     FCB_CHMonitoringWDTTimeoutDelayBaseShift 6
+#define FCB_CHMonitoringWDTTimeoutDelayTime      4      // 14 Bits, Bit 13-0
+#define     FCB_CHMonitoringWDTTimeoutDelayTimeMask 0x3FFF
+#define     FCB_CHMonitoringWDTTimeoutDelayTimeShift 0
+#define FCB_CHMonitoringWDBehavior               6      // 4 Bits, Bit 7-4
+#define     FCB_CHMonitoringWDBehaviorMask 0xF0
+#define     FCB_CHMonitoringWDBehaviorShift 4
+#define FCB_CHMonitoringWDDpt1                   7      // 8 Bits, Bit 7-0
+#define FCB_CHMonitoringWDDpt5                   7      // uint8_t
+#define FCB_CHMonitoringWDDpt5001                7      // uint8_t
+#define FCB_CHMonitoringWDDpt6                   7      // int8_t
+#define FCB_CHMonitoringWDDpt7                   7      // uint16_t
+#define FCB_CHMonitoringWDDpt8                   7      // int16_t
+#define FCB_CHMonitoringWDDpt9                   7      // float
+#define FCB_CHMonitoringWDDpt12                  7      // uint32_t
+#define FCB_CHMonitoringWDDpt13                  7      // int32_t
+#define FCB_CHMonitoringWDDpt14                  7      // float
+#define FCB_CHMonitoringWDDpt16                  7      // char*, 14 Byte
+#define FCB_CHMonitoringMin                     22      // 4 Bits, Bit 7-4
+#define     FCB_CHMonitoringMinMask 0xF0
+#define     FCB_CHMonitoringMinShift 4
+#define FCB_CHMonitoringMinDpt1                 23      // 1 Bit, Bit 7
+#define     FCB_CHMonitoringMinDpt1Mask 0x80
+#define     FCB_CHMonitoringMinDpt1Shift 7
+#define FCB_CHMonitoringMinDpt5                 23      // uint8_t
+#define FCB_CHMonitoringMinDpt5001              23      // uint8_t
+#define FCB_CHMonitoringMinDpt6                 23      // int8_t
+#define FCB_CHMonitoringMinDpt7                 23      // uint16_t
+#define FCB_CHMonitoringMinDpt8                 23      // int16_t
+#define FCB_CHMonitoringMinDpt9                 23      // float
+#define FCB_CHMonitoringMinDpt12                23      // uint32_t
+#define FCB_CHMonitoringMinDpt13                23      // int32_t
+#define FCB_CHMonitoringMinDpt14                23      // float
+#define FCB_CHMonitoringMax                     27      // 4 Bits, Bit 7-4
+#define     FCB_CHMonitoringMaxMask 0xF0
+#define     FCB_CHMonitoringMaxShift 4
+#define FCB_CHMonitoringMaxDpt1                 28      // 1 Bit, Bit 7
+#define     FCB_CHMonitoringMaxDpt1Mask 0x80
+#define     FCB_CHMonitoringMaxDpt1Shift 7
+#define FCB_CHMonitoringMaxDpt5                 28      // uint8_t
+#define FCB_CHMonitoringMaxDpt5001              28      // uint8_t
+#define FCB_CHMonitoringMaxDpt6                 28      // int8_t
+#define FCB_CHMonitoringMaxDpt7                 28      // uint16_t
+#define FCB_CHMonitoringMaxDpt8                 28      // int16_t
+#define FCB_CHMonitoringMaxDpt9                 28      // float
+#define FCB_CHMonitoringMaxDpt12                28      // uint32_t
+#define FCB_CHMonitoringMaxDpt13                28      // int32_t
+#define FCB_CHMonitoringMaxDpt14                28      // float
+#define FCB_CHMonitoringOutput                  32      // 4 Bits, Bit 7-4
+#define     FCB_CHMonitoringOutputMask 0xF0
+#define     FCB_CHMonitoringOutputShift 4
+#define FCB_CHSelectionValueType                 2      // 8 Bits, Bit 7-0
+#define FCB_CHSelectionType                      3      // 8 Bits, Bit 7-0
+#define FCB_CHSelectionSwitching                 4      // 4 Bits, Bit 7-4
+#define     FCB_CHSelectionSwitchingMask 0xF0
+#define     FCB_CHSelectionSwitchingShift 4
+#define FCB_CHSelectionStateOutput               4      // 1 Bit, Bit 3
+#define     FCB_CHSelectionStateOutputMask 0x08
+#define     FCB_CHSelectionStateOutputShift 3
+#define FCB_CHBlinkerOnDelayBase                 4      // 2 Bits, Bit 7-6
+#define     FCB_CHBlinkerOnDelayBaseMask 0xC0
+#define     FCB_CHBlinkerOnDelayBaseShift 6
+#define FCB_CHBlinkerOnDelayTime                 4      // 14 Bits, Bit 13-0
+#define     FCB_CHBlinkerOnDelayTimeMask 0x3FFF
+#define     FCB_CHBlinkerOnDelayTimeShift 0
+#define FCB_CHBlinkerOffDelayBase                6      // 2 Bits, Bit 7-6
+#define     FCB_CHBlinkerOffDelayBaseMask 0xC0
+#define     FCB_CHBlinkerOffDelayBaseShift 6
+#define FCB_CHBlinkerOffDelayTime                6      // 14 Bits, Bit 13-0
+#define     FCB_CHBlinkerOffDelayTimeMask 0x3FFF
+#define     FCB_CHBlinkerOffDelayTimeShift 0
+#define FCB_CHBlinkerStart                       8      // 4 Bits, Bit 7-4
+#define     FCB_CHBlinkerStartMask 0xF0
+#define     FCB_CHBlinkerStartShift 4
+#define FCB_CHBlinkerStop                        8      // 4 Bits, Bit 3-0
+#define     FCB_CHBlinkerStopMask 0x0F
+#define     FCB_CHBlinkerStopShift 0
+#define FCB_CHBlinkerBreak                       9      // 4 Bits, Bit 7-4
+#define     FCB_CHBlinkerBreakMask 0xF0
+#define     FCB_CHBlinkerBreakShift 4
+#define FCB_CHBlinkerBreakWithoutBreak           9      // 4 Bits, Bit 7-4
+#define     FCB_CHBlinkerBreakWithoutBreakMask 0xF0
+#define     FCB_CHBlinkerBreakWithoutBreakShift 4
+#define FCB_CHBlinkerOutputDpt                   9      // 8 Bits, Bit 3--4
+#define FCB_CHBlinkerOnPercentage               10      // uint8_t
+#define FCB_CHBlinkerOffPercentage              11      // uint8_t
+#define FCB_CHBlinkerCount                      12      // 8 Bits, Bit 7-0
+#define FCB_CHBlinkerStartAnzahl                13      // 1 Bit, Bit 7
+#define     FCB_CHBlinkerStartAnzahlMask 0x80
+#define     FCB_CHBlinkerStartAnzahlShift 7
+
+// Type
+#define ParamFCB_CHChannelType                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHChannelType)))
+// Kanal deaktivieren (zu Testzwecken)
+#define ParamFCB_CHChannelDisabled                   ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHChannelDisabled)) & FCB_CHChannelDisabledMask))
+// Eingang 1
+#define ParamFCB_CHLogicKo0D                         ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicKo0D)) & FCB_CHLogicKo0DMask) >> FCB_CHLogicKo0DShift)
+// Eingang 2
+#define ParamFCB_CHLogicKo1D                         ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicKo1D)) & FCB_CHLogicKo1DMask) >> FCB_CHLogicKo1DShift)
+// Eingang 3
+#define ParamFCB_CHLogicKo2D                         ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicKo2D)) & FCB_CHLogicKo2DMask) >> FCB_CHLogicKo2DShift)
+// Eingang 4
+#define ParamFCB_CHLogicKo3D                         (knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicKo3D)) & FCB_CHLogicKo3DMask)
+// Eingang 5
+#define ParamFCB_CHLogicKo4D                         ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicKo4D)) & FCB_CHLogicKo4DMask) >> FCB_CHLogicKo4DShift)
+// Eingang 6
+#define ParamFCB_CHLogicKo5D                         ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicKo5D)) & FCB_CHLogicKo5DMask) >> FCB_CHLogicKo5DShift)
+// Eingang 7
+#define ParamFCB_CHLogicKo6D                         ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicKo6D)) & FCB_CHLogicKo6DMask) >> FCB_CHLogicKo6DShift)
+// Eingang 8
+#define ParamFCB_CHLogicKo7D                         (knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicKo7D)) & FCB_CHLogicKo7DMask)
+// Eingang 9
+#define ParamFCB_CHLogicKo8D                         ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicKo8D)) & FCB_CHLogicKo8DMask) >> FCB_CHLogicKo8DShift)
+// Invertiert
+#define ParamFCB_CHLogicOutInv                       ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicOutInv)) & FCB_CHLogicOutInvMask))
+// Initialisierung
+#define ParamFCB_CHLogicBehavKo0                     ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicBehavKo0)) & FCB_CHLogicBehavKo0Mask) >> FCB_CHLogicBehavKo0Shift)
+// Initialisierung
+#define ParamFCB_CHLogicBehavKo1                     (knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicBehavKo1)) & FCB_CHLogicBehavKo1Mask)
+// Initialisierung
+#define ParamFCB_CHLogicBehavKo2                     ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicBehavKo2)) & FCB_CHLogicBehavKo2Mask) >> FCB_CHLogicBehavKo2Shift)
+// Initialisierung
+#define ParamFCB_CHLogicBehavKo3                     (knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicBehavKo3)) & FCB_CHLogicBehavKo3Mask)
+// Initialisierung
+#define ParamFCB_CHLogicBehavKo4                     ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicBehavKo4)) & FCB_CHLogicBehavKo4Mask) >> FCB_CHLogicBehavKo4Shift)
+// Initialisierung
+#define ParamFCB_CHLogicBehavKo5                     (knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicBehavKo5)) & FCB_CHLogicBehavKo5Mask)
+// Initialisierung
+#define ParamFCB_CHLogicBehavKo6                     ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicBehavKo6)) & FCB_CHLogicBehavKo6Mask) >> FCB_CHLogicBehavKo6Shift)
+// Initialisierung
+#define ParamFCB_CHLogicBehavKo7                     (knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicBehavKo7)) & FCB_CHLogicBehavKo7Mask)
+// Initialisierung
+#define ParamFCB_CHLogicBehavKo8                     ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicBehavKo8)) & FCB_CHLogicBehavKo8Mask) >> FCB_CHLogicBehavKo8Shift)
+// Sendeverhalten
+#define ParamFCB_CHLogicBehavOut                     ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHLogicBehavOut)) & FCB_CHLogicBehavOutMask))
+// Eingang 1
+#define ParamFCB_CHPrioKo0D                          ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioKo0D)) & FCB_CHPrioKo0DMask) >> FCB_CHPrioKo0DShift)
+// Eingang 2
+#define ParamFCB_CHPrioKo1D                          ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioKo1D)) & FCB_CHPrioKo1DMask) >> FCB_CHPrioKo1DShift)
+// Eingang 3
+#define ParamFCB_CHPrioKo2D                          ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioKo2D)) & FCB_CHPrioKo2DMask) >> FCB_CHPrioKo2DShift)
+// Eingang 4
+#define ParamFCB_CHPrioKo3D                          (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioKo3D)) & FCB_CHPrioKo3DMask)
+// Eingang 5
+#define ParamFCB_CHPrioKo4D                          ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioKo4D)) & FCB_CHPrioKo4DMask) >> FCB_CHPrioKo4DShift)
+// Eingang 6
+#define ParamFCB_CHPrioKo5D                          ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioKo5D)) & FCB_CHPrioKo5DMask) >> FCB_CHPrioKo5DShift)
+// Eingang 7
+#define ParamFCB_CHPrioKo6D                          ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioKo6D)) & FCB_CHPrioKo6DMask) >> FCB_CHPrioKo6DShift)
+// Eingang 8
+#define ParamFCB_CHPrioKo7D                          (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioKo7D)) & FCB_CHPrioKo7DMask)
+// Eingang 9
+#define ParamFCB_CHPrioKo8D                          ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioKo8D)) & FCB_CHPrioKo8DMask) >> FCB_CHPrioKo8DShift)
+// Type
+#define ParamFCB_CHPrioOutputType                    ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutputType)) & FCB_CHPrioOutputTypeMask) >> FCB_CHPrioOutputTypeShift)
+// Ausgangswert
+#define ParamFCB_CHPrioOutPKo0                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutPKo0)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutByteKo0                    (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutByteKo0)))
+// Ausgangswert Szenennummer
+#define ParamFCB_CHPrioOutSceneKo0                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutSceneKo0)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutPKo1                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutPKo1)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutByteKo1                    (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutByteKo1)))
+// Ausgangswert Szenennummer
+#define ParamFCB_CHPrioOutSceneKo1                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutSceneKo1)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutPKo2                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutPKo2)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutByteKo2                    (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutByteKo2)))
+// Ausgangswert Szenennummer
+#define ParamFCB_CHPrioOutSceneKo2                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutSceneKo2)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutPKo3                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutPKo3)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutByteKo3                    (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutByteKo3)))
+// Ausgangswert Szenennummer
+#define ParamFCB_CHPrioOutSceneKo3                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutSceneKo3)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutPKo4                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutPKo4)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutByteKo4                    (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutByteKo4)))
+// Ausgangswert Szenennummer
+#define ParamFCB_CHPrioOutSceneKo4                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutSceneKo4)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutPKo5                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutPKo5)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutByteKo5                    (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutByteKo5)))
+// Ausgangswert Szenennummer
+#define ParamFCB_CHPrioOutSceneKo5                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutSceneKo5)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutPKo6                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutPKo6)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutByteKo6                    (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutByteKo6)))
+// Ausgangswert Szenennummer
+#define ParamFCB_CHPrioOutSceneKo6                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutSceneKo6)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutPKo7                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutPKo7)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutByteKo7                    (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutByteKo7)))
+// Ausgangswert Szenennummer
+#define ParamFCB_CHPrioOutSceneKo7                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutSceneKo7)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutPKo8                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutPKo8)))
+// Ausgangswert
+#define ParamFCB_CHPrioOutByteKo8                    (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutByteKo8)))
+// Ausgangswert Szenennummer
+#define ParamFCB_CHPrioOutSceneKo8                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutSceneKo8)))
+// Ausgangswert wenn alle Eingänge AUS
+#define ParamFCB_CHPrioOutPDefault                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutPDefault)))
+// Ausgangswert wenn alle Eingänge AUS
+#define ParamFCB_CHPrioOutByteDefault                (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutByteDefault)))
+// Ausgangswert Szenennummer wenn alle Eingänge AUS
+#define ParamFCB_CHPrioOutSceneDefault               (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioOutSceneDefault)))
+// Initialisierung
+#define ParamFCB_CHPrioBehavKo0                      ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioBehavKo0)) & FCB_CHPrioBehavKo0Mask) >> FCB_CHPrioBehavKo0Shift)
+// Initialisierung
+#define ParamFCB_CHPrioBehavKo1                      (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioBehavKo1)) & FCB_CHPrioBehavKo1Mask)
+// Initialisierung
+#define ParamFCB_CHPrioBehavKo2                      ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioBehavKo2)) & FCB_CHPrioBehavKo2Mask) >> FCB_CHPrioBehavKo2Shift)
+// Initialisierung
+#define ParamFCB_CHPrioBehavKo3                      (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioBehavKo3)) & FCB_CHPrioBehavKo3Mask)
+// Initialisierung
+#define ParamFCB_CHPrioBehavKo4                      ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioBehavKo4)) & FCB_CHPrioBehavKo4Mask) >> FCB_CHPrioBehavKo4Shift)
+// Initialisierung
+#define ParamFCB_CHPrioBehavKo5                      (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioBehavKo5)) & FCB_CHPrioBehavKo5Mask)
+// Initialisierung
+#define ParamFCB_CHPrioBehavKo6                      ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioBehavKo6)) & FCB_CHPrioBehavKo6Mask) >> FCB_CHPrioBehavKo6Shift)
+// Initialisierung
+#define ParamFCB_CHPrioBehavKo7                      (knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioBehavKo7)) & FCB_CHPrioBehavKo7Mask)
+// Initialisierung
+#define ParamFCB_CHPrioBehavKo8                      ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioBehavKo8)) & FCB_CHPrioBehavKo8Mask) >> FCB_CHPrioBehavKo8Shift)
+// Sendeverhalten
+#define ParamFCB_CHPrioBehavOut                      ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHPrioBehavOut)) & FCB_CHPrioBehavOutMask))
+// Gewichtung der Eingänge
+#define ParamFCB_CHAggWeight                         ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggWeight)) & FCB_CHAggWeightMask))
+// Funktion
+#define ParamFCB_CHAggType                           (knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggType)) & FCB_CHAggTypeMask)
+// Eingang 1
+#define ParamFCB_CHAggKo0D                           ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo0D)) & FCB_CHAggKo0DMask) >> FCB_CHAggKo0DShift)
+// Eingang 2
+#define ParamFCB_CHAggKo1D                           ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo1D)) & FCB_CHAggKo1DMask) >> FCB_CHAggKo1DShift)
+// Eingang 3
+#define ParamFCB_CHAggKo2D                           ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo2D)) & FCB_CHAggKo2DMask) >> FCB_CHAggKo2DShift)
+// Eingang 4
+#define ParamFCB_CHAggKo3D                           (knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo3D)) & FCB_CHAggKo3DMask)
+// Eingang 5
+#define ParamFCB_CHAggKo4D                           ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo4D)) & FCB_CHAggKo4DMask) >> FCB_CHAggKo4DShift)
+// Eingang 6
+#define ParamFCB_CHAggKo5D                           ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo5D)) & FCB_CHAggKo5DMask) >> FCB_CHAggKo5DShift)
+// Eingang 7
+#define ParamFCB_CHAggKo6D                           ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo6D)) & FCB_CHAggKo6DMask) >> FCB_CHAggKo6DShift)
+// Eingang 8
+#define ParamFCB_CHAggKo7D                           (knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo7D)) & FCB_CHAggKo7DMask)
+// Eingang 9
+#define ParamFCB_CHAggKo8D                           ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo8D)) & FCB_CHAggKo8DMask) >> FCB_CHAggKo8DShift)
+// Sendeverhalten
+#define ParamFCB_CHAggBehavOut                       ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggBehavOut)) & FCB_CHAggBehavOutMask))
+// Rundungsmodus
+#define ParamFCB_CHAggOutputRounding                 ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggOutputRounding)) & FCB_CHAggOutputRoundingMask))
+// Bei Überschreiten des Wertebereichs
+#define ParamFCB_CHAggOutputOverflow                 ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggOutputOverflow)) & FCB_CHAggOutputOverflowMask) >> FCB_CHAggOutputOverflowShift)
+// Wertetype / DPT
+#define ParamFCB_CHAggInputDpt                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggInputDpt)))
+// DPT Ausgang
+#define ParamFCB_CHAggOutputDptEff                   (knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggOutputDptEff)))
+// Gewicht Eingang 1
+#define ParamFCB_CHAggKo0W                           ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo0W)))
+// Gewicht Eingang 2
+#define ParamFCB_CHAggKo1W                           ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo1W)))
+// Gewicht Eingang 3
+#define ParamFCB_CHAggKo2W                           ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo2W)))
+// Gewicht Eingang 4
+#define ParamFCB_CHAggKo3W                           ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo3W)))
+// Gewicht Eingang 5
+#define ParamFCB_CHAggKo4W                           ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo4W)))
+// Gewicht Eingang 6
+#define ParamFCB_CHAggKo5W                           ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo5W)))
+// Gewicht Eingang 7
+#define ParamFCB_CHAggKo6W                           ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo6W)))
+// Gewicht Eingang 8
+#define ParamFCB_CHAggKo7W                           ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo7W)))
+// Gewicht Eingang 9
+#define ParamFCB_CHAggKo8W                           ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHAggKo8W)))
+// Start mit Zeit
+#define ParamFCB_CHCountDownTimeStartKo              ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHCountDownTimeStartKo)) & FCB_CHCountDownTimeStartKoMask) >> FCB_CHCountDownTimeStartKoShift)
+// Ablaufzeit Einheit
+#define ParamFCB_CHCountDownDelayBase                ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHCountDownDelayBase)) & FCB_CHCountDownDelayBaseMask) >> FCB_CHCountDownDelayBaseShift)
+// Ablaufzeit
+#define ParamFCB_CHCountDownDelayTime                (knx.paramWord(FCB_ParamCalcIndex(FCB_CHCountDownDelayTime)) & FCB_CHCountDownDelayTimeMask)
+// Ablaufzeit (in Millisekunden)
+#define ParamFCB_CHCountDownDelayTimeMS              (paramDelay(knx.paramWord(FCB_ParamCalcIndex(FCB_CHCountDownDelayTime))))
+// Laufzeit Verringern / Erhöhen
+#define ParamFCB_CHCountDownTimeOffset               ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHCountDownTimeOffset)) & FCB_CHCountDownTimeOffsetMask) >> FCB_CHCountDownTimeOffsetShift)
+// Auslöser / Ende
+#define ParamFCB_CHCountDownTrigger                  (knx.paramByte(FCB_ParamCalcIndex(FCB_CHCountDownTrigger)) & FCB_CHCountDownTriggerMask)
+// Standard
+#define ParamFCB_CHCountDownTemplate                 (knx.paramData(FCB_ParamCalcIndex(FCB_CHCountDownTemplate)))
+// kleiner eine Stunde
+#define ParamFCB_CHCountDownTemplate1h               (knx.paramData(FCB_ParamCalcIndex(FCB_CHCountDownTemplate1h)))
+// kleiner eine Minute
+#define ParamFCB_CHCountDownTemplate1m               (knx.paramData(FCB_ParamCalcIndex(FCB_CHCountDownTemplate1m)))
+// Ende
+#define ParamFCB_CHCountDownTemplateEnd              (knx.paramData(FCB_ParamCalcIndex(FCB_CHCountDownTemplateEnd)))
+// Pause
+#define ParamFCB_CHCountDownTextPause                (knx.paramData(FCB_ParamCalcIndex(FCB_CHCountDownTextPause)))
+// Läuft
+#define ParamFCB_CHCountDownTextRun                  (knx.paramData(FCB_ParamCalcIndex(FCB_CHCountDownTextRun)))
+// Zähler
+#define ParamFCB_CHCountDownCounterKo                ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHCountDownCounterKo)) & FCB_CHCountDownCounterKoMask) >> FCB_CHCountDownCounterKoShift)
+// Text
+#define ParamFCB_CHCountDownTextKo                   ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHCountDownTextKo)) & FCB_CHCountDownTextKoMask) >> FCB_CHCountDownTextKoShift)
+// Werttype
+#define ParamFCB_CHMonitoringValueType               (knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringValueType)))
+// Zeitüberwachung aktiv
+#define ParamFCB_CHMonitoringWDEnabled               ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringWDEnabled)) & FCB_CHMonitoringWDEnabledMask))
+// Watchdog Zeitbasis
+#define ParamFCB_CHMonitoringWDTTimeoutDelayBase     ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringWDTTimeoutDelayBase)) & FCB_CHMonitoringWDTTimeoutDelayBaseMask) >> FCB_CHMonitoringWDTTimeoutDelayBaseShift)
+// Watchdog Zeit
+#define ParamFCB_CHMonitoringWDTTimeoutDelayTime     (knx.paramWord(FCB_ParamCalcIndex(FCB_CHMonitoringWDTTimeoutDelayTime)) & FCB_CHMonitoringWDTTimeoutDelayTimeMask)
+// Watchdog Zeit (in Millisekunden)
+#define ParamFCB_CHMonitoringWDTTimeoutDelayTimeMS   (paramDelay(knx.paramWord(FCB_ParamCalcIndex(FCB_CHMonitoringWDTTimeoutDelayTime))))
+// Verhalten bei Zeitüberschreitung
+#define ParamFCB_CHMonitoringWDBehavior              ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringWDBehavior)) & FCB_CHMonitoringWDBehaviorMask) >> FCB_CHMonitoringWDBehaviorShift)
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt1                  (knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt1)))
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt5                  (knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt5)))
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt5001               (knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt5001)))
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt6                  ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt6)))
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt7                  (knx.paramWord(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt7)))
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt8                  ((int16_t)knx.paramWord(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt8)))
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt9                  (knx.paramFloat(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt9), Float_Enc_IEEE754Single))
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt12                 (knx.paramInt(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt12)))
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt13                 ((int32_t)knx.paramInt(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt13)))
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt14                 (knx.paramFloat(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt14), Float_Enc_IEEE754Single))
+// Ersatzwert
+#define ParamFCB_CHMonitoringWDDpt16                 (knx.paramData(FCB_ParamCalcIndex(FCB_CHMonitoringWDDpt16)))
+// Verhalten bei Wertunterschreitung
+#define ParamFCB_CHMonitoringMin                     ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringMin)) & FCB_CHMonitoringMinMask) >> FCB_CHMonitoringMinShift)
+// Minimaler zulässiger Wert
+#define ParamFCB_CHMonitoringMinDpt1                 ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringMinDpt1)) & FCB_CHMonitoringMinDpt1Mask))
+// Minimaler zulässiger Wert
+#define ParamFCB_CHMonitoringMinDpt5                 (knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringMinDpt5)))
+// Minimaler zulässiger Wert
+#define ParamFCB_CHMonitoringMinDpt5001              (knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringMinDpt5001)))
+// Minimaler zulässiger Wert
+#define ParamFCB_CHMonitoringMinDpt6                 ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringMinDpt6)))
+// Minimaler zulässiger Wert
+#define ParamFCB_CHMonitoringMinDpt7                 (knx.paramWord(FCB_ParamCalcIndex(FCB_CHMonitoringMinDpt7)))
+// Minimaler zulässiger Wert
+#define ParamFCB_CHMonitoringMinDpt8                 ((int16_t)knx.paramWord(FCB_ParamCalcIndex(FCB_CHMonitoringMinDpt8)))
+// Minimaler zulässiger Wert
+#define ParamFCB_CHMonitoringMinDpt9                 (knx.paramFloat(FCB_ParamCalcIndex(FCB_CHMonitoringMinDpt9), Float_Enc_IEEE754Single))
+// Minimaler zulässiger Wert
+#define ParamFCB_CHMonitoringMinDpt12                (knx.paramInt(FCB_ParamCalcIndex(FCB_CHMonitoringMinDpt12)))
+// Minimaler zulässiger Wert
+#define ParamFCB_CHMonitoringMinDpt13                ((int32_t)knx.paramInt(FCB_ParamCalcIndex(FCB_CHMonitoringMinDpt13)))
+// Minimaler zulässiger Wert
+#define ParamFCB_CHMonitoringMinDpt14                (knx.paramFloat(FCB_ParamCalcIndex(FCB_CHMonitoringMinDpt14), Float_Enc_IEEE754Single))
+// Verhalten bei Wertüberschreitung
+#define ParamFCB_CHMonitoringMax                     ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringMax)) & FCB_CHMonitoringMaxMask) >> FCB_CHMonitoringMaxShift)
+// Maximaler zulässiger Wert
+#define ParamFCB_CHMonitoringMaxDpt1                 ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringMaxDpt1)) & FCB_CHMonitoringMaxDpt1Mask))
+// Maximaler zulässiger Wert
+#define ParamFCB_CHMonitoringMaxDpt5                 (knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringMaxDpt5)))
+// Maximaler zulässiger Wert
+#define ParamFCB_CHMonitoringMaxDpt5001              (knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringMaxDpt5001)))
+// Maximaler zulässiger Wert
+#define ParamFCB_CHMonitoringMaxDpt6                 ((int8_t)knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringMaxDpt6)))
+// Maximaler zulässiger Wert
+#define ParamFCB_CHMonitoringMaxDpt7                 (knx.paramWord(FCB_ParamCalcIndex(FCB_CHMonitoringMaxDpt7)))
+// Maximaler zulässiger Wert
+#define ParamFCB_CHMonitoringMaxDpt8                 ((int16_t)knx.paramWord(FCB_ParamCalcIndex(FCB_CHMonitoringMaxDpt8)))
+// Maximaler zulässiger Wert
+#define ParamFCB_CHMonitoringMaxDpt9                 (knx.paramFloat(FCB_ParamCalcIndex(FCB_CHMonitoringMaxDpt9), Float_Enc_IEEE754Single))
+// Maximaler zulässiger Wert
+#define ParamFCB_CHMonitoringMaxDpt12                (knx.paramInt(FCB_ParamCalcIndex(FCB_CHMonitoringMaxDpt12)))
+// Maximaler zulässiger Wert
+#define ParamFCB_CHMonitoringMaxDpt13                ((int32_t)knx.paramInt(FCB_ParamCalcIndex(FCB_CHMonitoringMaxDpt13)))
+// Maximaler zulässiger Wert
+#define ParamFCB_CHMonitoringMaxDpt14                (knx.paramFloat(FCB_ParamCalcIndex(FCB_CHMonitoringMaxDpt14), Float_Enc_IEEE754Single))
+// Sendeverhalten
+#define ParamFCB_CHMonitoringOutput                  ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHMonitoringOutput)) & FCB_CHMonitoringOutputMask) >> FCB_CHMonitoringOutputShift)
+// Datentype
+#define ParamFCB_CHSelectionValueType                (knx.paramByte(FCB_ParamCalcIndex(FCB_CHSelectionValueType)))
+// Anzahl und Typ der Auswahlen (mit gemeinsamen Auswahl-Eingang)
+#define ParamFCB_CHSelectionType                     (knx.paramByte(FCB_ParamCalcIndex(FCB_CHSelectionType)))
+// Bei Umschaltung
+#define ParamFCB_CHSelectionSwitching                ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHSelectionSwitching)) & FCB_CHSelectionSwitchingMask) >> FCB_CHSelectionSwitchingShift)
+// Auswahl Status Objekt
+#define ParamFCB_CHSelectionStateOutput              ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHSelectionStateOutput)) & FCB_CHSelectionStateOutputMask))
+// Blinker EIN Zeitbasis
+#define ParamFCB_CHBlinkerOnDelayBase                ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerOnDelayBase)) & FCB_CHBlinkerOnDelayBaseMask) >> FCB_CHBlinkerOnDelayBaseShift)
+// Blinker EIN Zeit
+#define ParamFCB_CHBlinkerOnDelayTime                (knx.paramWord(FCB_ParamCalcIndex(FCB_CHBlinkerOnDelayTime)) & FCB_CHBlinkerOnDelayTimeMask)
+// Blinker EIN Zeit (in Millisekunden)
+#define ParamFCB_CHBlinkerOnDelayTimeMS              (paramDelay(knx.paramWord(FCB_ParamCalcIndex(FCB_CHBlinkerOnDelayTime))))
+// Blinker AUS Zeitbasis
+#define ParamFCB_CHBlinkerOffDelayBase               ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerOffDelayBase)) & FCB_CHBlinkerOffDelayBaseMask) >> FCB_CHBlinkerOffDelayBaseShift)
+// Blinker AUS Zeit
+#define ParamFCB_CHBlinkerOffDelayTime               (knx.paramWord(FCB_ParamCalcIndex(FCB_CHBlinkerOffDelayTime)) & FCB_CHBlinkerOffDelayTimeMask)
+// Blinker AUS Zeit (in Millisekunden)
+#define ParamFCB_CHBlinkerOffDelayTimeMS             (paramDelay(knx.paramWord(FCB_ParamCalcIndex(FCB_CHBlinkerOffDelayTime))))
+// Start
+#define ParamFCB_CHBlinkerStart                      ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerStart)) & FCB_CHBlinkerStartMask) >> FCB_CHBlinkerStartShift)
+// Ende
+#define ParamFCB_CHBlinkerStop                       (knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerStop)) & FCB_CHBlinkerStopMask)
+// AUS Telegram am 'Start' Eingang
+#define ParamFCB_CHBlinkerBreak                      ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerBreak)) & FCB_CHBlinkerBreakMask) >> FCB_CHBlinkerBreakShift)
+// AUS Telegram am 'Start' Eingang
+#define ParamFCB_CHBlinkerBreakWithoutBreak          ((knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerBreakWithoutBreak)) & FCB_CHBlinkerBreakWithoutBreakMask) >> FCB_CHBlinkerBreakWithoutBreakShift)
+// Ausgang
+#define ParamFCB_CHBlinkerOutputDpt                  (knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerOutputDpt)))
+// Wert für EIN
+#define ParamFCB_CHBlinkerOnPercentage               (knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerOnPercentage)))
+// Wert für AUS
+#define ParamFCB_CHBlinkerOffPercentage              (knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerOffPercentage)))
+// Anzahl der Blinkvorgänge
+#define ParamFCB_CHBlinkerCount                      (knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerCount)))
+// Objekt zum Starten mit Anzahl
+#define ParamFCB_CHBlinkerStartAnzahl                ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerStartAnzahl)) & FCB_CHBlinkerStartAnzahlMask))
+
+// deprecated
+#define FCB_KoOffset 850
+
+// Communication objects per channel (multiple occurrence)
+#define FCB_KoBlockOffset 850
+#define FCB_KoBlockSize 10
+
+#define FCB_KoCalcNumber(index) (index + FCB_KoBlockOffset + _channelIndex * FCB_KoBlockSize)
+#define FCB_KoCalcIndex(number) ((number >= FCB_KoCalcNumber(0) && number < FCB_KoCalcNumber(FCB_KoBlockSize)) ? (number - FCB_KoBlockOffset) % FCB_KoBlockSize : -1)
+#define FCB_KoCalcChannel(number) ((number >= FCB_KoBlockOffset && number < FCB_KoBlockOffset + FCB_ChannelCount * FCB_KoBlockSize) ? (number - FCB_KoBlockOffset) / FCB_KoBlockSize : -1)
+
+#define FCB_KoCHKO0 0
+#define FCB_KoCHKO1 1
+#define FCB_KoCHKO2 2
+#define FCB_KoCHKO3 3
+#define FCB_KoCHKO4 4
+#define FCB_KoCHKO5 5
+#define FCB_KoCHKO6 6
+#define FCB_KoCHKO7 7
+#define FCB_KoCHKO8 8
+#define FCB_KoCHKO9 9
+
+// 
+#define KoFCB_CHKO0                               (knx.getGroupObject(FCB_KoCalcNumber(FCB_KoCHKO0)))
+// 
+#define KoFCB_CHKO1                               (knx.getGroupObject(FCB_KoCalcNumber(FCB_KoCHKO1)))
+// 
+#define KoFCB_CHKO2                               (knx.getGroupObject(FCB_KoCalcNumber(FCB_KoCHKO2)))
+// 
+#define KoFCB_CHKO3                               (knx.getGroupObject(FCB_KoCalcNumber(FCB_KoCHKO3)))
+// 
+#define KoFCB_CHKO4                               (knx.getGroupObject(FCB_KoCalcNumber(FCB_KoCHKO4)))
+// 
+#define KoFCB_CHKO5                               (knx.getGroupObject(FCB_KoCalcNumber(FCB_KoCHKO5)))
+// 
+#define KoFCB_CHKO6                               (knx.getGroupObject(FCB_KoCalcNumber(FCB_KoCHKO6)))
+// 
+#define KoFCB_CHKO7                               (knx.getGroupObject(FCB_KoCalcNumber(FCB_KoCHKO7)))
+// 
+#define KoFCB_CHKO8                               (knx.getGroupObject(FCB_KoCalcNumber(FCB_KoCHKO8)))
+// 
+#define KoFCB_CHKO9                               (knx.getGroupObject(FCB_KoCalcNumber(FCB_KoCHKO9)))
+
 
 
 // Header generation for Module 'BASE_KommentarModule'
@@ -4977,7 +6269,7 @@
 #define BASE_KommentarModuleModuleParamSize 0
 #define BASE_KommentarModuleSubmodulesParamSize 0
 #define BASE_KommentarModuleParamSize 0
-#define BASE_KommentarModuleParamOffset 14201
+#define BASE_KommentarModuleParamOffset 6209
 #define BASE_KommentarModuleCalcIndex(index, m1) (index + BASE_KommentarModuleParamOffset + _channelIndex * BASE_KommentarModuleCount * BASE_KommentarModuleParamSize + m1 * BASE_KommentarModuleParamSize)
 
 
