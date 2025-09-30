@@ -26,7 +26,7 @@
 #endif
 #define MAIN_OpenKnxId 0xAF
 #define MAIN_ApplicationNumber 7
-#define MAIN_ApplicationVersion 7
+#define MAIN_ApplicationVersion 8
 #define MAIN_ApplicationEncoding iso-8859-15
 #define MAIN_ParameterSize 6209
 #define MAIN_MaxKoNumber 859
