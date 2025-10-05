@@ -21,9 +21,7 @@
 #define ETS_ModuleId_SENS 10
 #define ETS_ModuleId_LOG 11
 #define ETS_ModuleId_FCB 12
-#ifndef FIRMWARE_NAME
-    #define FIRMWARE_NAME "LED-Dimmer (AB-SmartHouse) (dev)"
-#endif
+#define MAIN_FirmwareName "LED-Dimmer (AB-SmartHouse) (dev)"
 #define MAIN_OpenKnxId 0xAF
 #define MAIN_ApplicationNumber 7
 #define MAIN_ApplicationVersion 13
@@ -2021,7 +2019,6 @@
 #define LED_RGB_KoChBrightnessRel 6
 #define LED_RGB_KoChBrightnessStatus 7
 #define LED_RGB_KoChColorTemperature 8
-#define LED_RGB_KoChColorTemperatureStatus 9
 #define LED_RGB_KoChRGB 10
 #define LED_RGB_KoChRGBStatus 11
 #define LED_RGB_KoChHSV 12
@@ -2047,8 +2044,6 @@
 #define KoLED_RGB_ChBrightnessStatus                  (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChBrightnessStatus)))
 // Farbtemperatur
 #define KoLED_RGB_ChColorTemperature                  (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChColorTemperature)))
-// Farbtemperatur Status
-#define KoLED_RGB_ChColorTemperatureStatus            (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChColorTemperatureStatus)))
 // RGB
 #define KoLED_RGB_ChRGB                               (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChRGB)))
 // RGB Status
@@ -6517,3 +6512,13 @@
 
 
 
+#ifdef MAIN_FirmwareRevision
+#ifndef FIRMWARE_REVISION
+#define FIRMWARE_REVISION MAIN_FirmwareRevision
+#endif
+#endif
+#ifdef MAIN_FirmwareName
+#ifndef FIRMWARE_NAME
+#define FIRMWARE_NAME MAIN_FirmwareName
+#endif
+#endif
