@@ -3,7 +3,8 @@
 <KNX xmlns="http://knx.org/xml/project/20" xmlns:op="http://github.com/OpenKNX/OpenKNXproducer">
 
   <op:config href="LedDimmerAB.conf.xml" />
-  <op:config name="%HardwareAB%" value="1" />
+  <op:config name="%LED_HardwareAB%" value="1" />
+  <op:config name="%SWA_Measure%" value="0" />
 
   <op:nowarn id="1" regex="LED_ApplicationVersion" />
   <op:nowarn id="1" regex="LED_ReplacesVersions" />
@@ -11,8 +12,8 @@
   <op:ETS
     OpenKnxId="0xAF"
     ApplicationNumber="0x07"
-    ApplicationVersion="0.13"
-    ReplacesVersions="0.0"
+    ApplicationVersion="1.0"
+    ReplacesVersions="0.15 0.14 0.13 0.0"
     ApplicationRevision="0"
     ProductName="LED-Dimmer (AB-SmartHouse)"
     BusCurrent="10"
