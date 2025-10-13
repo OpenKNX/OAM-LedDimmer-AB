@@ -61,31 +61,31 @@
     share="../lib/OFM-LedModule/src/TW.share.xml"
     template="../lib/OFM-LedModule/src/TW.templ.xml"
     ModuleType="22"
-    KoOffset="200"
-    NumChannels="8"/> <!-- 13 KOs/Ch = 104 -->
+    KoOffset="190"
+    NumChannels="8"/> <!-- 14 KOs/Ch = 112 -->
 
   <op:define prefix="LED_RGB" prefixDoc="LED" 
     configTransferName="  RGB - Rot/Grün/Blau"
     share="../lib/OFM-LedModule/src/RGB.share.xml"
     template="../lib/OFM-LedModule/src/RGB.templ.xml"
     ModuleType="23"
-    KoOffset="305"
-    NumChannels="5"/> <!-- 16 KOs/Ch = 80 -->
+    KoOffset="302"
+    NumChannels="5"/> <!-- 17 KOs/Ch = 85 -->
 
   <op:define prefix="SWA" ModuleType="30"
     share="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.share.xml"
     template="../lib/OFM-SwitchActuator/src/SwitchActuatorModule.templ.xml"
     NumChannels="1"
-    KoSingleOffset="385"
-    KoOffset="386">
+    KoSingleOffset="387"
+    KoOffset="388">
     <op:verify File="../lib/OFM-SwitchActuator/library.json" ModuleVersion="%SWA_VerifyVersion%" />
-  </op:define> <!-- 6 KOs/Ch = 6 -->
+  </op:define> <!-- 9 KOs/Ch = 9 -->
 
   <op:define prefix="BI" ModuleType="40"
     share="../lib/OFM-BinaryInput/src/BinaryInputChannel.share.xml"
     template="../lib/OFM-BinaryInput/src/BinaryInputChannel.templ.xml"
     NumChannels="4"
-    KoOffset="395" >
+    KoOffset="397" >
     <op:verify File="../lib/OFM-BinaryInput/library.json" ModuleVersion="%BI_VerifyVersion%" /> 
   </op:define> <!-- 1 KO/Ch = 4 -->
 
@@ -94,14 +94,14 @@
     share="../lib/OFM-VirtualButton/src/VirtualButton.share.xml"
     template="../lib/OFM-VirtualButton/src/VirtualButton.templ.xml"
     NumChannels="10"
-    KoOffset="400">
+    KoOffset="401">
     <op:verify File="../lib/OFM-VirtualButton/library.json" ModuleVersion="%BTN_VerifyVersion%" /> 
   </op:define> <!-- 12 KOs/Ch = 120 -->
   
   <op:define prefix="SENS"
     ModuleType="60"
     share="../lib/OFM-SensorModule/src/Sensormodul.share.xml"
-    KoSingleOffset="520">
+    KoSingleOffset="521">
     <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="%SENS_VerifyVersion%" />
   </op:define> <!-- 29 KOs -->
 
