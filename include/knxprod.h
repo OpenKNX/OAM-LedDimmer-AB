@@ -24,7 +24,7 @@
 #define MAIN_FirmwareName "LED-Dimmer (AB-SmartHouse) (dev)"
 #define MAIN_OpenKnxId 0xAF
 #define MAIN_ApplicationNumber 7
-#define MAIN_ApplicationVersion 16
+#define MAIN_ApplicationVersion 17
 #define MAIN_ApplicationEncoding iso-8859-15
 #define MAIN_ParameterSize 6396
 #define MAIN_MaxKoNumber 859
@@ -1352,11 +1352,11 @@
 #define ParamLED_TW_ChSceneH_TW                         (knx.paramWord(LED_TW_ParamCalcIndex(LED_TW_ChSceneH_TW)))
 
 // deprecated
-#define LED_TW_KoOffset 200
+#define LED_TW_KoOffset 190
 
 // Communication objects per channel (multiple occurrence)
-#define LED_TW_KoBlockOffset 200
-#define LED_TW_KoBlockSize 13
+#define LED_TW_KoBlockOffset 190
+#define LED_TW_KoBlockSize 14
 
 #define LED_TW_KoCalcNumber(index) (index + LED_TW_KoBlockOffset + _channelIndex * LED_TW_KoBlockSize)
 #define LED_TW_KoCalcIndex(number) ((number >= LED_TW_KoCalcNumber(0) && number < LED_TW_KoCalcNumber(LED_TW_KoBlockSize)) ? (number - LED_TW_KoBlockOffset) % LED_TW_KoBlockSize : -1)
@@ -1372,9 +1372,10 @@
 #define LED_TW_KoChBrightnessRel 7
 #define LED_TW_KoChBrightnessStatus 8
 #define LED_TW_KoChColorTemperature 9
-#define LED_TW_KoChColorTemperatureStatus 10
-#define LED_TW_KoChNight 11
-#define LED_TW_KoChScene 12
+#define LED_TW_KoChColorTemperatureRel 10
+#define LED_TW_KoChColorTemperatureStatus 11
+#define LED_TW_KoChNight 12
+#define LED_TW_KoChScene 13
 
 // Schalten
 #define KoLED_TW_ChSwitch                            (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChSwitch)))
@@ -1396,6 +1397,8 @@
 #define KoLED_TW_ChBrightnessStatus                  (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChBrightnessStatus)))
 // Farbtemperatur
 #define KoLED_TW_ChColorTemperature                  (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChColorTemperature)))
+// Farbtemperatur Relativ
+#define KoLED_TW_ChColorTemperatureRel               (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChColorTemperatureRel)))
 // Farbtemperatur Status
 #define KoLED_TW_ChColorTemperatureStatus            (knx.getGroupObject(LED_TW_KoCalcNumber(LED_TW_KoChColorTemperatureStatus)))
 // Nacht
@@ -2042,11 +2045,11 @@
 #define ParamLED_RGB_ChSceneH_Sat                        (knx.paramByte(LED_RGB_ParamCalcIndex(LED_RGB_ChSceneH_Sat)))
 
 // deprecated
-#define LED_RGB_KoOffset 305
+#define LED_RGB_KoOffset 302
 
 // Communication objects per channel (multiple occurrence)
-#define LED_RGB_KoBlockOffset 305
-#define LED_RGB_KoBlockSize 16
+#define LED_RGB_KoBlockOffset 302
+#define LED_RGB_KoBlockSize 17
 
 #define LED_RGB_KoCalcNumber(index) (index + LED_RGB_KoBlockOffset + _channelIndex * LED_RGB_KoBlockSize)
 #define LED_RGB_KoCalcIndex(number) ((number >= LED_RGB_KoCalcNumber(0) && number < LED_RGB_KoCalcNumber(LED_RGB_KoBlockSize)) ? (number - LED_RGB_KoBlockOffset) % LED_RGB_KoBlockSize : -1)
@@ -2061,13 +2064,14 @@
 #define LED_RGB_KoChBrightnessRel 6
 #define LED_RGB_KoChBrightnessStatus 7
 #define LED_RGB_KoChColorTemperature 8
-#define LED_RGB_KoChColorTemperatureStatus 9
-#define LED_RGB_KoChRGB 10
-#define LED_RGB_KoChRGBStatus 11
-#define LED_RGB_KoChHSV 12
-#define LED_RGB_KoChHSVStatus 13
-#define LED_RGB_KoChNight 14
-#define LED_RGB_KoChScene 15
+#define LED_RGB_KoChColorTemperatureRel 9
+#define LED_RGB_KoChColorTemperatureStatus 10
+#define LED_RGB_KoChRGB 11
+#define LED_RGB_KoChRGBStatus 12
+#define LED_RGB_KoChHSV 13
+#define LED_RGB_KoChHSVStatus 14
+#define LED_RGB_KoChNight 15
+#define LED_RGB_KoChScene 16
 
 // Schalten
 #define KoLED_RGB_ChSwitch                            (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChSwitch)))
@@ -2087,6 +2091,8 @@
 #define KoLED_RGB_ChBrightnessStatus                  (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChBrightnessStatus)))
 // Farbtemperatur
 #define KoLED_RGB_ChColorTemperature                  (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChColorTemperature)))
+// Farbtemperatur Relativ
+#define KoLED_RGB_ChColorTemperatureRel               (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChColorTemperatureRel)))
 // Farbtemperatur Status
 #define KoLED_RGB_ChColorTemperatureStatus            (knx.getGroupObject(LED_RGB_KoCalcNumber(LED_RGB_KoChColorTemperatureStatus)))
 // RGB
@@ -2107,7 +2113,7 @@
 // Verfügbare Kanäle
 #define ParamSWA_VisibleChannels                     (knx.paramByte(SWA_VisibleChannels))
 
-#define SWA_KoCentralFunction 385
+#define SWA_KoCentralFunction 387
 
 // Zentralfunktion
 #define KoSWA_CentralFunction                     (knx.getGroupObject(SWA_KoCentralFunction))
@@ -2435,10 +2441,10 @@
 #define ParamSWA_ChSceneHNumber                      (knx.paramByte(SWA_ParamCalcIndex(SWA_ChSceneHNumber)))
 
 // deprecated
-#define SWA_KoOffset 386
+#define SWA_KoOffset 388
 
 // Communication objects per channel (multiple occurrence)
-#define SWA_KoBlockOffset 386
+#define SWA_KoBlockOffset 388
 #define SWA_KoBlockSize 9
 
 #define SWA_KoCalcNumber(index) (index + SWA_KoBlockOffset + _channelIndex * SWA_KoBlockSize)
@@ -2521,10 +2527,10 @@
 #define ParamBI_ChannelPeriodicTimeMS               (paramDelay(knx.paramWord(BI_ParamCalcIndex(BI_ChannelPeriodicTime))))
 
 // deprecated
-#define BI_KoOffset 395
+#define BI_KoOffset 397
 
 // Communication objects per channel (multiple occurrence)
-#define BI_KoBlockOffset 395
+#define BI_KoBlockOffset 397
 #define BI_KoBlockSize 1
 
 #define BI_KoCalcNumber(index) (index + BI_KoBlockOffset + _channelIndex * BI_KoBlockSize)
@@ -3021,10 +3027,10 @@
 #define ParamBTN_bStatusThresholdLow                 (knx.paramByte(BTN_ParamCalcIndex(BTN_bStatusThresholdLow)))
 
 // deprecated
-#define BTN_KoOffset 400
+#define BTN_KoOffset 401
 
 // Communication objects per channel (multiple occurrence)
-#define BTN_KoBlockOffset 400
+#define BTN_KoBlockOffset 401
 #define BTN_KoBlockSize 12
 
 #define BTN_KoCalcNumber(index) (index + BTN_KoBlockOffset + _channelIndex * BTN_KoBlockSize)
@@ -3473,34 +3479,34 @@
 // Zeit (in Millisekunden)
 #define ParamSENS_SCD41MeasureIntervalDelayTimeMS     (paramDelay(knx.paramWord(SENS_SCD41MeasureIntervalDelayTime)))
 
-#define SENS_KoRequestValues 563
-#define SENS_KoError 564
-#define SENS_KoTemp 580
-#define SENS_KoExt1Temp 590
-#define SENS_KoExt2Temp 591
-#define SENS_KoHum 581
-#define SENS_KoExt1Hum 592
-#define SENS_KoExt2Hum 593
-#define SENS_KoPre 582
-#define SENS_KoExt1Pre 594
-#define SENS_KoExt2Pre 595
-#define SENS_KoVoc 583
-#define SENS_KoExt1Voc 596
-#define SENS_KoExt2Voc 597
-#define SENS_KoCo2 584
-#define SENS_KoExt1Co2 598
-#define SENS_KoExt2Co2 599
-#define SENS_KoLux 607
-#define SENS_KoExt1Lux 600
-#define SENS_KoExt2Lux 601
-#define SENS_KoTof 608
-#define SENS_KoExt1Tof 602
-#define SENS_KoExt2Tof 603
-#define SENS_KoCo2b 585
-#define SENS_KoDewpoint 586
-#define SENS_KoComfort 587
-#define SENS_KoAirquality 588
-#define SENS_KoSensorAccuracy 589
+#define SENS_KoRequestValues 564
+#define SENS_KoError 565
+#define SENS_KoTemp 581
+#define SENS_KoExt1Temp 591
+#define SENS_KoExt2Temp 592
+#define SENS_KoHum 582
+#define SENS_KoExt1Hum 593
+#define SENS_KoExt2Hum 594
+#define SENS_KoPre 583
+#define SENS_KoExt1Pre 595
+#define SENS_KoExt2Pre 596
+#define SENS_KoVoc 584
+#define SENS_KoExt1Voc 597
+#define SENS_KoExt2Voc 598
+#define SENS_KoCo2 585
+#define SENS_KoExt1Co2 599
+#define SENS_KoExt2Co2 600
+#define SENS_KoLux 608
+#define SENS_KoExt1Lux 601
+#define SENS_KoExt2Lux 602
+#define SENS_KoTof 609
+#define SENS_KoExt1Tof 603
+#define SENS_KoExt2Tof 604
+#define SENS_KoCo2b 586
+#define SENS_KoDewpoint 587
+#define SENS_KoComfort 588
+#define SENS_KoAirquality 589
+#define SENS_KoSensorAccuracy 590
 
 // Sensorwerte anfordern
 #define KoSENS_RequestValues                       (knx.getGroupObject(SENS_KoRequestValues))
