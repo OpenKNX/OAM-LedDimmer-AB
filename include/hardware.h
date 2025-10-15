@@ -13,7 +13,8 @@
     #define PROG_LED_PIN_ACTIVE_ON                  HIGH
     #define PROG_BUTTON_PIN                         9
     #define PROG_BUTTON_PIN_INTERRUPT_ON            FALLING
-    #define SAVE_INTERRUPT_PIN                      0
+    #define SAVE_INTERRUPT_PIN_HWV1                 0
+    #define SAVE_INTERRUPT_PIN_HWV2                 17
     #define KNX_UART_NUM                            0
     #define KNX_UART_RX_PIN                         13
     #define KNX_UART_TX_PIN                         12
@@ -26,6 +27,15 @@
     #define LED_PWM_PIN_E                           5
     #define LED_PWM_PIN_F                           6
     #define LEDMODULE_PWM_PINS                      LED_PWM_PIN_A, LED_PWM_PIN_B, LED_PWM_PIN_C, LED_PWM_PIN_D, LED_PWM_PIN_E, LED_PWM_PIN_F
+    #define LED_PWM_PIN_A_HWV2                      0
+    #define LED_PWM_PIN_B_HWV2                      1
+    #define LED_PWM_PIN_C_HWV2                      2
+    #define LED_PWM_PIN_D_HWV2                      3
+    #define LED_PWM_PIN_E_HWV2                      4
+    #define LED_PWM_PIN_F_HWV2                      5
+    #define LEDMODULE_PWM_PINS_HWV2                 LED_PWM_PIN_A_HWV2, LED_PWM_PIN_B_HWV2, LED_PWM_PIN_C_HWV2, LED_PWM_PIN_D_HWV2, LED_PWM_PIN_E_HWV2, LED_PWM_PIN_F_HWV2
+    #define LEDMODULE_HWV2_CHECK_PIN                18
+    #define LEDMODULE_HWV2_CHECK_PIN_ACTIVE_ON      LOW
     #define LEDMODULE_MAX_LIGHT_CHANNELS            6
     #define LEDMODULE_VOLTAGE_MEASURE_PIN           29
     #define LEDMODULE_VOLTAGE_MEASURE_FACTOR        15.2429343

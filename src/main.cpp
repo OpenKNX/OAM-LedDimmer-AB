@@ -34,6 +34,28 @@ void setup()
     openknx.addModule(8, openknxFunctionBlocksModule);
 
     openknx.setup();
+
+#ifdef BOARD_AB_SMARTHOUSE_CV_UP_6CH
+    openknx.gpio.pinMode(LEDMODULE_HWV2_CHECK_PIN, INPUT_PULLUP);
+    bool hwV2 = digitalRead(LEDMODULE_HWV2_CHECK_PIN) == LEDMODULE_HWV2_CHECK_PIN_ACTIVE_ON;
+
+    openknx_gpio_number_t saveInterruptPin = hwV2 ? SAVE_INTERRUPT_PIN_HWV2 : SAVE_INTERRUPT_PIN_HWV1;
+    openknx.gpio.pinMode(saveInterruptPin, INPUT);
+    openknx.gpio.attachInterrupt(
+        saveInterruptPin,
+        [](openknx_gpio_number_t pin, bool state) -> void { openknx.common.triggerSavePin(); }, FALLING);
+    
+    if (hwV2)
+    {
+        const uint8_t dimPinsHWV2[LEDMODULE_MAX_LIGHT_CHANNELS] = {LEDMODULE_PWM_PINS_HWV2};
+        memcpy(dimPins, dimPinsHWV2, sizeof(dimPins));
+    }
+    else
+    {
+        const uint8_t dimPinsHWV1[LEDMODULE_MAX_LIGHT_CHANNELS] = {LEDMODULE_PWM_PINS};
+        memcpy(dimPins, dimPinsHWV1, sizeof(dimPins));
+    }
+#endif
 }
 
 void loop()
