@@ -12,6 +12,7 @@
     ApplicationVersion="%LED_ApplicationVersion%"
     ReplacesVersions="%LED_ReplacesVersions%"
     ApplicationRevision="0"
+    FirmwareRevision="0"
     ProductName="LED-Dimmer (AB-SmartHouse)"
     BusCurrent="10"
     OrderNumber="OpenKnxLedDimmerAB"
@@ -95,16 +96,16 @@
   <op:define prefix="SENS"
     ModuleType="60"
     share="../lib/OFM-SensorModule/src/Sensormodul.share.xml"
-    KoSingleOffset="521">
+    KoSingleOffset="478">
     <op:verify File="../lib/OFM-SensorModule/library.json" ModuleVersion="%SENS_VerifyVersion%" />
-  </op:define> <!-- 29 KOs -->
+  </op:define> <!-- 45 KOs - offset: 521 - 43 -->
 
   <op:define prefix="LOG"
     ModuleType="10"
     share="../lib/OFM-LogicModule/src/Logikmodul.share.xml"
     template="../lib/OFM-LogicModule/src/Logikmodul.templ.xml"
     NumChannels="99"
-    KoOffset="550">
+    KoOffset="570">
     <op:verify File="../lib/OFM-LogicModule/library.json" ModuleVersion="%LOG_VerifyVersion%" /> 
   </op:define> <!-- 3 KOs/Ch = 297 -->
 
@@ -113,7 +114,7 @@
     share="../lib/OFM-FunctionBlocks/src/FunctionBlocks.share.xml"
     template="../lib/OFM-FunctionBlocks/src/FunctionBlocks.templ.xml"
     NumChannels="10"
-    KoOffset="850">
+    KoOffset="870">
     <op:verify File="../lib/OFM-FunctionBlocks/library.json" ModuleVersion="%FCB_VerifyVersion%" /> 
   </op:define> <!-- 10 KOs/Ch = 100 -->
 

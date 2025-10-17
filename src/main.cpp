@@ -15,8 +15,7 @@
 
 void setup()
 {
-    const uint8_t firmwareRevision = 0;
-    openknx.init(firmwareRevision);
+    openknx.init();
 
     openknx.addModule(1, openknxLogic);
 #if OPENKNX_BI_GPIO_COUNT > 0 && BI_ChannelCount > 0

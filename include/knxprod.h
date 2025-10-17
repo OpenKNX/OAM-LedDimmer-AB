@@ -21,17 +21,18 @@
 #define ETS_ModuleId_SENS 10
 #define ETS_ModuleId_LOG 11
 #define ETS_ModuleId_FCB 12
-#define MAIN_FirmwareName "LED-Dimmer (AB-SmartHouse) (dev)"
-#define MAIN_OpenKnxId 0xAF
+#define MAIN_FirmwareName "LED-Dimmer (AB-SmartHouse)"
+#define MAIN_OpenKnxId 0xA6
 #define MAIN_ApplicationNumber 7
-#define MAIN_ApplicationVersion 17
+#define MAIN_ApplicationVersion 11
+#define MAIN_FirmwareRevision 0
 #define MAIN_ApplicationEncoding iso-8859-15
-#define MAIN_ParameterSize 6396
-#define MAIN_MaxKoNumber 859
+#define MAIN_ParameterSize 15195
+#define MAIN_MaxKoNumber 969
 #define MAIN_OrderNumber "OpenKnxLedDimmerAB"
 #define BASE_ModuleVersion 21
 #define UCT_ModuleVersion 4
-#define LED_ModuleVersion 10
+#define LED_ModuleVersion 11
 #define SWA_ModuleVersion 1
 #define BI_ModuleVersion 2
 #define BTN_ModuleVersion 5
@@ -2213,7 +2214,7 @@
 #define     SWA_ChVoltageSendMask 0x20
 #define     SWA_ChVoltageSendShift 5
 #define SWA_ChPowerSendMinChangePercent         16      // uint8_t
-#define SWA_ChPowerSendMinChangeAbsolute        17      // int16_t
+#define SWA_ChPowerSendMinChangeAbsolute        17      // uint16_t
 #define SWA_ChPowerSendCyclicBase               19      // 2 Bits, Bit 7-6
 #define     SWA_ChPowerSendCyclicBaseMask 0xC0
 #define     SWA_ChPowerSendCyclicBaseShift 6
@@ -2221,7 +2222,7 @@
 #define     SWA_ChPowerSendCyclicTimeMask 0x3FFF
 #define     SWA_ChPowerSendCyclicTimeShift 0
 #define SWA_ChCurrentSendMinChangePercent       21      // uint8_t
-#define SWA_ChCurrentSendMinChangeAbsolute      22      // int16_t
+#define SWA_ChCurrentSendMinChangeAbsolute      22      // uint16_t
 #define SWA_ChCurrentSendCyclicBase             24      // 2 Bits, Bit 7-6
 #define     SWA_ChCurrentSendCyclicBaseMask 0xC0
 #define     SWA_ChCurrentSendCyclicBaseShift 6
@@ -2229,11 +2230,11 @@
 #define     SWA_ChCurrentSendCyclicTimeMask 0x3FFF
 #define     SWA_ChCurrentSendCyclicTimeShift 0
 #define SWA_ChVoltageSendMinChangePercent       26      // uint8_t
-#define SWA_ChVoltageSendMinChangeAbsolute      27      // int16_t
-#define SWA_ChVoltageSendCyclicBase             29      // 2 Bits, Bit 7-6
+#define SWA_ChVoltageSendMinChangeAbsolute      27      // uint8_t
+#define SWA_ChVoltageSendCyclicBase             28      // 2 Bits, Bit 7-6
 #define     SWA_ChVoltageSendCyclicBaseMask 0xC0
 #define     SWA_ChVoltageSendCyclicBaseShift 6
-#define SWA_ChVoltageSendCyclicTime             29      // 14 Bits, Bit 13-0
+#define SWA_ChVoltageSendCyclicTime             28      // 14 Bits, Bit 13-0
 #define     SWA_ChVoltageSendCyclicTimeMask 0x3FFF
 #define     SWA_ChVoltageSendCyclicTimeShift 0
 #define SWA_ChSceneAActive                      58      // 1 Bit, Bit 7
@@ -2364,7 +2365,7 @@
 // Mindeständerung relativ
 #define ParamSWA_ChPowerSendMinChangePercent         (knx.paramByte(SWA_ParamCalcIndex(SWA_ChPowerSendMinChangePercent)))
 // Mindeständerung absolut
-#define ParamSWA_ChPowerSendMinChangeAbsolute        ((int16_t)knx.paramWord(SWA_ParamCalcIndex(SWA_ChPowerSendMinChangeAbsolute)))
+#define ParamSWA_ChPowerSendMinChangeAbsolute        (knx.paramWord(SWA_ParamCalcIndex(SWA_ChPowerSendMinChangeAbsolute)))
 // Zeitbasis
 #define ParamSWA_ChPowerSendCyclicBase               ((knx.paramByte(SWA_ParamCalcIndex(SWA_ChPowerSendCyclicBase)) & SWA_ChPowerSendCyclicBaseMask) >> SWA_ChPowerSendCyclicBaseShift)
 // Zeit
@@ -2374,7 +2375,7 @@
 // Mindeständerung relativ
 #define ParamSWA_ChCurrentSendMinChangePercent       (knx.paramByte(SWA_ParamCalcIndex(SWA_ChCurrentSendMinChangePercent)))
 // Mindeständerung absolut
-#define ParamSWA_ChCurrentSendMinChangeAbsolute      ((int16_t)knx.paramWord(SWA_ParamCalcIndex(SWA_ChCurrentSendMinChangeAbsolute)))
+#define ParamSWA_ChCurrentSendMinChangeAbsolute      (knx.paramWord(SWA_ParamCalcIndex(SWA_ChCurrentSendMinChangeAbsolute)))
 // Zeitbasis
 #define ParamSWA_ChCurrentSendCyclicBase             ((knx.paramByte(SWA_ParamCalcIndex(SWA_ChCurrentSendCyclicBase)) & SWA_ChCurrentSendCyclicBaseMask) >> SWA_ChCurrentSendCyclicBaseShift)
 // Zeit
@@ -2384,7 +2385,7 @@
 // Mindeständerung relativ
 #define ParamSWA_ChVoltageSendMinChangePercent       (knx.paramByte(SWA_ParamCalcIndex(SWA_ChVoltageSendMinChangePercent)))
 // Mindeständerung absolut
-#define ParamSWA_ChVoltageSendMinChangeAbsolute      ((int16_t)knx.paramWord(SWA_ParamCalcIndex(SWA_ChVoltageSendMinChangeAbsolute)))
+#define ParamSWA_ChVoltageSendMinChangeAbsolute      (knx.paramByte(SWA_ParamCalcIndex(SWA_ChVoltageSendMinChangeAbsolute)))
 // Zeitbasis
 #define ParamSWA_ChVoltageSendCyclicBase             ((knx.paramByte(SWA_ParamCalcIndex(SWA_ChVoltageSendCyclicBase)) & SWA_ChVoltageSendCyclicBaseMask) >> SWA_ChVoltageSendCyclicBaseShift)
 // Zeit
@@ -3479,34 +3480,34 @@
 // Zeit (in Millisekunden)
 #define ParamSENS_SCD41MeasureIntervalDelayTimeMS     (paramDelay(knx.paramWord(SENS_SCD41MeasureIntervalDelayTime)))
 
-#define SENS_KoRequestValues 564
-#define SENS_KoError 565
-#define SENS_KoTemp 581
-#define SENS_KoExt1Temp 591
-#define SENS_KoExt2Temp 592
-#define SENS_KoHum 582
-#define SENS_KoExt1Hum 593
-#define SENS_KoExt2Hum 594
-#define SENS_KoPre 583
-#define SENS_KoExt1Pre 595
-#define SENS_KoExt2Pre 596
-#define SENS_KoVoc 584
-#define SENS_KoExt1Voc 597
-#define SENS_KoExt2Voc 598
-#define SENS_KoCo2 585
-#define SENS_KoExt1Co2 599
-#define SENS_KoExt2Co2 600
-#define SENS_KoLux 608
-#define SENS_KoExt1Lux 601
-#define SENS_KoExt2Lux 602
-#define SENS_KoTof 609
-#define SENS_KoExt1Tof 603
-#define SENS_KoExt2Tof 604
-#define SENS_KoCo2b 586
-#define SENS_KoDewpoint 587
-#define SENS_KoComfort 588
-#define SENS_KoAirquality 589
-#define SENS_KoSensorAccuracy 590
+#define SENS_KoRequestValues 521
+#define SENS_KoError 522
+#define SENS_KoTemp 538
+#define SENS_KoExt1Temp 548
+#define SENS_KoExt2Temp 549
+#define SENS_KoHum 539
+#define SENS_KoExt1Hum 550
+#define SENS_KoExt2Hum 551
+#define SENS_KoPre 540
+#define SENS_KoExt1Pre 552
+#define SENS_KoExt2Pre 553
+#define SENS_KoVoc 541
+#define SENS_KoExt1Voc 554
+#define SENS_KoExt2Voc 555
+#define SENS_KoCo2 542
+#define SENS_KoExt1Co2 556
+#define SENS_KoExt2Co2 557
+#define SENS_KoLux 565
+#define SENS_KoExt1Lux 558
+#define SENS_KoExt2Lux 559
+#define SENS_KoTof 566
+#define SENS_KoExt1Tof 560
+#define SENS_KoExt2Tof 561
+#define SENS_KoCo2b 543
+#define SENS_KoDewpoint 544
+#define SENS_KoComfort 545
+#define SENS_KoAirquality 546
+#define SENS_KoSensorAccuracy 547
 
 // Sensorwerte anfordern
 #define KoSENS_RequestValues                       (knx.getGroupObject(SENS_KoRequestValues))
@@ -4046,7 +4047,7 @@
 // Buzzer sperren
 #define KoLOG_BuzzerLock                          (knx.getGroupObject(LOG_KoBuzzerLock))
 
-#define LOG_ChannelCount 3
+#define LOG_ChannelCount 99
 
 // Parameter per channel
 #define LOG_ParamBlockOffset 6069
@@ -5885,10 +5886,10 @@
 #define ParamLOG_fOOffKOSendNumberRel                ((int16_t)knx.paramWord(LOG_ParamCalcIndex(LOG_fOOffKOSendNumberRel)))
 
 // deprecated
-#define LOG_KoOffset 550
+#define LOG_KoOffset 570
 
 // Communication objects per channel (multiple occurrence)
-#define LOG_KoBlockOffset 550
+#define LOG_KoBlockOffset 570
 #define LOG_KoBlockSize 3
 
 #define LOG_KoCalcNumber(index) (index + LOG_KoBlockOffset + _channelIndex * LOG_KoBlockSize)
@@ -5906,15 +5907,15 @@
 // Ausgang
 #define KoLOG_KOfO                                (knx.getGroupObject(LOG_KoCalcNumber(LOG_KoKOfO)))
 
-#define FCB_VisibleChannels                     6324      // uint8_t
+#define FCB_VisibleChannels                     14484      // uint8_t
 
 // Verfügbare Kanäle
 #define ParamFCB_VisibleChannels                     (knx.paramByte(FCB_VisibleChannels))
 
-#define FCB_ChannelCount 1
+#define FCB_ChannelCount 10
 
 // Parameter per channel
-#define FCB_ParamBlockOffset 6325
+#define FCB_ParamBlockOffset 14485
 #define FCB_ParamBlockSize 71
 #define FCB_ParamCalcIndex(index) (index + FCB_ParamBlockOffset + _channelIndex * FCB_ParamBlockSize)
 
@@ -6591,10 +6592,10 @@
 #define ParamFCB_CHBlinkerStartAnzahl                ((bool)(knx.paramByte(FCB_ParamCalcIndex(FCB_CHBlinkerStartAnzahl)) & FCB_CHBlinkerStartAnzahlMask))
 
 // deprecated
-#define FCB_KoOffset 850
+#define FCB_KoOffset 870
 
 // Communication objects per channel (multiple occurrence)
-#define FCB_KoBlockOffset 850
+#define FCB_KoBlockOffset 870
 #define FCB_KoBlockSize 10
 
 #define FCB_KoCalcNumber(index) (index + FCB_KoBlockOffset + _channelIndex * FCB_KoBlockSize)
@@ -6641,7 +6642,7 @@
 #define BASE_KommentarModuleModuleParamSize 0
 #define BASE_KommentarModuleSubmodulesParamSize 0
 #define BASE_KommentarModuleParamSize 0
-#define BASE_KommentarModuleParamOffset 6396
+#define BASE_KommentarModuleParamOffset 15195
 #define BASE_KommentarModuleCalcIndex(index, m1) (index + BASE_KommentarModuleParamOffset + _channelIndex * BASE_KommentarModuleCount * BASE_KommentarModuleParamSize + m1 * BASE_KommentarModuleParamSize)
 
 

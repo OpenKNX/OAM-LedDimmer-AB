@@ -1,8 +1,8 @@
 #pragma once
 
-#define MAIN_Version "0e362ed"
+#define MAIN_Version "585cd84"
 #define KNX_Version "2.2.1+1b646c1"
-#define MODULE_Common_Version "1.5.0+96d35c1"
+#define MODULE_Common_Version "1.5.0+8937d53"
 #define MODULE_Common_Version_Major 1
 #define MODULE_Common_Version_Minor 5
 #define MODULE_Common_Version_Revision 0
@@ -37,9 +37,9 @@
 #define MODULE_SwitchActuator_Version_Minor 1
 #define MODULE_SwitchActuator_Version_Revision 0
 #define MODULE_SwitchActuator_ETS 1
-#define MODULE_LedModule_Version "0.10.0-DEV+89d24ab"
+#define MODULE_LedModule_Version "0.11.0-DEV+8b04b79"
 #define MODULE_LedModule_Version_Major 0
-#define MODULE_LedModule_Version_Minor 10
+#define MODULE_LedModule_Version_Minor 11
 #define MODULE_LedModule_Version_Revision 0
 #define MODULE_SensorDevices_Version "4.0.0+ca62b63"
 #define MODULE_SensorDevices_Version_Major 4
