@@ -22,7 +22,7 @@
   <op:config name="%BTN_VerifyVersion%" value="0.5" />
   <op:config name="%LOG_VerifyVersion%" value="4.2" />
   <op:config name="%FCB_VerifyVersion%" value="0.9" />
-  <op:config name="%SENS_VerifyVersion%" value="4.10" />
+  <op:config name="%SENS_VerifyVersion%" value="4.11" />
 
   <op:config name="%LED_ApplicationVersion%" value="0.12" />
   <op:config name="%LED_ReplacesVersions%" value="0.0" />
