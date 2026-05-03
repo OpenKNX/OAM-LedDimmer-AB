@@ -757,45 +757,45 @@
 #define LED_SC_ChScheduleNumPoints                 90      // uint8_t
 #define LED_SC_ChScheduleOffBehavior               91      // 8 Bits, Bit 7-0
 #define LED_SC_ChScheduleFallbackMin               92      // 16 Bits, Bit 15-0
-#define LED_SC_ChSchedulePoint01_Mode              94      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint01_Hour              95      // uint8_t
-#define LED_SC_ChSchedulePoint01_Minute            96      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint01_Brightness        97      // uint8_t
-#define LED_SC_ChSchedulePoint02_Mode              98      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint02_Hour              99      // uint8_t
-#define LED_SC_ChSchedulePoint02_Minute            100      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint02_Brightness        101      // uint8_t
-#define LED_SC_ChSchedulePoint03_Mode              102      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint03_Hour              103      // uint8_t
-#define LED_SC_ChSchedulePoint03_Minute            104      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint03_Brightness        105      // uint8_t
-#define LED_SC_ChSchedulePoint04_Mode              106      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint04_Hour              107      // uint8_t
-#define LED_SC_ChSchedulePoint04_Minute            108      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint04_Brightness        109      // uint8_t
-#define LED_SC_ChSchedulePoint05_Mode              110      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint05_Hour              111      // uint8_t
-#define LED_SC_ChSchedulePoint05_Minute            112      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint05_Brightness        113      // uint8_t
-#define LED_SC_ChSchedulePoint06_Mode              114      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint06_Hour              115      // uint8_t
-#define LED_SC_ChSchedulePoint06_Minute            116      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint06_Brightness        117      // uint8_t
-#define LED_SC_ChSchedulePoint07_Mode              118      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint07_Hour              119      // uint8_t
-#define LED_SC_ChSchedulePoint07_Minute            120      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint07_Brightness        121      // uint8_t
-#define LED_SC_ChSchedulePoint08_Mode              122      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint08_Hour              123      // uint8_t
-#define LED_SC_ChSchedulePoint08_Minute            124      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint08_Brightness        125      // uint8_t
-#define LED_SC_ChSchedulePoint09_Mode              126      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint09_Hour              127      // uint8_t
-#define LED_SC_ChSchedulePoint09_Minute            128      // 8 Bits, Bit 7-0
-#define LED_SC_ChSchedulePoint09_Brightness        129      // uint8_t
+#define LED_SC_ChSchedulePoint1_Mode               94      // 8 Bits, Bit 7-0
+#define LED_SC_ChSchedulePoint1_Hour               95      // uint8_t
+#define LED_SC_ChSchedulePoint1_Minute             96      // uint8_t
+#define LED_SC_ChSchedulePoint1_Brightness         97      // uint8_t
+#define LED_SC_ChSchedulePoint2_Mode               98      // 8 Bits, Bit 7-0
+#define LED_SC_ChSchedulePoint2_Hour               99      // uint8_t
+#define LED_SC_ChSchedulePoint2_Minute             100      // uint8_t
+#define LED_SC_ChSchedulePoint2_Brightness         101      // uint8_t
+#define LED_SC_ChSchedulePoint3_Mode               102      // 8 Bits, Bit 7-0
+#define LED_SC_ChSchedulePoint3_Hour               103      // uint8_t
+#define LED_SC_ChSchedulePoint3_Minute             104      // uint8_t
+#define LED_SC_ChSchedulePoint3_Brightness         105      // uint8_t
+#define LED_SC_ChSchedulePoint4_Mode               106      // 8 Bits, Bit 7-0
+#define LED_SC_ChSchedulePoint4_Hour               107      // uint8_t
+#define LED_SC_ChSchedulePoint4_Minute             108      // uint8_t
+#define LED_SC_ChSchedulePoint4_Brightness         109      // uint8_t
+#define LED_SC_ChSchedulePoint5_Mode               110      // 8 Bits, Bit 7-0
+#define LED_SC_ChSchedulePoint5_Hour               111      // uint8_t
+#define LED_SC_ChSchedulePoint5_Minute             112      // uint8_t
+#define LED_SC_ChSchedulePoint5_Brightness         113      // uint8_t
+#define LED_SC_ChSchedulePoint6_Mode               114      // 8 Bits, Bit 7-0
+#define LED_SC_ChSchedulePoint6_Hour               115      // uint8_t
+#define LED_SC_ChSchedulePoint6_Minute             116      // uint8_t
+#define LED_SC_ChSchedulePoint6_Brightness         117      // uint8_t
+#define LED_SC_ChSchedulePoint7_Mode               118      // 8 Bits, Bit 7-0
+#define LED_SC_ChSchedulePoint7_Hour               119      // uint8_t
+#define LED_SC_ChSchedulePoint7_Minute             120      // uint8_t
+#define LED_SC_ChSchedulePoint7_Brightness         121      // uint8_t
+#define LED_SC_ChSchedulePoint8_Mode               122      // 8 Bits, Bit 7-0
+#define LED_SC_ChSchedulePoint8_Hour               123      // uint8_t
+#define LED_SC_ChSchedulePoint8_Minute             124      // uint8_t
+#define LED_SC_ChSchedulePoint8_Brightness         125      // uint8_t
+#define LED_SC_ChSchedulePoint9_Mode               126      // 8 Bits, Bit 7-0
+#define LED_SC_ChSchedulePoint9_Hour               127      // uint8_t
+#define LED_SC_ChSchedulePoint9_Minute             128      // uint8_t
+#define LED_SC_ChSchedulePoint9_Brightness         129      // uint8_t
 #define LED_SC_ChSchedulePoint10_Mode              130      // 8 Bits, Bit 7-0
 #define LED_SC_ChSchedulePoint10_Hour              131      // uint8_t
-#define LED_SC_ChSchedulePoint10_Minute            132      // 8 Bits, Bit 7-0
+#define LED_SC_ChSchedulePoint10_Minute            132      // uint8_t
 #define LED_SC_ChSchedulePoint10_Brightness        133      // uint8_t
 
 // Dimmzeit Tag An
@@ -1065,77 +1065,77 @@
 // Rückfallzeit der Helligkeit
 #define ParamLED_SC_ChScheduleFallbackMin               (knx.paramWord(LED_SC_ParamCalcIndex(LED_SC_ChScheduleFallbackMin)))
 // Modus
-#define ParamLED_SC_ChSchedulePoint01_Mode              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint01_Mode)))
+#define ParamLED_SC_ChSchedulePoint1_Mode               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint1_Mode)))
 // Stunde
-#define ParamLED_SC_ChSchedulePoint01_Hour              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint01_Hour)))
+#define ParamLED_SC_ChSchedulePoint1_Hour               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint1_Hour)))
 // Minute
-#define ParamLED_SC_ChSchedulePoint01_Minute            (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint01_Minute)))
+#define ParamLED_SC_ChSchedulePoint1_Minute             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint1_Minute)))
 // Helligkeit
-#define ParamLED_SC_ChSchedulePoint01_Brightness        (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint01_Brightness)))
+#define ParamLED_SC_ChSchedulePoint1_Brightness         (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint1_Brightness)))
 // Modus
-#define ParamLED_SC_ChSchedulePoint02_Mode              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint02_Mode)))
+#define ParamLED_SC_ChSchedulePoint2_Mode               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint2_Mode)))
 // Stunde
-#define ParamLED_SC_ChSchedulePoint02_Hour              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint02_Hour)))
+#define ParamLED_SC_ChSchedulePoint2_Hour               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint2_Hour)))
 // Minute
-#define ParamLED_SC_ChSchedulePoint02_Minute            (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint02_Minute)))
+#define ParamLED_SC_ChSchedulePoint2_Minute             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint2_Minute)))
 // Helligkeit
-#define ParamLED_SC_ChSchedulePoint02_Brightness        (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint02_Brightness)))
+#define ParamLED_SC_ChSchedulePoint2_Brightness         (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint2_Brightness)))
 // Modus
-#define ParamLED_SC_ChSchedulePoint03_Mode              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint03_Mode)))
+#define ParamLED_SC_ChSchedulePoint3_Mode               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint3_Mode)))
 // Stunde
-#define ParamLED_SC_ChSchedulePoint03_Hour              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint03_Hour)))
+#define ParamLED_SC_ChSchedulePoint3_Hour               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint3_Hour)))
 // Minute
-#define ParamLED_SC_ChSchedulePoint03_Minute            (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint03_Minute)))
+#define ParamLED_SC_ChSchedulePoint3_Minute             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint3_Minute)))
 // Helligkeit
-#define ParamLED_SC_ChSchedulePoint03_Brightness        (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint03_Brightness)))
+#define ParamLED_SC_ChSchedulePoint3_Brightness         (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint3_Brightness)))
 // Modus
-#define ParamLED_SC_ChSchedulePoint04_Mode              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint04_Mode)))
+#define ParamLED_SC_ChSchedulePoint4_Mode               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint4_Mode)))
 // Stunde
-#define ParamLED_SC_ChSchedulePoint04_Hour              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint04_Hour)))
+#define ParamLED_SC_ChSchedulePoint4_Hour               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint4_Hour)))
 // Minute
-#define ParamLED_SC_ChSchedulePoint04_Minute            (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint04_Minute)))
+#define ParamLED_SC_ChSchedulePoint4_Minute             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint4_Minute)))
 // Helligkeit
-#define ParamLED_SC_ChSchedulePoint04_Brightness        (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint04_Brightness)))
+#define ParamLED_SC_ChSchedulePoint4_Brightness         (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint4_Brightness)))
 // Modus
-#define ParamLED_SC_ChSchedulePoint05_Mode              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint05_Mode)))
+#define ParamLED_SC_ChSchedulePoint5_Mode               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint5_Mode)))
 // Stunde
-#define ParamLED_SC_ChSchedulePoint05_Hour              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint05_Hour)))
+#define ParamLED_SC_ChSchedulePoint5_Hour               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint5_Hour)))
 // Minute
-#define ParamLED_SC_ChSchedulePoint05_Minute            (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint05_Minute)))
+#define ParamLED_SC_ChSchedulePoint5_Minute             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint5_Minute)))
 // Helligkeit
-#define ParamLED_SC_ChSchedulePoint05_Brightness        (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint05_Brightness)))
+#define ParamLED_SC_ChSchedulePoint5_Brightness         (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint5_Brightness)))
 // Modus
-#define ParamLED_SC_ChSchedulePoint06_Mode              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint06_Mode)))
+#define ParamLED_SC_ChSchedulePoint6_Mode               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint6_Mode)))
 // Stunde
-#define ParamLED_SC_ChSchedulePoint06_Hour              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint06_Hour)))
+#define ParamLED_SC_ChSchedulePoint6_Hour               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint6_Hour)))
 // Minute
-#define ParamLED_SC_ChSchedulePoint06_Minute            (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint06_Minute)))
+#define ParamLED_SC_ChSchedulePoint6_Minute             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint6_Minute)))
 // Helligkeit
-#define ParamLED_SC_ChSchedulePoint06_Brightness        (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint06_Brightness)))
+#define ParamLED_SC_ChSchedulePoint6_Brightness         (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint6_Brightness)))
 // Modus
-#define ParamLED_SC_ChSchedulePoint07_Mode              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint07_Mode)))
+#define ParamLED_SC_ChSchedulePoint7_Mode               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint7_Mode)))
 // Stunde
-#define ParamLED_SC_ChSchedulePoint07_Hour              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint07_Hour)))
+#define ParamLED_SC_ChSchedulePoint7_Hour               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint7_Hour)))
 // Minute
-#define ParamLED_SC_ChSchedulePoint07_Minute            (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint07_Minute)))
+#define ParamLED_SC_ChSchedulePoint7_Minute             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint7_Minute)))
 // Helligkeit
-#define ParamLED_SC_ChSchedulePoint07_Brightness        (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint07_Brightness)))
+#define ParamLED_SC_ChSchedulePoint7_Brightness         (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint7_Brightness)))
 // Modus
-#define ParamLED_SC_ChSchedulePoint08_Mode              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint08_Mode)))
+#define ParamLED_SC_ChSchedulePoint8_Mode               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint8_Mode)))
 // Stunde
-#define ParamLED_SC_ChSchedulePoint08_Hour              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint08_Hour)))
+#define ParamLED_SC_ChSchedulePoint8_Hour               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint8_Hour)))
 // Minute
-#define ParamLED_SC_ChSchedulePoint08_Minute            (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint08_Minute)))
+#define ParamLED_SC_ChSchedulePoint8_Minute             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint8_Minute)))
 // Helligkeit
-#define ParamLED_SC_ChSchedulePoint08_Brightness        (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint08_Brightness)))
+#define ParamLED_SC_ChSchedulePoint8_Brightness         (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint8_Brightness)))
 // Modus
-#define ParamLED_SC_ChSchedulePoint09_Mode              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint09_Mode)))
+#define ParamLED_SC_ChSchedulePoint9_Mode               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint9_Mode)))
 // Stunde
-#define ParamLED_SC_ChSchedulePoint09_Hour              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint09_Hour)))
+#define ParamLED_SC_ChSchedulePoint9_Hour               (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint9_Hour)))
 // Minute
-#define ParamLED_SC_ChSchedulePoint09_Minute            (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint09_Minute)))
+#define ParamLED_SC_ChSchedulePoint9_Minute             (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint9_Minute)))
 // Helligkeit
-#define ParamLED_SC_ChSchedulePoint09_Brightness        (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint09_Brightness)))
+#define ParamLED_SC_ChSchedulePoint9_Brightness         (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint9_Brightness)))
 // Modus
 #define ParamLED_SC_ChSchedulePoint10_Mode              (knx.paramByte(LED_SC_ParamCalcIndex(LED_SC_ChSchedulePoint10_Mode)))
 // Stunde
