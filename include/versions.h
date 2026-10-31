@@ -1,7 +1,7 @@
 #pragma once
 
-#define MAIN_Version "94bd0d1"
-#define KNX_Version "2.3.1+7124a64"
+#define MAIN_Version "cb78a90"
+#define KNX_Version "2.4.0+8e4c5bc"
 #define MODULE_FileTransferModule_Version "0.1.5+178f186"
 #define MODULE_FileTransferModule_Version_Major 0
 #define MODULE_FileTransferModule_Version_Minor 1
@@ -17,12 +17,17 @@
 #define MODULE_LogicModule_Version_Minor 3
 #define MODULE_LogicModule_Version_Revision 0
 #define MODULE_LogicModule_ETS 67
+#define MODULE_FunctionBlocks_Version "0.10.0+142bd5b"
+#define MODULE_FunctionBlocks_Version_Major 0
+#define MODULE_FunctionBlocks_Version_Minor 10
+#define MODULE_FunctionBlocks_Version_Revision 0
+#define MODULE_FunctionBlocks_ETS 10
 #define MODULE_BinaryInput_Version "0.3.1+19e648c"
 #define MODULE_BinaryInput_Version_Major 0
 #define MODULE_BinaryInput_Version_Minor 3
 #define MODULE_BinaryInput_Version_Revision 1
 #define MODULE_BinaryInput_ETS 3
-#define MODULE_LedModule_Version "0.13.0+ae43c83"
+#define MODULE_LedModule_Version "0.13.0+4e63884"
 #define MODULE_LedModule_Version_Major 0
 #define MODULE_LedModule_Version_Minor 13
 #define MODULE_LedModule_Version_Revision 0

@@ -10,7 +10,7 @@
     ApplicationVersion="%LED_ApplicationVersion%"
     ReplacesVersions="%LED_ReplacesVersions%"
     ApplicationRevision="0"
-    FirmwareRevision="0"
+    FirmwareRevision="1"
     ProductName="LED-Dimmer (AB-SmartHouse)"
     BusCurrent="10"
     OrderNumber="OpenKnxLedDimmerAB"
