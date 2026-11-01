@@ -21,7 +21,7 @@
 #define MAIN_FirmwareName "LED-Dimmer (AB-SmartHouse)"
 #define MAIN_OpenKnxId 0xA6
 #define MAIN_ApplicationNumber 7
-#define MAIN_ApplicationVersion 13
+#define MAIN_ApplicationVersion 14
 #define MAIN_FirmwareRevision 1
 #define MAIN_ApplicationEncoding iso-8859-15
 #define MAIN_ParameterSize 17402
@@ -29,7 +29,7 @@
 #define MAIN_OrderNumber "OpenKnxLedDimmerAB"
 #define BASE_ModuleVersion 24
 #define UCT_ModuleVersion 5
-#define LED_ModuleVersion 13
+#define LED_ModuleVersion 14
 #define SWA_ModuleVersion 3
 #define BI_ModuleVersion 3
 #define BTN_ModuleVersion 6
