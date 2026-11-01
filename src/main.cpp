@@ -35,7 +35,8 @@ void setup()
 #ifdef BOARD_AB_SMARTHOUSE_CV_UP_6CH
     // Select the PWM pins before the LED module initializes the hardware.
     openknx.gpio.pinMode(LEDMODULE_HWV2_CHECK_PIN, INPUT_PULLUP);
-    bool hwV2 = digitalRead(LEDMODULE_HWV2_CHECK_PIN) == LEDMODULE_HWV2_CHECK_PIN_ACTIVE_ON;
+    delayMicroseconds(10); // let the pull-up settle before reading the hardware version
+    bool hwV2 = openknx.gpio.digitalRead(LEDMODULE_HWV2_CHECK_PIN) == LEDMODULE_HWV2_CHECK_PIN_ACTIVE_ON;
 
     if (hwV2)
     {
