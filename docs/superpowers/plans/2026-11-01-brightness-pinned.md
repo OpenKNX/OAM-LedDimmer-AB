@@ -25,8 +25,10 @@ Die unveränderte Release-Applikation auf den festgelegten Abhängigkeiten wurde
 
 ## Ergebnis
 
-LED-Modul-Commit `0b85e8a` hat genau den vorgesehenen Basiscommit `4e63884` als Elterncommit. Der HCL-Commit gehört nicht zu seiner Historie. `dependencies.txt` verweist für das LED-Modul auf diesen Feature-Commit im Fork `kikakeule/OFM-LedModule`, Branch `feature/brightness-04-percent`; sämtliche übrigen Einträge sind unverändert. Der Modulbranch muss für einen Restore aus einem frischen Checkout im Fork veröffentlicht sein; bislang wurde er hier nur lokal erstellt.
+LED-Modul-Commit `38acc5e` hat genau den vorgesehenen Basiscommit `4e63884` als Elterncommit. Der HCL-Commit gehört nicht zu seiner Historie. `dependencies.txt` verweist für das LED-Modul auf diesen Feature-Commit im Fork `kikakeule/OFM-LedModule`, Branch `feature/brightness-04-percent`; sämtliche übrigen Einträge sind unverändert. Der Modulbranch ist im Fork veröffentlicht und sein Remote-Commit wurde verifiziert.
+
+Die Applikationsversion 0.14 ist bewusst gewählt: Der bestehende Flash-Versionscheck berücksichtigt die Applikationsversion, nicht die Firmware-Revision. Eine reine Änderung auf 0.13.2 würde alte Prozentparameter weiterhin akzeptieren, obwohl sie jetzt als 0,4-%-Schrittindizes interpretiert würden.
 
 Alle 26 Helligkeitsfelder behalten ihre Bytebreite. Der generierte Release-Header unterscheidet sich von der ursprünglichen Datei ausschließlich durch Applikationsversion 13 → 14 und LED-Modulversion 13 → 14. Der getestete vollständige Build ist `pio run -e develop_ABSmartHouse_CV_UP_6CH` und verwendet den Release-Header für die passende Produktdatei 0.14. Die erzeugten ETS-Dateien liegen unter `src/LedDimmerAB.knxprod` (Dev 3.6) und `src/LedDimmerAB-Release.knxprod` (Release 0.14).
 
-Die praktische ETS-Anzeige und Hardware sind durch diese automatisierten Prüfungen nicht bestätigt. Die vorhandene Compilerwarnung in `include/hardware.h:501` besteht bereits in der Basis. Es wurde keine Firmware geflasht, kein Push und kein Merge in einen Hauptbranch durchgeführt.
+Die praktische ETS-Anzeige und Hardware sind durch diese automatisierten Prüfungen nicht bestätigt. Die vorhandene Compilerwarnung in `include/hardware.h:501` besteht bereits in der Basis. Die Veröffentlichung in beiden Forks erfolgt auf ausdrücklichen Nutzerwunsch ausschließlich auf `feature/brightness-04-percent`. Es wurde keine Firmware geflasht und kein Merge in einen Hauptbranch durchgeführt.

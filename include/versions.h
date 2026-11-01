@@ -27,7 +27,7 @@
 #define MODULE_BinaryInput_Version_Minor 3
 #define MODULE_BinaryInput_Version_Revision 1
 #define MODULE_BinaryInput_ETS 3
-#define MODULE_LedModule_Version "0.14.0-DEV+0b85e8a"
+#define MODULE_LedModule_Version "0.14.0-DEV+38acc5e"
 #define MODULE_LedModule_Version_Major 0
 #define MODULE_LedModule_Version_Minor 14
 #define MODULE_LedModule_Version_Revision 0
